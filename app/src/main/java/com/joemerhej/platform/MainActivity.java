@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey;
+import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,10 +24,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         WeekView.EventLongPressListener,
         WeekView.EmptyViewLongPressListener
 {
-    private static final int TYPE_DAY_VIEW = 1;
-    private static final int TYPE_THREE_DAY_VIEW = 2;
-    private static final int TYPE_WEEK_VIEW = 3;
-    private int mWeekViewType = TYPE_THREE_DAY_VIEW;
+    private int mSelectedMenuItemId;
     private WeekView mWeekView;
 
 
@@ -36,23 +36,44 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
 
         // Get a reference for the week view in the layout.
         mWeekView = findViewById(R.id.weekView);
-        mWeekView.goToHour(9.0);
 
         mWeekView.setOnEventClickListener(this);
         mWeekView.setMonthChangeListener(this);
         mWeekView.setEventLongPressListener(this);
         mWeekView.setEmptyViewLongPressListener(this);
 
-        // Set up a date time interpreter to interpret how the date and time will be formatted in the week view. This is optional.
-        setupDateTimeInterpreter(R.id.action_three_day_view);
-        mWeekView.setNumberOfVisibleDays(3);
-    }
+        SharedPreferencesManager.init(this);
 
+        int visibleDaysSaved = SharedPreferencesManager.readInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 3);
+        switch(visibleDaysSaved)
+        {
+            case 1:
+                mSelectedMenuItemId = R.id.action_day_view;
+                mWeekView.setNumberOfVisibleDays(1);
+                break;
+            case 3:
+                mSelectedMenuItemId = R.id.action_three_day_view;
+                mWeekView.setNumberOfVisibleDays(3);
+                break;
+            case 7:
+                mSelectedMenuItemId = R.id.action_week_view;
+                mWeekView.setNumberOfVisibleDays(7);
+                break;
+            default:
+                mWeekView.setNumberOfVisibleDays(visibleDaysSaved);
+        }
+
+        mWeekView.goToHour(8);
+
+        // Set up a date time interpreter to interpret how the date and time will be formatted in the week view. This is optional.
+        setupDateTimeInterpreter(mSelectedMenuItemId);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.findItem(mSelectedMenuItemId).setChecked(true);
         return true;
     }
 
@@ -67,42 +88,51 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
                 mWeekView.goToToday();
                 return true;
             case R.id.action_day_view:
-                if(mWeekViewType != TYPE_DAY_VIEW)
+                if(mSelectedMenuItemId != R.id.action_day_view)
                 {
                     item.setChecked(!item.isChecked());
-                    mWeekViewType = TYPE_DAY_VIEW;
+                    mSelectedMenuItemId = R.id.action_day_view;
                     mWeekView.setNumberOfVisibleDays(1);
+                    SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 1);
 
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+
+                    mWeekView.goToHour(8);
                 }
                 return true;
             case R.id.action_three_day_view:
-                if(mWeekViewType != TYPE_THREE_DAY_VIEW)
+                if(mSelectedMenuItemId != R.id.action_three_day_view)
                 {
                     item.setChecked(!item.isChecked());
-                    mWeekViewType = TYPE_THREE_DAY_VIEW;
+                    mSelectedMenuItemId = R.id.action_three_day_view;
                     mWeekView.setNumberOfVisibleDays(3);
+                    SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 3);
 
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+
+                    mWeekView.goToHour(8);
                 }
                 return true;
             case R.id.action_week_view:
-                if(mWeekViewType != TYPE_WEEK_VIEW)
+                if(mSelectedMenuItemId != R.id.action_week_view)
                 {
                     item.setChecked(!item.isChecked());
-                    mWeekViewType = TYPE_WEEK_VIEW;
+                    mSelectedMenuItemId = R.id.action_week_view;
                     mWeekView.setNumberOfVisibleDays(7);
+                    SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 7);
 
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+
+                    mWeekView.goToHour(8);
                 }
                 return true;
         }

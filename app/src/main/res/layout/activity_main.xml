@@ -23,6 +23,6 @@
         app:hourHeight="60dp"
         app:textSize="12sp"
         app:todayBackgroundColor="#1848adff"
-        app:showDistinctWeekendColor="true"/>
+        app:showNowLine="true"/>
 
 </android.support.constraint.ConstraintLayout>

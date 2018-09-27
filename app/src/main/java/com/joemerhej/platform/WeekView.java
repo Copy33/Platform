@@ -139,7 +139,7 @@ public class WeekView extends View
     private boolean mHorizontalFlingEnabled = true;
     private boolean mVerticalFlingEnabled = true;
     private int mAllDayEventHeight = 100;
-    private int mScrollDuration = 25;
+    private int mScrollDuration = 250;
 
     // Listeners.
     private EventClickListener mEventClickListener;
@@ -295,6 +295,7 @@ public class WeekView extends View
         {
             super.onLongPress(e);
 
+            // If the tap was on an event then trigger the callback.
             if(mEventLongPressListener != null && mEventRects != null)
             {
                 List<EventRect> reversedEventRects = mEventRects;
@@ -1186,10 +1187,13 @@ public class WeekView extends View
      */
     private void sortAndCacheEvents(List<? extends WeekViewEvent> events)
     {
-        sortEvents(events);
-        for(WeekViewEvent event : events)
+        if(events != null)
         {
-            cacheEvent(event);
+            sortEvents(events);
+            for(WeekViewEvent event : events)
+            {
+                cacheEvent(event);
+            }
         }
     }
 
@@ -1200,23 +1204,26 @@ public class WeekView extends View
      */
     private void sortEvents(List<? extends WeekViewEvent> events)
     {
-        Collections.sort(events, new Comparator<WeekViewEvent>()
+        if(events != null)
         {
-            @Override
-            public int compare(WeekViewEvent event1, WeekViewEvent event2)
+            Collections.sort(events, new Comparator<WeekViewEvent>()
             {
-                long start1 = event1.getStartTime().getTimeInMillis();
-                long start2 = event2.getStartTime().getTimeInMillis();
-                int comparator = start1 > start2 ? 1 : (start1 < start2 ? -1 : 0);
-                if(comparator == 0)
+                @Override
+                public int compare(WeekViewEvent event1, WeekViewEvent event2)
                 {
-                    long end1 = event1.getEndTime().getTimeInMillis();
-                    long end2 = event2.getEndTime().getTimeInMillis();
-                    comparator = end1 > end2 ? 1 : (end1 < end2 ? -1 : 0);
+                    long start1 = event1.getStartTime().getTimeInMillis();
+                    long start2 = event2.getStartTime().getTimeInMillis();
+                    int comparator = start1 > start2 ? 1 : (start1 < start2 ? -1 : 0);
+                    if(comparator == 0)
+                    {
+                        long end1 = event1.getEndTime().getTimeInMillis();
+                        long end2 = event2.getEndTime().getTimeInMillis();
+                        comparator = end1 > end2 ? 1 : (end1 < end2 ? -1 : 0);
+                    }
+                    return comparator;
                 }
-                return comparator;
-            }
-        });
+            });
+        }
     }
 
     /**

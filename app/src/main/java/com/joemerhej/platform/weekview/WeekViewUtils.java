@@ -1,4 +1,4 @@
-package com.joemerhej.platform;
+package com.joemerhej.platform.weekview;
 
 import java.util.Calendar;
 

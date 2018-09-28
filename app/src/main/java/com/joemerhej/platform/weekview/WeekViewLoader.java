@@ -1,4 +1,6 @@
-package com.joemerhej.platform;
+package com.joemerhej.platform.weekview;
+
+import com.joemerhej.platform.weekview.WeekViewEvent;
 
 import java.util.Calendar;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.joemerhej.platform;
+package com.joemerhej.platform.weekview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -32,6 +32,8 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.OverScroller;
+
+import com.joemerhej.platform.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -841,8 +843,7 @@ public class WeekView extends View
             {
                 Calendar day = WeekViewUtils.today();
                 day.add(Calendar.DATE, dayNumber - 1);
-                float pixelsFromZero = y - mCurrentOrigin.y - mHeaderHeight
-                        - mHeaderRowPadding * 2 - mTimeTextHeight / 2 - mHeaderMarginBottom;
+                float pixelsFromZero = y - mCurrentOrigin.y - mHeaderHeight - mHeaderRowPadding * 2 - mTimeTextHeight / 2 - mHeaderMarginBottom;
                 int hour = (int) (pixelsFromZero / mHourHeight);
                 int minute = (int) (60 * (pixelsFromZero - hour * mHourHeight) / mHourHeight);
                 day.add(Calendar.HOUR, hour);
@@ -2301,7 +2302,7 @@ public class WeekView extends View
     public interface EventLongPressListener
     {
         /**
-         * Similar to {@link com.joemerhej.platform.WeekView.EventClickListener} but with a long press.
+         * Similar to {@link WeekView.EventClickListener} but with a long press.
          *
          * @param event:     event clicked.
          * @param eventRect: view containing the clicked event.
@@ -2322,7 +2323,7 @@ public class WeekView extends View
     public interface EmptyViewLongPressListener
     {
         /**
-         * Similar to {@link com.joemerhej.platform.WeekView.EmptyViewClickListener} but with long press.
+         * Similar to {@link WeekView.EmptyViewClickListener} but with long press.
          *
          * @param time: {@link Calendar} object set with the date and time of the long pressed position on the view.
          */

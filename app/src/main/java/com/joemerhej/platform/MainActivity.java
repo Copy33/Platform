@@ -4,20 +4,25 @@ import android.graphics.RectF;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.alamkanak.weekview.DateTimeInterpreter;
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
+import com.alamkanak.weekview.WeekViewEvent;
+import com.alamkanak.weekview.WeekViewUtil;
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey;
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager;
-import com.joemerhej.platform.weekview.DateTimeInterpreter;
-import com.joemerhej.platform.weekview.MonthLoader;
-import com.joemerhej.platform.weekview.WeekView;
-import com.joemerhej.platform.weekview.WeekViewEvent;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,8 +32,10 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements WeekView.EventClickListener,
         MonthLoader.MonthChangeListener,
         WeekView.EventLongPressListener,
-        WeekView.EmptyViewLongPressListener
+        WeekView.EmptyViewLongPressListener,
+        WeekView.EmptyViewClickListener
 {
+    // views
     private WeekView mWeekView;
     private int mSelectedMenuItemId;
     private FloatingActionButton mAddEventFab;
@@ -48,10 +55,11 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         mAddEventFab = findViewById(R.id.fab_add_event);
 
         // set the weekview listeners
-        mWeekView.setOnEventClickListener(this);
+        mWeekView.setEventClickListener(this);
         mWeekView.setMonthChangeListener(this);
         mWeekView.setEventLongPressListener(this);
         mWeekView.setEmptyViewLongPressListener(this);
+        mWeekView.setEmptyViewClickListener(this);
 
 
         // set the week view visible days based on user's preferences
@@ -81,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         setupDateTimeInterpreter(mSelectedMenuItemId);
 
         // set the add event fab click listener
-
         mAddEventFab.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -170,46 +177,73 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
      */
     private void setupDateTimeInterpreter(final int viewId)
     {
-        if(viewId == R.id.action_today)
-            return;
+        final Calendar calendar = Calendar.getInstance();
+
+        final DateFormat normalDateFormat = WeekViewUtil.getWeekdayWithNumericDayAndMonthFormat(this, false);
+        final DateFormat shortDateFormat = WeekViewUtil.getWeekdayWithNumericDayAndMonthFormat(this, true);
+        final DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(this) != null ?
+                android.text.format.DateFormat.getTimeFormat(this) :
+                new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter()
         {
+            @NotNull
             @Override
-            public String interpretDate(Calendar date)
+            public String getFormattedWeekDayTitle(@NotNull Calendar date)
             {
-                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
-                String weekday = weekdayNameFormat.format(date.getTime());
-
-                SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
-
-                // There's no format to show only first letter of day so we gotta improvise for when full week view is selected
                 if(viewId == R.id.action_week_view)
-                    weekday = String.valueOf(weekday.charAt(0));
+                    return shortDateFormat.format(date.getTime());
 
-                return weekday.toUpperCase() + format.format(date.getTime());
+                return normalDateFormat.format(date.getTime());
             }
 
+            @NotNull
             @Override
-            public String interpretTime(int hour)
+            public String getFormattedTimeOfDay(int hour, int minutes)
             {
-                Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, hour);
-                calendar.set(Calendar.MINUTE, 0);
-
-                try
-                {
-                    // check if user settings has 24h or pm/am preference and format the time accordingly
-                    SimpleDateFormat sdf = DateFormat.is24HourFormat(getApplicationContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
-                    return sdf.format(calendar.getTime());
-                }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                    return "";
-                }
+                calendar.set(Calendar.MINUTE, minutes);
+                return timeFormat.format(calendar.getTime());
             }
         });
+
+//        mWeekView.setDateTimeInterpreter(new DateTimeInterpreter()
+//        {
+//            @Override
+//            public String interpretDate(Calendar date)
+//            {
+//                SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEEE", Locale.getDefault());
+//                String weekday = weekdayNameFormat.format(date.getTime());
+//
+//                SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
+//
+//                // There's no format to show only first letter of day so we gotta improvise for when full week view is selected
+//                if(viewId == R.id.action_week_view)
+//                    weekday = String.valueOf(weekday.charAt(0));
+//
+//                return weekday.toUpperCase() + format.format(date.getTime());
+//            }
+//
+//            @Override
+//            public String interpretTime(int hour)
+//            {
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.set(Calendar.HOUR_OF_DAY, hour);
+//                calendar.set(Calendar.MINUTE, 0);
+//
+//                try
+//                {
+//                    // check if user settings has 24h or pm/am preference and format the time accordingly
+//                    SimpleDateFormat sdf = DateFormat.is24HourFormat(getApplicationContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
+//                    return sdf.format(calendar.getTime());
+//                }
+//                catch(Exception e)
+//                {
+//                    e.printStackTrace();
+//                    return "";
+//                }
+//            }
+//        });
     }
 
     protected String getEventTitle(Calendar time)
@@ -231,9 +265,14 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         Toast.makeText(this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    // listener for empty space long press
     @Override
-    public void onEmptyViewLongPress(Calendar time)
+    public void onEmptyViewClicked(@NotNull Calendar date)
+    {
+        Toast.makeText(this, "Empty view clicked: " + getEventTitle(date), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEmptyViewLongPress(@NotNull Calendar time)
     {
         Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
     }
@@ -253,7 +292,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         Calendar endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR, 1);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
+        WeekViewEvent event = new WeekViewEvent("1", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_01));
         events.add(event);
 
@@ -266,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         endTime.set(Calendar.HOUR_OF_DAY, 4);
         endTime.set(Calendar.MINUTE, 30);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent("10", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_02));
         events.add(event);
 
@@ -278,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         endTime = (Calendar) startTime.clone();
         endTime.set(Calendar.HOUR_OF_DAY, 5);
         endTime.set(Calendar.MINUTE, 0);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent("10", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_03));
         events.add(event);
 
@@ -290,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 2);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent("2", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_02));
         events.add(event);
 
@@ -303,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
         endTime.set(Calendar.MONTH, newMonth - 1);
-        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent("3", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_03));
         events.add(event);
 
@@ -315,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent("4", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_04));
         events.add(event);
 
@@ -327,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent("5", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_01));
         events.add(event);
 
@@ -339,7 +378,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 3);
-        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
+        event = new WeekViewEvent("5", getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_02));
         events.add(event);
 
@@ -351,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.add(Calendar.HOUR_OF_DAY, 23);
-        event = new WeekViewEvent(7, getEventTitle(startTime), null, startTime, endTime, true);
+        event = new WeekViewEvent("7", getEventTitle(startTime), null, startTime, endTime, true);
         event.setColor(getResources().getColor(R.color.event_color_04));
         events.add(event);
 
@@ -364,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         endTime = (Calendar) startTime.clone();
         endTime.set(Calendar.DAY_OF_MONTH, 10);
         endTime.set(Calendar.HOUR_OF_DAY, 23);
-        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, true);
+        event = new WeekViewEvent("8", getEventTitle(startTime), null, startTime, endTime, true);
         event.setColor(getResources().getColor(R.color.event_color_03));
         events.add(event);
 
@@ -379,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         startTime.set(Calendar.YEAR, newYear);
         endTime = (Calendar) startTime.clone();
         endTime.set(Calendar.DAY_OF_MONTH, 11);
-        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, true);
+        event = new WeekViewEvent("8", getEventTitle(startTime), null, startTime, endTime, true);
         event.setColor(getResources().getColor(R.color.event_color_01));
         events.add(event);
 

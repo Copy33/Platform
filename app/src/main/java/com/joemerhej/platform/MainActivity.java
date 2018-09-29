@@ -1,12 +1,14 @@
 package com.joemerhej.platform;
 
 import android.graphics.RectF;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey;
@@ -27,8 +29,9 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         WeekView.EventLongPressListener,
         WeekView.EmptyViewLongPressListener
 {
-    private int mSelectedMenuItemId;
     private WeekView mWeekView;
+    private int mSelectedMenuItemId;
+    private FloatingActionButton mAddEventFab;
 
 
     @Override
@@ -37,19 +40,21 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get a reference for the week view in the layout.
-        mWeekView = findViewById(R.id.weekView);
+        // initialize shared preferences
+        SharedPreferencesManager.init(this);
 
-        // set the weekview's listeners
+        // set up the views
+        mWeekView = findViewById(R.id.weekView);
+        mAddEventFab = findViewById(R.id.fab_add_event);
+
+        // set the weekview listeners
         mWeekView.setOnEventClickListener(this);
         mWeekView.setMonthChangeListener(this);
         mWeekView.setEventLongPressListener(this);
         mWeekView.setEmptyViewLongPressListener(this);
 
-        // initialize shared preferences
-        SharedPreferencesManager.init(this);
 
-        // set the view type based on user's preferences
+        // set the week view visible days based on user's preferences
         int visibleDaysSaved = SharedPreferencesManager.readInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 3);
         switch(visibleDaysSaved)
         {
@@ -69,10 +74,21 @@ public class MainActivity extends AppCompatActivity implements WeekView.EventCli
                 mWeekView.setNumberOfVisibleDays(visibleDaysSaved);
         }
 
+        // set the week view starting hour TODO: should be user preference
         mWeekView.goToHour(8);
 
-        // set up a date time interpreter to interpret how the date and time will be formatted in the week view.
+        // set the week view date and time interpreter to define how to display time and dates
         setupDateTimeInterpreter(mSelectedMenuItemId);
+
+        // set the add event fab click listener
+
+        mAddEventFab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+            }
+        });
     }
 
     @Override

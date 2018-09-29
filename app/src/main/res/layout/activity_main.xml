@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
 
-    <com.joemerhej.platform.weekview.WeekView
+    <com.alamkanak.weekview.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

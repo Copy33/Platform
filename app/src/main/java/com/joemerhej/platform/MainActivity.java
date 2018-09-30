@@ -4,19 +4,17 @@ import android.graphics.RectF;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.alamkanak.weekview.DateTimeInterpreter;
-import com.alamkanak.weekview.MonthLoader;
-import com.alamkanak.weekview.WeekView;
-import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.WeekViewUtil;
+import com.joemerhej.androidweekview.DateTimeInterpreter;
+import com.joemerhej.androidweekview.MonthLoader;
+import com.joemerhej.androidweekview.WeekView;
+import com.joemerhej.androidweekview.WeekViewEvent;
+import com.joemerhej.androidweekview.WeekViewUtil;
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey;
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager;
 

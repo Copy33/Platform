@@ -45,6 +45,12 @@ object WeekViewUtil
         return today
     }
 
+    /**
+     * @param dateOne The first date.
+     * @param dateTwo The second date.
+     *
+     * @return Whether the dates are on the same day, hour, and minute.
+     */
     @JvmStatic
     fun isSameDayAndHourAndMinute(dateOne: Calendar, dateTwo: Calendar): Boolean
     {
@@ -65,7 +71,7 @@ object WeekViewUtil
         return ((dateTwo.timeInMillis + dateTwo.timeZone.getOffset(dateTwo.timeInMillis)) / (1000 * 60 * 60 * 24) - (dateOne.timeInMillis + dateOne.timeZone.getOffset(dateOne.timeInMillis)) / (1000 * 60 * 60 * 24)).toInt()
     }
 
-    /*
+    /**
     * Returns the amount of minutes passed in the day before the time in the given date
     * @param date
     * @return amount of minutes in day before time
@@ -89,8 +95,10 @@ object WeekViewUtil
         return hour * 60 + minute
     }
 
-    /**returns a date format of dayOfWeek+day&month, based on the current locale.
-     * This is important, as the format is different in many countries. Especially the numeric part that can be different : "d/M", "M/d", "d-M", "M-d" ,...*/
+    /**
+     * Returns a date format of dayOfWeek+day&month, based on the current locale.
+     * This is important, as the format is different in many countries. Especially the numeric part that can be different : "d/M", "M/d", "d-M", "M-d" ,...
+     */
     @JvmStatic
     fun getWeekdayWithNumericDayAndMonthFormat(context: Context, shortDate: Boolean): java.text.DateFormat
     {
@@ -134,6 +142,13 @@ object WeekViewUtil
         }
     }
 
+    /**
+     * Returns a String describing a Calendar object (day).
+     *
+     * @param cal           Calendar object, ideally day to print
+     * @param includeTime   Whether to include time details or not, defaulted to true
+     * @return              String describing the calendar object
+     */
     @JvmStatic
     fun calendarToString(cal: Calendar?, includeTime: Boolean = true): String
     {
@@ -150,15 +165,22 @@ object WeekViewUtil
         return sb.toString()
     }
 
+    /**
+     * Returns the time on a Calendar object; sets hour, minute, second, and millisecond to 0.
+     *
+     * @param cal           Calendar object, ideally day to print
+     */
     @JvmStatic
     fun resetTime(cal: Calendar)
     {
         with(cal)
         {
             set(java.util.Calendar.HOUR_OF_DAY, 0)
-            set(java.util.Calendar.SECOND, 0)
             set(java.util.Calendar.MINUTE, 0)
+            set(java.util.Calendar.SECOND, 0)
             set(java.util.Calendar.MILLISECOND, 0)
         }
     }
 }
+
+

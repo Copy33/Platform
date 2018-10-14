@@ -1,22 +1,24 @@
 package com.joemerhej.androidweekview
 
-import android.support.annotation.IntRange
+import androidx.annotation.IntRange
 import java.util.*
 
 /**
- * <h1>PrefetchingWeekViewLoader</h1>
  * This class provides prefetching data loading behaviour.
  * By setting a specific period of N, data is retrieved for the current period,
  * the next N periods and the previous N periods.
- */
-/**
- * @param weekViewLoader An instance of the WeekViewLoader class
+ *
+ * PrefetchingWeekViewLoader is a class that implements the WeekViewLoader interface while
+ * having an instance of the interface itself as property. The user will then need to define
+ * a class that implements the regular WeekViewLoader interface and pass it to this "prefetching" variant.
+ *
+ *
+ * @param weekViewLoader An instance of the WeekViewLoader interface
  * @param prefetchingPeriod The amount of periods to be fetched before and after the
  * current period. Must be 1 or greater.
  */
 class PrefetchingWeekViewLoader(val weekViewLoader: WeekViewLoader, @IntRange(from = 1L) val prefetchingPeriod: Int = 1) : WeekViewLoader
 {
-
     init
     {
         if (prefetchingPeriod < 1)

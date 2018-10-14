@@ -1,7 +1,10 @@
 package com.joemerhej.androidweekview
 
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 
+/**
+ * Interface that takes a WeekViewEvent and returns its text color (annotated to be a Color Id).
+ */
 interface TextColorPicker
 {
     @ColorInt

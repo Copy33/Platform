@@ -6,7 +6,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import java.util.*
 
-/**a broadcast receiver that tells you when the time has changed (minute, date, configuration of time/date...), based on: https://stackoverflow.com/a/48782963/878126 */
+/**
+ * A broadcast receiver that tells you when the time has changed (minute, date, configuration of time/date...),
+ * based on: https://stackoverflow.com/a/48782963/878126
+ * */
 abstract class TimeChangedBroadcastReceiver : BroadcastReceiver()
 {
     private var curCal = Calendar.getInstance()

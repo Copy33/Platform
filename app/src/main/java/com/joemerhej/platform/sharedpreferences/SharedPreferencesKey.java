@@ -5,7 +5,9 @@ package com.joemerhej.platform.sharedpreferences;
  */
 public enum SharedPreferencesKey
 {
-    // IMPORTANT, the strings shouldn't be concatative, because when reading profiles from shared preferences we are searching for string value in shared preferences key
+    // IMPORTANT! the strings shouldn't be concatenated (ex: "as" and "asd"), because
+    // when reading profiles from shared preferences we are searching for string
+    // in shared preferences key (ex: searching for "as" will return "asd" values)
     VISIBLE_DAYS_NUMBER("vdn");
 
 

@@ -2,6 +2,10 @@ package com.joemerhej.androidweekview
 
 import android.util.Log
 
+/**
+ * Measures the time between two endpoints (start and end) and returns the total time and the average.
+ * This is used to test the performance of drawing the views.
+ */
 class DrawPerformanceTester(val measureDrawTime: Boolean = true)
 {
     var drawSamplesCount = 0L
@@ -25,6 +29,6 @@ class DrawPerformanceTester(val measureDrawTime: Boolean = true)
         ++drawSamplesCount
         drawTotalTime += totalTime
         val drawAverageTime = drawTotalTime.toFloat() / drawSamplesCount.toFloat()
-        Log.d("AppLog", "currentTime:$totalTime average:$drawAverageTime")
+        Log.d("PERF", "currentTime:$totalTime average:$drawAverageTime")
     }
 }

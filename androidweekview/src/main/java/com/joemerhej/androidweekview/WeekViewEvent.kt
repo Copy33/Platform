@@ -1,24 +1,28 @@
 package com.joemerhej.androidweekview
 
 import android.graphics.Shader
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 import com.joemerhej.androidweekview.WeekViewUtil.isSameDay
 import java.util.*
 
+/**
+ * Open class (can be derived, by default kotlin's classes are final) that is used to define a single event in the week
+ */
 open class WeekViewEvent
 {
-    val id: String?
-    val startTime: Calendar
-    val endTime: Calendar
-    var name: String? = null
-    var location: String? = null
+    val id: String?                 // id of the event
+    val startTime: Calendar         // start time of the event
+    val endTime: Calendar           // end time of the event
+    var name: String? = null        // name of the event
+    var location: String? = null    // location of the event
     @ColorInt
     @get:ColorInt
-    var color: Int = 0
-    val isAllDay: Boolean
-    var shader: Shader? = null
+    var color: Int = 0              // color of the event, int annotated as color id AARRGGBB
+    val isAllDay: Boolean           // boolean to check if all day event
+    var shader: Shader? = null      // shader to draw the event
 
-    /**CTOR for a single, all day event*/
+
+    /**Constructor for a single, all day event*/
     constructor(id: String?, name: String?, location: String? = null, allDayTime: Calendar, shader: Shader? = null) : this(id, name, location, allDayTime, allDayTime, true, shader)
 
     /**
@@ -66,6 +70,12 @@ open class WeekViewEvent
      */
     constructor(id: String?, name: String?, startTime: Calendar, endTime: Calendar) : this(id, name, null, startTime, endTime)
 
+    /**
+     * Overloaded equals() that returns whether passed WeekViewEvent is the same comparing event IDs.
+     *
+     * @param other     Another WeekViewEvent.
+     * @return          Whether the passed event has the same ID as this.
+     */
     override fun equals(other: Any?): Boolean
     {
         if (this === other) return true
@@ -73,11 +83,21 @@ open class WeekViewEvent
         return id == other.id
     }
 
+    /**
+     * Overloaded hashCode() that returns a hash of the event ID.
+     *
+     * @return          Hash (int) of this event's ID.
+     */
     override fun hashCode(): Int
     {
         return id?.hashCode() ?: 0
     }
 
+    /**
+     * Method that will split an event (ideally spanning over multiple days) into multiple events by day.
+     *
+     * @return          List of events per day.
+     */
     fun splitWeekViewEvents(): MutableList<WeekViewEvent>
     {
         //This function splits the WeekViewEvent in WeekViewEvents by day
@@ -128,6 +148,11 @@ open class WeekViewEvent
         return events
     }
 
+    /**
+     * Overloaded toString() method to print the event's properties
+     *
+     * @return          Events properties based on event type (all day, multiple days...etc).
+     */
     override fun toString(): String
     {
         val colorStr = "#${Integer.toHexString(color)}"

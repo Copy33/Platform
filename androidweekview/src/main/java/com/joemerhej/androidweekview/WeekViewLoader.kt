@@ -2,11 +2,13 @@ package com.joemerhej.androidweekview
 
 import java.util.*
 
+/**
+ * Interface that will define a single month's loader.
+ */
 interface WeekViewLoader
 {
     /**
-     * Convert a date into a double that will be used to reference when you're loading data.
-     *
+     * Convert a date into a double (that can be used as reference when loading data).
      *
      * All periods that have the same integer part, define one period. Dates that are later in time
      * should have a greater return value.

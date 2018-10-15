@@ -19,7 +19,7 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener
 {
-    private var mSelectedMenuItemId: Int = 0
+    private var selectedMenuItemId: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -31,12 +31,13 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         SharedPreferencesManager.initialize(this)
 
         // set the weekview listeners
-        weekView.eventClickListener = this
-        weekView.monthChangeListener = this
-        weekView.eventLongPressListener = this
-        weekView.emptyViewLongPressListener = this
-        weekView.emptyViewClickListener = this
-
+        weekView.let {
+            it.eventClickListener = this
+            it.monthChangeListener = this
+            it.eventLongPressListener = this
+            it.emptyViewLongPressListener = this
+            it.emptyViewClickListener = this
+        }
 
         // set the week view visible days based on user's preferences
         val visibleDaysSaved = SharedPreferencesManager.readInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 3)
@@ -44,17 +45,17 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         {
             1 ->
             {
-                mSelectedMenuItemId = R.id.action_day_view
+                selectedMenuItemId = R.id.action_day_view
                 weekView.numberOfVisibleDays = 1
             }
             3 ->
             {
-                mSelectedMenuItemId = R.id.action_three_day_view
+                selectedMenuItemId = R.id.action_three_day_view
                 weekView.numberOfVisibleDays = 3
             }
             7 ->
             {
-                mSelectedMenuItemId = R.id.action_week_view
+                selectedMenuItemId = R.id.action_week_view
                 weekView.numberOfVisibleDays = 7
             }
             else -> weekView.numberOfVisibleDays = visibleDaysSaved
@@ -64,16 +65,16 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         weekView.goToHour(8.0)
 
         // set the week view date and time interpreter to define how to display time and dates
-        setupDateTimeInterpreter(mSelectedMenuItemId)
+        setupDateTimeInterpreter(selectedMenuItemId)
 
         // set the add event fab click listener
-        addEventFab!!.setOnClickListener { }
+        addEventFab.setOnClickListener { Toast.makeText(this, "Fab Clicked", Toast.LENGTH_SHORT).show() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
     {
         menuInflater.inflate(R.menu.main, menu)
-        menu.findItem(mSelectedMenuItemId).isChecked = true
+        menu.findItem(selectedMenuItemId).isChecked = true
         return true
     }
 
@@ -81,66 +82,63 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
     {
         val id = item.itemId
         setupDateTimeInterpreter(id)
+
         when (id)
         {
             R.id.action_today ->
             {
                 weekView.goToToday()
-                return true
             }
             R.id.action_day_view ->
             {
-                if(mSelectedMenuItemId != R.id.action_day_view)
+                if(selectedMenuItemId != R.id.action_day_view)
                 {
                     item.isChecked = !item.isChecked
-                    mSelectedMenuItemId = R.id.action_day_view
-                    weekView.numberOfVisibleDays = 1
+                    selectedMenuItemId = R.id.action_day_view
                     SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 1)
 
                     // Lets change some dimensions to best fit the view.
-                    weekView.columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
-                    weekView.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
-                    weekView.eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
-
-                    weekView.goToHour(8.0)
+                    weekView.apply {
+                        numberOfVisibleDays = 1
+                        columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+                        textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
+                        eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
+                    }
                 }
-                return true
             }
             R.id.action_three_day_view ->
             {
-                if(mSelectedMenuItemId != R.id.action_three_day_view)
+                if(selectedMenuItemId != R.id.action_three_day_view)
                 {
                     item.isChecked = !item.isChecked
-                    mSelectedMenuItemId = R.id.action_three_day_view
-                    weekView.numberOfVisibleDays = 3
+                    selectedMenuItemId = R.id.action_three_day_view
                     SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 3)
 
                     // Lets change some dimensions to best fit the view.
-                    weekView.columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
-                    weekView.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
-                    weekView.eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
-
-                    weekView.goToHour(8.0)
+                    weekView.apply {
+                        numberOfVisibleDays = 3
+                        columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+                        textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
+                        eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
+                    }
                 }
-                return true
             }
             R.id.action_week_view ->
             {
-                if(mSelectedMenuItemId != R.id.action_week_view)
+                if(selectedMenuItemId != R.id.action_week_view)
                 {
                     item.isChecked = !item.isChecked
-                    mSelectedMenuItemId = R.id.action_week_view
-                    weekView.numberOfVisibleDays = 7
+                    selectedMenuItemId = R.id.action_week_view
                     SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 7)
 
                     // Lets change some dimensions to best fit the view.
-                    weekView.columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, resources.displayMetrics).toInt()
-                    weekView.textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics)
-                    weekView.eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics)
-
-                    weekView.goToHour(8.0)
+                    weekView.apply{
+                        numberOfVisibleDays = 7
+                        columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, resources.displayMetrics).toInt()
+                        textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics)
+                        eventTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics)
+                    }
                 }
-                return true
             }
         }
 
@@ -155,8 +153,6 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
      */
     private fun setupDateTimeInterpreter(viewId: Int)
     {
-        val calendar = Calendar.getInstance()
-
         val normalDateFormat = WeekViewUtil.getWeekdayWithNumericDayAndMonthFormat(this, false)
         val shortDateFormat = WeekViewUtil.getWeekdayWithNumericDayAndMonthFormat(this, true)
         val timeFormat = if(android.text.format.DateFormat.getTimeFormat(this) != null)
@@ -169,19 +165,23 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
             override fun getFormattedWeekDayTitle(date: Calendar): String
             {
                 return if(viewId == R.id.action_week_view) shortDateFormat.format(date.time) else normalDateFormat.format(date.time)
-
             }
 
             override fun getFormattedTimeOfDay(hour: Int, minutes: Int): String
             {
-                calendar.set(Calendar.HOUR_OF_DAY, hour)
-                calendar.set(Calendar.MINUTE, minutes)
+                val calendar = Calendar.getInstance()
+                with(calendar)
+                {
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minutes)
+                }
+
                 return timeFormat.format(calendar.time)
             }
         }
     }
 
-    fun getEventTitle(time: Calendar): String
+    private fun getEventTitle(time: Calendar): String
     {
         return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH))
     }

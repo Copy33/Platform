@@ -28,8 +28,11 @@ object SharedPreferencesManager
     fun writeString(key: SharedPreferencesKey, value: String)
     {
         val prefsEditor = instance.edit()
-        prefsEditor.putString(SCHEDULER_PREFIX + key.value, value)
-        prefsEditor.apply()
+        with(prefsEditor)
+        {
+            putString(SCHEDULER_PREFIX + key.value, value)
+            apply()
+        }
     }
 
     fun readBoolean(key: SharedPreferencesKey, defaultValue: Boolean): Boolean
@@ -40,8 +43,11 @@ object SharedPreferencesManager
     fun writeBoolean(key: SharedPreferencesKey, value: Boolean)
     {
         val prefsEditor = instance.edit()
-        prefsEditor.putBoolean(SCHEDULER_PREFIX + key.value, value)
-        prefsEditor.apply()
+        with(prefsEditor)
+        {
+            putBoolean(SCHEDULER_PREFIX + key.value, value)
+            apply()
+        }
     }
 
     fun readInt(key: SharedPreferencesKey, defaultValue: Int): Int
@@ -59,7 +65,7 @@ object SharedPreferencesManager
     {
         val longString = instance.getString(SCHEDULER_PREFIX + key.value, "")
 
-        var result: Long? = 0L
+        var result: Long?
         try
         {
             result = java.lang.Long.valueOf(longString!!)
@@ -75,8 +81,11 @@ object SharedPreferencesManager
     fun writeLong(key: SharedPreferencesKey, value: Long)
     {
         val prefsEditor = instance.edit()
-        prefsEditor.putString(SCHEDULER_PREFIX + key.value, value.toString())
-        prefsEditor.apply()
+        with(prefsEditor)
+        {
+            putString(SCHEDULER_PREFIX + key.value, value.toString())
+            apply()
+        }
     }
 
     fun removePreference(key: SharedPreferencesKey)

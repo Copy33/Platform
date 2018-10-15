@@ -46,7 +46,8 @@ open class WeekViewEvent
         {
             this.startTime = startTime
             this.endTime = endTime
-        } else
+        }
+        else
         {
             WeekViewUtil.resetTime(startTime)
             this.startTime = startTime
@@ -54,7 +55,8 @@ open class WeekViewEvent
             {
                 WeekViewUtil.resetTime(endTime)
                 this.endTime = endTime
-            } else
+            }
+            else
                 this.endTime = startTime
         }
         this.shader = shader

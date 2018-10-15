@@ -72,10 +72,10 @@ object WeekViewUtil
     }
 
     /**
-    * Returns the amount of minutes passed in the day before the time in the given date
-    * @param date
-    * @return amount of minutes in day before time
-    */
+     * Returns the amount of minutes passed in the day before the time in the given date
+     * @param date
+     * @return amount of minutes in day before time
+     */
     @JvmStatic
     fun getPassedMinutesInDay(date: Calendar): Int
     {

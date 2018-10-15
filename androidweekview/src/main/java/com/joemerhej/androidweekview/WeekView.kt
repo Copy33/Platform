@@ -1567,7 +1567,7 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 // Get more events if necessary.
 
                 // mFetchedPeriod: currently fetched period index
-                // mWeekViewLoader.toWeekViewPeriodIndex(day): index for the day we want to display
+                // weekViewLoader.toWeekViewPeriodIndex(day): index for the day we want to display
                 // fetchIndex = 1.0: end of period in the future reached
                 // fetchIndex = 0.0: end of period in the past reached
                 val fetchIndex = this.weekViewLoader.toWeekViewPeriodIndex(day) - mFetchedPeriod

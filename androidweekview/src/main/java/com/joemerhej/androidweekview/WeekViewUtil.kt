@@ -24,7 +24,7 @@ object WeekViewUtil
     @JvmStatic
     fun isSameDay(dateOne: Calendar, dateTwo: Calendar): Boolean
     {
-        if (dateOne === dateTwo)
+        if(dateOne === dateTwo)
             return true
         return dateOne.get(Calendar.YEAR) == dateTwo.get(Calendar.YEAR) && dateOne.get(Calendar.DAY_OF_YEAR) == dateTwo.get(Calendar.DAY_OF_YEAR)
     }
@@ -102,9 +102,9 @@ object WeekViewUtil
     @JvmStatic
     fun getWeekdayWithNumericDayAndMonthFormat(context: Context, shortDate: Boolean): java.text.DateFormat
     {
-        val weekDayFormat = if (shortDate) "EEEEE" else "EEE"
+        val weekDayFormat = if(shortDate) "EEEEE" else "EEE"
         val defaultDateFormatPattern = "$weekDayFormat d/M"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
         {
             val locale = Locale.getDefault()
             var bestDateTimePattern = DateFormat.getBestDateTimePattern(locale, defaultDateFormatPattern)
@@ -117,17 +117,17 @@ object WeekViewUtil
         try
         {
             val dateFormatOrder = DateFormat.getDateFormatOrder(context)
-            if (dateFormatOrder.isEmpty())
+            if(dateFormatOrder.isEmpty())
                 return SimpleDateFormat(defaultDateFormatPattern, Locale.getDefault())
             val sb = StringBuilder()
-            for (i in dateFormatOrder.indices)
+            for(i in dateFormatOrder.indices)
             {
                 val c = dateFormatOrder[i]
-                if (Character.toLowerCase(c) == 'y')
+                if(Character.toLowerCase(c) == 'y')
                     continue
-                if (sb.isNotEmpty())
+                if(sb.isNotEmpty())
                     sb.append('/')
-                when (Character.toLowerCase(c))
+                when(Character.toLowerCase(c))
                 {
                     'm' -> sb.append("M")
                     'd' -> sb.append("d")
@@ -136,7 +136,7 @@ object WeekViewUtil
             val dateFormatString = sb.toString()
             return SimpleDateFormat("$weekDayFormat $dateFormatString", Locale.getDefault())
         }
-        catch (e: Exception)
+        catch(e: Exception)
         {
             return SimpleDateFormat(defaultDateFormatPattern, Locale.getDefault())
         }
@@ -152,13 +152,13 @@ object WeekViewUtil
     @JvmStatic
     fun calendarToString(cal: Calendar?, includeTime: Boolean = true): String
     {
-        if (cal == null)
+        if(cal == null)
             return ""
         val sb = StringBuilder()
         with(cal) {
             sb.append(get(Calendar.YEAR).toString()).append('-').append((get(Calendar.MONTH) + 1).toString())
                     .append('-').append(get(Calendar.DAY_OF_MONTH).toString())
-            if (includeTime)
+            if(includeTime)
                 sb.append(" ").append(get(Calendar.HOUR_OF_DAY).toString()).append(':').append(get(Calendar.MINUTE).toString()).append(':')
                         .append(get(Calendar.SECOND).toString()).append('.').append(get(Calendar.MILLISECOND).toString())
         }

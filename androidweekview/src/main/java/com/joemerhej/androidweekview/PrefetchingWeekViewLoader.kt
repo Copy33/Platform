@@ -21,7 +21,7 @@ class PrefetchingWeekViewLoader(val weekViewLoader: WeekViewLoader, @IntRange(fr
 {
     init
     {
-        if (prefetchingPeriod < 1)
+        if(prefetchingPeriod < 1)
             throw IllegalArgumentException("Must specify prefetching period of at least 1!")
     }
 
@@ -30,16 +30,16 @@ class PrefetchingWeekViewLoader(val weekViewLoader: WeekViewLoader, @IntRange(fr
         // fetch the current period
         var loadedEvents = weekViewLoader.onLoad(periodIndex)
         val events = ArrayList<WeekViewEvent>()
-        if (loadedEvents != null)
+        if(loadedEvents != null)
             events.addAll(loadedEvents)
         // fetch periods before/after
-        for (i in 1..this.prefetchingPeriod)
+        for(i in 1..this.prefetchingPeriod)
         {
             loadedEvents = weekViewLoader.onLoad(periodIndex - i)
-            if (loadedEvents != null)
+            if(loadedEvents != null)
                 events.addAll(loadedEvents)
             loadedEvents = weekViewLoader.onLoad(periodIndex + i)
-            if (loadedEvents != null)
+            if(loadedEvents != null)
                 events.addAll(loadedEvents)
         }
         // return list of all events together

@@ -15,14 +15,14 @@ class DrawPerformanceTester(val measureDrawTime: Boolean = true)
 
     fun startMeasure()
     {
-        if (!measureDrawTime)
+        if(!measureDrawTime)
             return
         startTime = System.currentTimeMillis()
     }
 
     fun endMeasure()
     {
-        if (!measureDrawTime)
+        if(!measureDrawTime)
             return
         val endTime = System.currentTimeMillis()
         val totalTime = endTime - startTime

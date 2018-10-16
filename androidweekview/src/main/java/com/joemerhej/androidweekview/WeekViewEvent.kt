@@ -42,7 +42,7 @@ open class WeekViewEvent
         this.name = name
         this.location = location
         this.isAllDay = allDay
-        if (!allDay)
+        if(!allDay)
         {
             this.startTime = startTime
             this.endTime = endTime
@@ -51,7 +51,7 @@ open class WeekViewEvent
         {
             WeekViewUtil.resetTime(startTime)
             this.startTime = startTime
-            if (!WeekViewUtil.isSameDay(startTime, endTime))
+            if(!WeekViewUtil.isSameDay(startTime, endTime))
             {
                 WeekViewUtil.resetTime(endTime)
                 this.endTime = endTime
@@ -80,8 +80,8 @@ open class WeekViewEvent
      */
     override fun equals(other: Any?): Boolean
     {
-        if (this === other) return true
-        if (other !is WeekViewEvent) return false
+        if(this === other) return true
+        if(other !is WeekViewEvent) return false
         return id == other.id
     }
 
@@ -103,7 +103,7 @@ open class WeekViewEvent
     fun splitWeekViewEvents(): MutableList<WeekViewEvent>
     {
         //This function splits the WeekViewEvent in WeekViewEvents by day
-        if (isSameDay(this.startTime, this.endTime))
+        if(isSameDay(this.startTime, this.endTime))
         {
             val events = ArrayList<WeekViewEvent>(1)
             events.add(this)
@@ -120,11 +120,11 @@ open class WeekViewEvent
         event1.color = this.color
         events.add(event1)
         // Add other days.
-        if (!isSameDay(this.startTime, this.endTime))
+        if(!isSameDay(this.startTime, this.endTime))
         {
             val otherDay = this.startTime.clone() as Calendar
             otherDay.add(Calendar.DATE, 1)
-            while (!isSameDay(otherDay, this.endTime))
+            while(!isSameDay(otherDay, this.endTime))
             {
                 val overDay = otherDay.clone() as Calendar
                 overDay.set(Calendar.HOUR_OF_DAY, 0)
@@ -159,9 +159,9 @@ open class WeekViewEvent
     {
         val colorStr = "#${Integer.toHexString(color)}"
         val startTimeStr = WeekViewUtil.calendarToString(startTime, !isAllDay)
-        if (isAllDay)
+        if(isAllDay)
         {
-            if (WeekViewUtil.isSameDay(startTime, endTime))
+            if(WeekViewUtil.isSameDay(startTime, endTime))
                 return "allDayEvent(id=$id, time=$startTimeStr..${WeekViewUtil.calendarToString(startTime, false)}, name=$name, location=$location, color=$colorStr ,shader=$shader)"
             return "allDayEvent(id=$id, time=$startTimeStr, name=$name, location=$location, color=$colorStr ,shader=$shader)"
         }

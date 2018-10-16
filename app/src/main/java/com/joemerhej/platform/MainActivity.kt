@@ -21,7 +21,8 @@ import kotlin.collections.ArrayList
 /**
  * Created by Joe Merhej on 10/15/18.
  */
-class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener
+class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener,
+        WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener
 {
     private var selectedMenuItemId: Int = 0
     private var myEvents: MutableList<WeekViewEvent> = mutableListOf()

@@ -27,7 +27,7 @@ abstract class TimeChangedBroadcastReceiver : BroadcastReceiver()
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
         context.registerReceiver(this, filter)
         val newDate = Calendar.getInstance()
-        if (!WeekViewUtil.isSameDayAndHourAndMinute(newDate, curCal))
+        if(!WeekViewUtil.isSameDayAndHourAndMinute(newDate, curCal))
         {
             curCal = newDate
             onTimeChanged()
@@ -37,7 +37,7 @@ abstract class TimeChangedBroadcastReceiver : BroadcastReceiver()
     override fun onReceive(context: Context, intent: Intent)
     {
         val newTime = Calendar.getInstance()
-        if (!WeekViewUtil.isSameDayAndHourAndMinute(newTime, curCal))
+        if(!WeekViewUtil.isSameDayAndHourAndMinute(newTime, curCal))
         {
             curCal = newTime
             onTimeChanged()

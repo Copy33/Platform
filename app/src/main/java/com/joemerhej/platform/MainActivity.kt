@@ -13,9 +13,8 @@ import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
-import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
-import kotlin.collections.ArrayList
+import androidx.core.content.ContextCompat
 
 
 /**
@@ -76,17 +75,16 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         // set the add event fab click listener
         addEventFab.setOnClickListener {
             val startTime = Calendar.getInstance()
-            startTime.set(Calendar.DAY_OF_MONTH, 16)
+            startTime.set(Calendar.DAY_OF_MONTH, WeekViewUtil.today().get(Calendar.DAY_OF_MONTH))
             startTime.set(Calendar.MONTH, 9)
             startTime.set(Calendar.YEAR, 2018)
-            startTime.set(Calendar.HOUR_OF_DAY, 3)
+            startTime.set(Calendar.HOUR_OF_DAY, 11)
             startTime.set(Calendar.MINUTE, 0)
 
             val endTime = startTime.clone() as Calendar
             endTime.add(Calendar.HOUR, 1)
 
-            val event = WeekViewEvent("1", getEventTitle(startTime), startTime, endTime)
-            event.color = resources.getColor(R.color.event_color_01)
+            val event = WeekViewEvent("1", getEventTitle(startTime), "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01))
             myEvents.add(event)
             weekView.notifyDataSetChanged()
         }
@@ -210,7 +208,7 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
     // listener for single event click
     override fun onEventClick(event: WeekViewEvent, eventRect: RectF)
     {
-        Toast.makeText(this, "Clicked " + event.name!!, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Clicked " + event.title!!, Toast.LENGTH_SHORT).show()
     }
 
     // listener for event long press
@@ -229,7 +227,7 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 
         val alertDialog = builder.create()
         alertDialog.show()
-        Toast.makeText(this, "Long pressed event: " + event.name!!, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Long pressed event: " + event.title!!, Toast.LENGTH_SHORT).show()
     }
 
     override fun onEmptyViewClicked(date: Calendar)

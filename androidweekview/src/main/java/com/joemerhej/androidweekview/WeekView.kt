@@ -483,7 +483,7 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                         {
                             selectedTime.add(Calendar.MINUTE, maxMinutes - newEventLengthInMinutes)
                         }
-                        val newEvent = WeekViewEvent(newEventIdentifier!!, "", null, selectedTime, endTime)
+                        val newEvent = WeekViewEvent(newEventIdentifier!!, "", null, selectedTime, endTime, 0)
                         val top = hourHeight * getPassedMinutesInDay(selectedTime) / 60 + eventsTop
                         val bottom = hourHeight * getPassedMinutesInDay(endTime) / 60 + eventsTop
                         // Calculate left and right.
@@ -1892,7 +1892,7 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 if(right < startFromPixel + widthPerDay)
                     right -= overlappingEventGap
 
-                // Draw the event and the event name on top of it.
+                // Draw the event and the event title on top of it.
                 if(left < right && left < width && top < height && right > mHeaderColumnWidth &&
                         bottom > headerHeight + weekDaysHeaderRowTotalPadding + timeTextHeight / 2 + spaceBelowAllDayEvents)
                 {
@@ -1944,7 +1944,7 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 var right = left + eventRect.width * widthPerDay
                 if(right < startFromPixel + widthPerDay)
                     right -= overlappingEventGap
-                // Draw the event and the event name on top of it.
+                // Draw the event and the event title on top of it.
                 if(left < right && left < width && top < height && right > mHeaderColumnWidth && bottom > 0)
                 {
                     eventRect.rectF = RectF(left, top, right, bottom)
@@ -1960,9 +1960,9 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     /**
-     * Draw the name of the event on top of the event rectangle.
+     * Draw the title of the event on top of the event rectangle.
      *
-     * @param event        The event of which the title (and location) should be drawn.
+     * @param event        The event of which the title (and subtitle) should be drawn.
      * @param rect         The rectangle on which the text is to be drawn.
      * @param canvas       The canvas to draw upon.
      * @param originalTop  The original top position of the rectangle. The rectangle may have some of its portion outside of the visible area.
@@ -1973,21 +1973,21 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         if(rect.right - rect.left - (eventPadding * 2).toFloat() < 0) return
         if(rect.bottom - rect.top - (eventPadding * 2).toFloat() < 0) return
 
-        // Prepare the name of the event.
+        // Prepare the title of the event.
         val bob = SpannableStringBuilder()
-        if(!TextUtils.isEmpty(event.name) || !TextUtils.isEmpty(untitledEventText))
+        if(!TextUtils.isEmpty(event.title) || !TextUtils.isEmpty(untitledEventText))
         {
-            if(!TextUtils.isEmpty(event.name))
-                bob.append(event.name)
+            if(!TextUtils.isEmpty(event.title))
+                bob.append(event.title)
             else bob.append(untitledEventText)
             bob.setSpan(StyleSpan(android.graphics.Typeface.BOLD), 0, bob.length, 0)
         }
-        // Prepare the location of the event.
-        if(!TextUtils.isEmpty(event.location))
+        // Prepare the subtitle of the event.
+        if(!TextUtils.isEmpty(event.subtitle))
         {
             if(bob.isNotEmpty())
                 bob.append(' ')
-            bob.append(event.location)
+            bob.append(event.subtitle)
         }
 
         val availableHeight = (rect.bottom - originalTop - (eventPadding * 2).toFloat()).toInt()

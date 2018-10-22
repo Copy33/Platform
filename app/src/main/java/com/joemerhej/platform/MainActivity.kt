@@ -2,6 +2,7 @@ package com.joemerhej.platform
 
 import android.graphics.RectF
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -21,7 +22,7 @@ import java.util.*
  * Created by Joe Merhej on 10/15/18.
  */
 class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener,
-        WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener, WeekView.EmptyViewClickListener
+        WeekView.EventLongPressListener
 {
     private var selectedMenuItemId: Int = 0
     private var myEvents: MutableList<WeekViewEvent> = mutableListOf()
@@ -40,8 +41,6 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
             it.eventClickListener = this
             it.monthChangeListener = this
             it.eventLongPressListener = this
-            it.emptyViewLongPressListener = this
-            it.emptyViewClickListener = this
         }
 
         // set the week view visible days based on user's preferences
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
             val endTime = startTime.clone() as Calendar
             endTime.add(Calendar.HOUR, 1)
 
-            val event = WeekViewEvent("1", getEventTitle(startTime), "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01))
+            val event = WeekViewEvent("1", "title", "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01))
             myEvents.add(event)
             weekView.notifyDataSetChanged()
         }
@@ -200,11 +199,6 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         }
     }
 
-    private fun getEventTitle(time: Calendar): String
-    {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH))
-    }
-
     // listener for single event click
     override fun onEventClick(event: WeekViewEvent, eventRect: RectF)
     {
@@ -230,19 +224,10 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         Toast.makeText(this, "Long pressed event: " + event.title!!, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onEmptyViewClicked(date: Calendar)
-    {
-        Toast.makeText(this, "Empty view clicked: " + getEventTitle(date), Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onEmptyViewLongPress(time: Calendar)
-    {
-        Toast.makeText(this, "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show()
-    }
-
     // listener for when a new month is scrolled
     override fun onMonthChange(newYear: Int, newMonth: Int): MutableList<WeekViewEvent>?
     {
+        Log.d(DebugUtils.TAG, "onMonthChange - $newMonth, $newYear")
         return EventUtils.getEventsForMonth(myEvents, newMonth, newYear)
     }
 }

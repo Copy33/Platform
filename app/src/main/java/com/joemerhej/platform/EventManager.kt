@@ -175,10 +175,12 @@ object EventManager
     /**
      * function that will add an event.
      *
-     * @param month the month to return its events.
-     * @param year the year of the month to return its events.
-     * @param callback the events returned callback handling returns.
+     * @param event the event to add.
      */
+    fun addEvent(event: Event)
+    {
+
+    }
 }
 
 

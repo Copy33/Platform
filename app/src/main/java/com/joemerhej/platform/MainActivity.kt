@@ -6,15 +6,15 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.joemerhej.androidweekview.*
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 
 
 /**
@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 
         // set the add event fab click listener
         addEventFab.setOnClickListener {
-            val startTime = Calendar.getInstance()
-            startTime.set(Calendar.DAY_OF_MONTH, WeekViewUtil.today().get(Calendar.DAY_OF_MONTH))
-            startTime.set(Calendar.MONTH, 9)
-            startTime.set(Calendar.YEAR, 2018)
+
+            val today = WeekViewUtil.today()
+
+            val startTime = today.clone() as Calendar
             startTime.set(Calendar.HOUR_OF_DAY, 11)
             startTime.set(Calendar.MINUTE, 0)
 
@@ -241,7 +241,7 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
     }
 
     // listener for when a new month is scrolled
-    override fun onMonthChange(newYear: Int, newMonth: Int): MutableList<out WeekViewEvent>?
+    override fun onMonthChange(newYear: Int, newMonth: Int): MutableList<WeekViewEvent>?
     {
         return EventUtils.getEventsForMonth(myEvents, newMonth, newYear)
     }

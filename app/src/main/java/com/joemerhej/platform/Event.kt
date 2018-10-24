@@ -1,6 +1,5 @@
 package com.joemerhej.platform
 
-import android.graphics.Shader
 import android.os.Parcel
 import android.os.Parcelable
 import com.joemerhej.androidweekview.WeekViewEvent
@@ -16,16 +15,16 @@ class Event(
         startTime: Calendar,
         endTime: Calendar,
         color: Int,
+        isAllDay: Boolean = false,
         var owner: String? = null,
         var location: String? = null,
         var reminder: Calendar? = null,
         var client: Client? = null,
-        allDay: Boolean = false,
         var eventStatus: Event.EventStatus = EventStatus.UNCONFIRMED,
         var amountPaid: Double = 0.0,
-        var recurrent: Boolean = false,
+        var isRecurrent: Boolean = false,
         var notes: String? = null)
-    : WeekViewEvent(id, title, subtitle, startTime, endTime, color, allDay), Parcelable
+    : WeekViewEvent(id, title, subtitle, startTime, endTime, color, isAllDay), Parcelable
 {
 
     enum class EventStatus(var value: String)
@@ -36,22 +35,21 @@ class Event(
     }
 
     constructor(parcel: Parcel) : this(parcel.readString()!!, parcel.readString()!!, parcel.readString(),
-            GregorianCalendar(TimeZone.getTimeZone(parcel.readString())).also { it.timeInMillis = parcel.readLong() },
-            GregorianCalendar(TimeZone.getTimeZone(parcel.readString())).also { it.timeInMillis = parcel.readLong() },
-            parcel.readInt())
+            Calendar.getInstance().also { it.timeInMillis = parcel.readLong() },
+            Calendar.getInstance().also { it.timeInMillis = parcel.readLong() },
+            parcel.readInt(), parcel.readInt() != 0)
     {
         owner = parcel.readString()
         location = parcel.readString()
         val nextLong = parcel.readLong()
-        if(nextLong != 3L)
+        if(nextLong != Long.MIN_VALUE)
         {
-            val reminderTimeZoneId = parcel.readString()
-            reminder = GregorianCalendar(TimeZone.getTimeZone(reminderTimeZoneId)).also { it.timeInMillis = nextLong }
+            reminder = Calendar.getInstance().also { it.timeInMillis = parcel.readLong() }
         }
-        eventStatus = EventStatus.valueOf(parcel.readString()!!)
         client = parcel.readParcelable(Client::class.java.classLoader)
+        eventStatus = EventStatus.valueOf(parcel.readString()!!)
         amountPaid = parcel.readDouble()
-        recurrent = !parcel.readByte().equals(0)
+        isRecurrent = parcel.readInt() != 0
         notes = parcel.readString()
     }
 
@@ -60,23 +58,19 @@ class Event(
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(subtitle)
-        parcel.writeString(startTime.timeZone.id)
         parcel.writeLong(startTime.timeInMillis)
-        parcel.writeString(endTime.timeZone.id)
         parcel.writeLong(endTime.timeInMillis)
         parcel.writeInt(color)
+        parcel.writeInt(if(isAllDay) 1 else 0)
         parcel.writeString(owner)
         parcel.writeString(location)
         reminder?.let {
             parcel.writeLong(it.timeInMillis)
-            parcel.writeString(it.timeZone.id)
-        }
-        if(reminder == null)
-            parcel.writeLong(3)
-        parcel.writeString(eventStatus.value)
+        } ?: parcel.writeLong(Long.MIN_VALUE)
         parcel.writeParcelable(client, flags)
+        parcel.writeString(eventStatus.value)
         parcel.writeDouble(amountPaid)
-        parcel.writeByte(if(recurrent) 1 else 0)
+        parcel.writeInt(if(isRecurrent) 1 else 0)
         parcel.writeString(notes)
     }
 
@@ -87,7 +81,9 @@ class Event(
 
     override fun toString(): String
     {
-        return "Event(owner=$owner, location=$location, reminder=$reminder, client=$client, eventStatus=$eventStatus, amountPaid=$amountPaid, recurrent=$recurrent, notes=$notes) ${super.toString()}"
+        return "Event(id=$id, title=$title, subtitle=$subtitle, startTime=${DebugUtils.CalendarToString(startTime)}, endTime= ${DebugUtils.CalendarToString(endTime)}, " +
+                "isAllDay=$isAllDay, color=$color, owner=$owner, location=$location, reminder=${DebugUtils.CalendarToString(reminder)}, client=$client, " +
+                "eventStatus=$eventStatus, amountPaid=$amountPaid, isRecurrent=$isRecurrent, notes=$notes)"
     }
 
 

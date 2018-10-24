@@ -27,6 +27,11 @@ class Client(var firstName: String?, var lastName: String?, var location: String
         return 0
     }
 
+    override fun toString(): String
+    {
+        return "Client(firstName=$firstName, lastName=$lastName, location=$location)"
+    }
+
     companion object CREATOR : Parcelable.Creator<Client>
     {
         override fun createFromParcel(parcel: Parcel): Client
@@ -39,4 +44,6 @@ class Client(var firstName: String?, var lastName: String?, var location: String
             return arrayOfNulls(size)
         }
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.joemerhej.platform
+package com.joemerhej.platform.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -11,8 +11,11 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.joemerhej.androidweekview.*
+import com.joemerhej.platform.DebugUtils
+import com.joemerhej.platform.Event
+import com.joemerhej.platform.EventUtils
+import com.joemerhej.platform.R
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -111,6 +114,8 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
                 {
                     intent?.let {
                         var event: Event = it.getParcelableExtra(EVENT_EXTRA_NAME)
+                        myEvents.add(event)
+                        weekView.notifyDataSetChanged()
                         Log.d(DebugUtils.TAG, event.toString())
                     }
                 }

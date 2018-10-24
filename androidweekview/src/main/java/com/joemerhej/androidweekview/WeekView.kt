@@ -1898,7 +1898,6 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 {
                     eventRect.rectF = RectF(left, top, right, bottom)
                     mEventBackgroundPaint.color = if(eventRect.event.color == 0) defaultEventColor else eventRect.event.color
-                    mEventBackgroundPaint.shader = eventRect.event.shader
                     canvas.drawRoundRect(eventRect.rectF!!, eventCornerRadius, eventCornerRadius, mEventBackgroundPaint)
                     var topToUse = top
                     if(eventRect.event.startTime.get(Calendar.HOUR_OF_DAY) < mMinTime)
@@ -1949,7 +1948,6 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                 {
                     eventRect.rectF = RectF(left, top, right, bottom)
                     mEventBackgroundPaint.color = if(eventRect.event.color == 0) defaultEventColor else eventRect.event.color
-                    mEventBackgroundPaint.shader = eventRect.event.shader
                     canvas.drawRoundRect(eventRect.rectF!!, eventCornerRadius, eventCornerRadius, mEventBackgroundPaint)
                     drawEventTitle(eventRect.event, eventRect.rectF!!, canvas, top, left)
                 }

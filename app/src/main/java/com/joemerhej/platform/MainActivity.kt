@@ -1,5 +1,7 @@
 package com.joemerhej.platform
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
@@ -21,9 +23,11 @@ import java.util.*
 /**
  * Created by Joe Merhej on 10/15/18.
  */
-class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener,
-        WeekView.EventLongPressListener
+class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener
 {
+    private val EDIT_EVENT_REQUEST_CODE = 300
+    private val EVENT_EXTRA_NAME = "event"
+
     private var selectedMenuItemId: Int = 0
     private var myEvents: MutableList<WeekViewEvent> = mutableListOf()
 
@@ -74,18 +78,43 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         // set the add event fab click listener
         addEventFab.setOnClickListener {
 
-            val today = WeekViewUtil.today()
+//            val today = WeekViewUtil.today()
+//
+//            val startTime = today.clone() as Calendar
+//            startTime.set(Calendar.HOUR_OF_DAY, 11)
+//            startTime.set(Calendar.MINUTE, 0)
+//
+//            val endTime = startTime.clone() as Calendar
+//            endTime.add(Calendar.HOUR, 1)
+//
+//            val event = WeekViewEvent("1", "title", "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01))
+//            myEvents.add(event)
+//            weekView.notifyDataSetChanged()
 
-            val startTime = today.clone() as Calendar
-            startTime.set(Calendar.HOUR_OF_DAY, 11)
-            startTime.set(Calendar.MINUTE, 0)
+            Intent(this, EditEventActivity::class.java).also {
+                startActivityForResult(it, EDIT_EVENT_REQUEST_CODE)
+            }
+        }
+    }
 
-            val endTime = startTime.clone() as Calendar
-            endTime.add(Calendar.HOUR, 1)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?)
+    {
+        super.onActivityResult(requestCode, resultCode, intent)
 
-            val event = WeekViewEvent("1", "title", "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01))
-            myEvents.add(event)
-            weekView.notifyDataSetChanged()
+        // check which request we're responding to
+        when(requestCode)
+        {
+            EDIT_EVENT_REQUEST_CODE ->
+            {
+                // make sure the request was successful
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    intent?.let {
+                        var event: Event = it.getParcelableExtra(EVENT_EXTRA_NAME)
+                        Log.d(DebugUtils.TAG, event.toString())
+                    }
+                }
+            }
         }
     }
 

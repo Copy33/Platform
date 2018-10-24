@@ -19,11 +19,10 @@ open class WeekViewEvent
     @get:ColorInt
     var color: Int = 0              // color of the event, int annotated as color id AARRGGBB
     val isAllDay: Boolean           // boolean to check if all day event
-    var shader: Shader? = null      // shader to draw the event
 
 
     /**Constructor for a single, all day event*/
-    constructor(id: String?, title: String?, subtitle: String? = null, color:Int, allDayTime: Calendar, shader: Shader? = null) : this(id, title, subtitle, allDayTime, allDayTime, color, true, shader)
+    constructor(id: String?, title: String?, subtitle: String? = null, color:Int, allDayTime: Calendar) : this(id, title, subtitle, allDayTime, allDayTime, color, true)
 
     /**
      * Initializes the event for week view.
@@ -35,9 +34,8 @@ open class WeekViewEvent
      * @param endTime   The time when the event ends.
      * @param endTime   The color of the event.
      * @param allDay    Is the event an all day event.
-     * @param shader    the Shader of the event rectangle
      */
-    @JvmOverloads constructor(id: String?, title: String?, subtitle: String?, startTime: Calendar, endTime: Calendar, color:Int, allDay: Boolean = false, shader: Shader? = null)
+    @JvmOverloads constructor(id: String?, title: String?, subtitle: String?, startTime: Calendar, endTime: Calendar, color:Int, allDay: Boolean = false)
     {
         this.id = id
         this.title = title
@@ -61,7 +59,6 @@ open class WeekViewEvent
             else
                 this.endTime = startTime
         }
-        this.shader = shader
     }
 
     /**
@@ -154,10 +151,10 @@ open class WeekViewEvent
         if(isAllDay)
         {
             if(WeekViewUtil.isSameDay(startTime, endTime))
-                return "allDayEvent(id=$id, time=$startTimeStr..${WeekViewUtil.calendarToString(startTime, false)}, title=$title, subtitle=$subtitle, color=$colorStr ,shader=$shader)"
-            return "allDayEvent(id=$id, time=$startTimeStr, title=$title, subtitle=$subtitle, color=$colorStr ,shader=$shader)"
+                return "allDayEvent(id=$id, time=$startTimeStr..${WeekViewUtil.calendarToString(startTime, false)}, title=$title, subtitle=$subtitle, color=$colorStr)"
+            return "allDayEvent(id=$id, time=$startTimeStr, title=$title, subtitle=$subtitle, color=$colorStr)"
         }
         val endTimeStr = WeekViewUtil.calendarToString(endTime, true)
-        return "normalEvent(id=$id, startTime=$colorStr, endTime=$endTimeStr, title=$title, subtitle=$subtitle, color=$colorStr , shader=$shader)"
+        return "normalEvent(id=$id, startTime=$colorStr, endTime=$endTimeStr, title=$title, subtitle=$subtitle, color=$colorStr)"
     }
 }

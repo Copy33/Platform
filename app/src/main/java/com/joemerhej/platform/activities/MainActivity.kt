@@ -80,20 +80,6 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 
         // set the add event fab click listener
         addEventFab.setOnClickListener {
-
-//            val today = WeekViewUtil.today()
-//
-//            val startTime = today.clone() as Calendar
-//            startTime.set(Calendar.HOUR_OF_DAY, 11)
-//            startTime.set(Calendar.MINUTE, 0)
-//
-//            val endTime = startTime.clone() as Calendar
-//            endTime.add(Calendar.HOUR, 1)
-//
-//            val event = WeekViewEvent("1", "title", "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01))
-//            myEvents.add(event)
-//            weekView.notifyDataSetChanged()
-
             Intent(this, EditEventActivity::class.java).also {
                 startActivityForResult(it, EDIT_EVENT_REQUEST_CODE)
             }
@@ -258,10 +244,16 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         Toast.makeText(this, "Long pressed event: " + event.title!!, Toast.LENGTH_SHORT).show()
     }
 
-    // listener for when a new month is scrolled
+    /**
+     * Listener to when a new half month is scrolled or notifyDataSetChanged() is called on the weekview.
+     * This will be called 3 times for current, previous, and next month respectively.
+     *
+     * @param newYear Year of the month to be loaded.
+     * @param newMonth Month to be loaded.
+     * @return the list of events for this specific month and year.
+     */
     override fun onMonthChange(newYear: Int, newMonth: Int): MutableList<WeekViewEvent>?
     {
-        Log.d(DebugUtils.TAG, "onMonthChange - $newMonth, $newYear")
         return EventUtils.getEventsForMonth(myEvents, newMonth, newYear)
     }
 }

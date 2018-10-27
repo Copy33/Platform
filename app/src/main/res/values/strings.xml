@@ -6,11 +6,28 @@
     <string name="action_three_day_view">3 day view</string>
     <string name="action_week_view">Week view</string>
 
-    <string name="button_save">Save</string>
     <string name="button_cancel">Cancel</string>
-    <string name="text_title">Title</string>
-    <string name="text_title_hint">Event Title</string>
+    <string name="button_save">Save</string>
+    <string name="text_title_hint">Title</string>
     <string name="text_all_day">All day</string>
     <string name="text_start">Start</string>
+    <string name="text_start_date">Wed, Oct 24</string>
+    <string name="text_start_time">12:00 PM</string>
     <string name="text_end">End</string>
+    <string name="text_end_date">Wed, Oct 24</string>
+    <string name="text_end_time">1:00 PM</string>
+    <string name="repeat_icon_description">Repeat</string>
+    <string name="text_repeat">Does not repeat</string>
+    <string name="reminder_icon_description">Reminder</string>
+    <string name="text_reminder">Set Reminder</string>
+    <string name="client_icon_description">Client</string>
+    <string name="text_client">Add Client</string>
+    <string name="location_icon_description">Location</string>
+    <string name="text_location_hint">Add Location</string>
+    <string name="status_icon_description">Status</string>
+    <string name="text_status">Add Status</string>
+    <string name="amount_icon_description">Amount</string>
+    <string name="text_amount">Add Amount</string>
+    <string name="note_icon_description">Notes</string>
+    <string name="text_note">Add Note</string>
 </resources>

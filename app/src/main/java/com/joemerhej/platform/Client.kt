@@ -6,20 +6,34 @@ import android.os.Parcelable
 /**
  * Created by Joe Merhej on 10/24/18.
  */
-class Client(var firstName: String?, var lastName: String?, var location: String?) : Parcelable
+class Client(var firstName: String?, var lastName: String?, var locations: MutableList<String>? = null, var defaultLocationIndex: Int = -1) : Parcelable
 {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
-            parcel.readString(),
             parcel.readString())
     {
+        val locationSize = parcel.readInt()
+        if(locationSize > 0)
+        {
+            locations = mutableListOf()
+            for(index in 0..locationSize)
+                locations?.let {
+                    it[index] = parcel.readString()!!
+                }
+        }
+        defaultLocationIndex = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int)
     {
         parcel.writeString(firstName)
         parcel.writeString(lastName)
-        parcel.writeString(location)
+        locations?.let {
+            parcel.writeInt(it.size)
+            for(location in it)
+                parcel.writeString(location)
+            parcel.writeInt(defaultLocationIndex)
+        } ?: parcel.writeInt(0)
     }
 
     override fun describeContents(): Int
@@ -29,7 +43,7 @@ class Client(var firstName: String?, var lastName: String?, var location: String
 
     override fun toString(): String
     {
-        return "Client(firstName=$firstName, lastName=$lastName, location=$location)"
+        return "Client(firstName=$firstName, lastName=$lastName, locations=$locations, defaultLocationIndex=$defaultLocationIndex)"
     }
 
     companion object CREATOR : Parcelable.Creator<Client>

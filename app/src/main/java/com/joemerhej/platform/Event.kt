@@ -20,7 +20,7 @@ class Event(
         var location: String? = null,
         var reminder: Calendar? = null,
         var client: Client? = null,
-        var eventStatus: Event.EventStatus = EventStatus.UNCONFIRMED,
+        var eventStatus: Event.EventStatus = EventStatus.NONE,
         var amountPaid: Double = 0.0,
         var isRecurrent: Boolean = false,
         var notes: String? = null)
@@ -29,8 +29,9 @@ class Event(
 
     enum class EventStatus(var value: String)
     {
+        NONE("NONE"),
         UNCONFIRMED("UNCONFIRMED"),
-        CONFIRMED("CONFIRMED"),
+        CONFIRMED_PENDING_PAYMENT("CONFIRMED_PENDING_PAYMENT"),
         PAID("PAID")
     }
 

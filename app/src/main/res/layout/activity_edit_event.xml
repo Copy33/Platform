@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/button_save"
                     android:text="@string/button_save"
                     android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +71,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -82,7 +84,7 @@
             android:layout_height="match_parent">
 
             <View
-                android:id="@+id/separator1"
+                android:id="@+id/separator0"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
@@ -93,11 +95,47 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
+                android:id="@+id/owner_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/owner_icon_description"
+                android:tint="@color/colorTextSecondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator0"
+                app:srcCompat="@drawable/ic_owner"/>
+
+            <TextView
+                android:id="@+id/owner_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/text_owner"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/owner_imageview"
+                app:layout_constraintStart_toEndOf="@+id/owner_imageview"
+                app:layout_constraintTop_toTopOf="@+id/owner_imageview"/>
+
+            <View
+                android:id="@+id/separator1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/separator_margin"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/separator_margin"
+                android:background="@color/colorDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/owner_imageview"/>
+
+            <ImageView
                 android:id="@+id/time_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
+                android:layout_marginTop="16dp"
                 android:contentDescription="@string/text_all_day"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separator1"
@@ -334,7 +372,7 @@
                 app:srcCompat="@drawable/ic_location_pin"/>
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/location_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
@@ -361,7 +399,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText"/>
+                app:layout_constraintTop_toBottomOf="@+id/location_edittext"/>
 
             <ImageView
                 android:id="@+id/status_imageview"
@@ -476,6 +514,23 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/note_edittext"/>
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/button_delete"
+                android:text="@string/button_delete"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator10"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

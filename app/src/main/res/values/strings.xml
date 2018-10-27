@@ -9,6 +9,8 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_save">Save</string>
     <string name="text_title_hint">Title</string>
+    <string name="owner_icon_description">Owner</string>
+    <string name="text_owner">Set Owner</string>
     <string name="text_all_day">All day</string>
     <string name="text_start">Start</string>
     <string name="text_start_date">Wed, Oct 24</string>
@@ -25,9 +27,10 @@
     <string name="location_icon_description">Location</string>
     <string name="text_location_hint">Add Location</string>
     <string name="status_icon_description">Status</string>
-    <string name="text_status">Add Status</string>
+    <string name="text_status">Set Status</string>
     <string name="amount_icon_description">Amount</string>
     <string name="text_amount">Add Amount</string>
     <string name="note_icon_description">Notes</string>
     <string name="text_note">Add Note</string>
+    <string name="button_delete">Delete Event</string>
 </resources>

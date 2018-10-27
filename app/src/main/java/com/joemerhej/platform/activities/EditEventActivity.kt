@@ -1,20 +1,12 @@
 package com.joemerhej.platform.activities
 
-import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.core.content.ContextCompat
-import com.joemerhej.androidweekview.WeekViewUtil
-import com.joemerhej.platform.Client
-import com.joemerhej.platform.DebugUtils
-import com.joemerhej.platform.Event
+import androidx.appcompat.app.AppCompatActivity
 import com.joemerhej.platform.R
-import java.util.*
+
 
 class EditEventActivity : AppCompatActivity()
 {
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)

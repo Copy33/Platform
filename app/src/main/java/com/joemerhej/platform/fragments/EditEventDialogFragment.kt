@@ -69,8 +69,11 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
         }
 
         // use the view model here
-        amount_textview.text = editEventViewModel.event.amountPaid.toString()
-        owner_textview.text = editEventViewModel.event.owner
-        note_edittext.setText(editEventViewModel.event.notes)
+        // if an event already exists (ie not adding a new event) then populate the event views to edit
+        editEventViewModel.event?.let {
+            amount_textview.text = it.amountPaid.toString()
+            owner_textview.text = it.owner
+            note_edittext.setText(it.notes)
+        }
     }
 }

@@ -6,6 +6,6 @@ import com.joemerhej.platform.Event
 /**
  * Created by Joe Merhej on 10/29/18.
  */
-class EditEventViewModel(var event: Event = Event()) : ViewModel()
+class EditEventViewModel(var event: Event? = null) : ViewModel()
 {
 }

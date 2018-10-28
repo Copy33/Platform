@@ -3,6 +3,7 @@ package com.joemerhej.platform
 import android.os.Parcel
 import android.os.Parcelable
 import com.joemerhej.androidweekview.WeekViewEvent
+import com.joemerhej.androidweekview.WeekViewUtil
 import java.util.*
 
 /**
@@ -53,6 +54,8 @@ class Event(
         isRecurrent = parcel.readInt() != 0
         notes = parcel.readString()
     }
+
+    constructor() : this("", "", null, WeekViewUtil.today(), WeekViewUtil.today(), 0)
 
     override fun writeToParcel(parcel: Parcel, flags: Int)
     {

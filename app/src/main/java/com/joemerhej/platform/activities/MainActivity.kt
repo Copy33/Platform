@@ -11,16 +11,17 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProviders
 import com.joemerhej.androidweekview.*
-import com.joemerhej.platform.DebugUtils
-import com.joemerhej.platform.Event
-import com.joemerhej.platform.EventUtils
+import com.joemerhej.platform.*
 import com.joemerhej.platform.R
 import com.joemerhej.platform.fragments.EditEventDialogFragment
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
+import com.joemerhej.platform.viewmodels.EditEventViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 
     private var selectedMenuItemId: Int = 0
     private var myEvents: MutableList<WeekViewEvent> = mutableListOf()
+    private lateinit var editEventViewModel: EditEventViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -86,11 +88,25 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         // set the week view date and time interpreter to define how to display time and dates
         setupDateTimeInterpreter(selectedMenuItemId)
 
+        // set up the edit event view model
+        editEventViewModel = ViewModelProviders.of(this).get(EditEventViewModel::class.java)
+
         // set the add event fab click listener
-        addEventFab.setOnClickListener {
-//            Intent(this, EditEventActivity::class.java).also {
-//                startActivityForResult(it, EDIT_EVENT_REQUEST_CODE)
-//            }
+        addEventFab.setOnClickListener()
+        {
+            val today = WeekViewUtil.today()
+
+            val startTime = today.clone() as Calendar
+            startTime.set(Calendar.HOUR_OF_DAY, 11)
+            startTime.set(Calendar.MINUTE, 0)
+
+            val endTime = startTime.clone() as Calendar
+            endTime.add(Calendar.HOUR, 1)
+
+            editEventViewModel.event = Event("1", "title", "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01),
+                    false, "owner", "location", null, Client("clientFirst", "clientLast"), Event.EventStatus.PAID,
+                    100.0, false, "notes bla bla bla")
+
             EditEventDialogFragment.show(supportFragmentManager, "tag")
         }
     }
@@ -228,13 +244,23 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         }
     }
 
-    // listener for single event click
+    /**
+     * Listener to when an event is clicked.
+     *
+     * @param event week view event clicked.
+     * @param eventRect Rectangle of the event clicked.
+     */
     override fun onEventClick(event: WeekViewEvent, eventRect: RectF)
     {
         Toast.makeText(this, "Clicked " + event.title!!, Toast.LENGTH_SHORT).show()
     }
 
-    // listener for event long press
+    /**
+     * Listener to when an event is long pressed.
+     *
+     * @param event week view event pressed.
+     * @param eventRect Rectangle of the event pressed.
+     */
     override fun onEventLongPress(event: WeekViewEvent, eventRect: RectF)
     {
         val builder = AlertDialog.Builder(this)

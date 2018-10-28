@@ -18,14 +18,12 @@ abstract class AutoSizeDialogFragment : DialogFragment()
     protected abstract val childLayoutResId: Int
 
     private val isLargeScreen
-        get() = resources.getBoolean(R.bool.device_wide_tall)
+        get() = resources.getBoolean(R.bool.device_wide)
 
     init
     {
         this.setStyle(DialogFragment.STYLE_NO_TITLE, 0)
     }
-
-    override fun getTheme() = if(isLargeScreen) R.style.ThemeOverlay_AppCompat_Dialog else R.style.Theme_AppCompat_Light_NoActionBar
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -40,4 +38,11 @@ abstract class AutoSizeDialogFragment : DialogFragment()
 
         return view
     }
+
+    /**
+     * returns the dialog theme based on screen size.
+     *
+     * @return returns dialog theme for tablets, and regular theme for phones.
+     */
+    override fun getTheme() = if(isLargeScreen) R.style.ThemeOverlay_AppCompat_Dialog else R.style.Theme_AppCompat_Light_NoActionBar
 }

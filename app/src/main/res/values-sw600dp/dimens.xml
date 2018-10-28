@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="auto_size_dialog_width">680dp</dimen>
+    <dimen name="auto_size_dialog_height">@dimen/match_parent</dimen>
+    <dimen name="auto_size_dialog_min_width">680dp</dimen>
+    <dimen name="auto_size_dialog_min_height">840dp</dimen>
+</resources>

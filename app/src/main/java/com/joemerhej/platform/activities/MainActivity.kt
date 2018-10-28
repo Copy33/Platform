@@ -11,11 +11,14 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentTransaction
 import com.joemerhej.androidweekview.*
 import com.joemerhej.platform.DebugUtils
 import com.joemerhej.platform.Event
 import com.joemerhej.platform.EventUtils
 import com.joemerhej.platform.R
+import com.joemerhej.platform.fragments.EditEventDialogFragment
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,8 +29,13 @@ import java.util.*
 /**
  * Created by Joe Merhej on 10/15/18.
  */
-class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener
+class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, EditEventDialogFragment.EventListener
 {
+    override fun onCertainEvent()
+    {
+
+    }
+
     private val EDIT_EVENT_REQUEST_CODE = 300
     private val EVENT_EXTRA_NAME = "event"
 
@@ -80,34 +88,35 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 
         // set the add event fab click listener
         addEventFab.setOnClickListener {
-            Intent(this, EditEventActivity::class.java).also {
-                startActivityForResult(it, EDIT_EVENT_REQUEST_CODE)
-            }
+//            Intent(this, EditEventActivity::class.java).also {
+//                startActivityForResult(it, EDIT_EVENT_REQUEST_CODE)
+//            }
+            EditEventDialogFragment.show(supportFragmentManager, "tag")
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?)
-    {
-        super.onActivityResult(requestCode, resultCode, intent)
-
-        // check which request we're responding to
-        when(requestCode)
-        {
-            EDIT_EVENT_REQUEST_CODE ->
-            {
-                // make sure the request was successful
-                if(resultCode == Activity.RESULT_OK)
-                {
-                    intent?.let {
-                        var event: Event = it.getParcelableExtra(EVENT_EXTRA_NAME)
-                        myEvents.add(event)
-                        weekView.notifyDataSetChanged()
-                        Log.d(DebugUtils.TAG, event.toString())
-                    }
-                }
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?)
+//    {
+//        super.onActivityResult(requestCode, resultCode, intent)
+//
+//        // check which request we're responding to
+//        when(requestCode)
+//        {
+//            EDIT_EVENT_REQUEST_CODE ->
+//            {
+//                // make sure the request was successful
+//                if(resultCode == Activity.RESULT_OK)
+//                {
+//                    intent?.let {
+//                        var event: Event = it.getParcelableExtra(EVENT_EXTRA_NAME)
+//                        myEvents.add(event)
+//                        weekView.notifyDataSetChanged()
+//                        Log.d(DebugUtils.TAG, event.toString())
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
     {

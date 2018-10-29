@@ -1,7 +1,5 @@
 package com.joemerhej.platform.activities
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.RectF
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import com.joemerhej.androidweekview.*
 import com.joemerhej.platform.*
@@ -37,9 +33,6 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 
     }
 
-    private val EDIT_EVENT_REQUEST_CODE = 300
-    private val EVENT_EXTRA_NAME = "event"
-
     private var selectedMenuItemId: Int = 0
     private var myEvents: MutableList<WeekViewEvent> = mutableListOf()
     private lateinit var editEventViewModel: EditEventViewModel
@@ -62,7 +55,7 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 
         // set the week view visible days based on user's preferences
         val visibleDaysSaved = SharedPreferencesManager.readInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 3)
-        when (visibleDaysSaved)
+        when(visibleDaysSaved)
         {
             1 ->
             {
@@ -91,48 +84,19 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         // set up the edit event view model
         editEventViewModel = ViewModelProviders.of(this).get(EditEventViewModel::class.java)
 
-        // set the add event fab click listener
+        // observe changes to the edit event live data
+        editEventViewModel.event.observe(this, androidx.lifecycle.Observer {
+            Log.d(DebugUtils.TAG, "Event Changed! $it")
+            myEvents.add(it)
+            weekView.notifyDataSetChanged()
+        })
+
+        // set the add event fab click listener TODO: this creates a new event now and passes it, should pass null and dialog will take care of populating event in view controller
         addEventFab.setOnClickListener()
         {
-            val today = WeekViewUtil.today()
-
-            val startTime = today.clone() as Calendar
-            startTime.set(Calendar.HOUR_OF_DAY, 11)
-            startTime.set(Calendar.MINUTE, 0)
-
-            val endTime = startTime.clone() as Calendar
-            endTime.add(Calendar.HOUR, 1)
-
-            editEventViewModel.event = Event("1", "title", "subtitle", startTime, endTime, ContextCompat.getColor(this, R.color.event_color_01),
-                    false, "owner", "location", null, Client("clientFirst", "clientLast"), Event.EventStatus.PAID,
-                    100.0, false, "notes bla bla bla")
-
             EditEventDialogFragment.show(supportFragmentManager, "tag")
         }
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?)
-//    {
-//        super.onActivityResult(requestCode, resultCode, intent)
-//
-//        // check which request we're responding to
-//        when(requestCode)
-//        {
-//            EDIT_EVENT_REQUEST_CODE ->
-//            {
-//                // make sure the request was successful
-//                if(resultCode == Activity.RESULT_OK)
-//                {
-//                    intent?.let {
-//                        var event: Event = it.getParcelableExtra(EVENT_EXTRA_NAME)
-//                        myEvents.add(event)
-//                        weekView.notifyDataSetChanged()
-//                        Log.d(DebugUtils.TAG, event.toString())
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
     {
@@ -146,7 +110,7 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         val id = item.itemId
         setupDateTimeInterpreter(id)
 
-        when (id)
+        when(id)
         {
             R.id.action_today ->
             {

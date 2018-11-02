@@ -1092,8 +1092,7 @@ class WeekView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     var isSubtitleHeaderEnabled: Boolean
         get() = weekDaySubtitleInterpreter != null
         private set(value)
-        {
-        }
+        {}
 
     private val timeChangedBroadcastReceiver: TimeChangedBroadcastReceiver
     private var today: Calendar = WeekViewUtil.today()

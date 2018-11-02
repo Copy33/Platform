@@ -11,6 +11,13 @@ import kotlinx.android.synthetic.main.autosize_dialog_fragment_parent.view.*
 
 /**
  * Created by Joe Merhej on 10/28/18.
+ *
+ * AutoSizeDialogFragment is a DialogFragment that
+ * will inflate as full screen on mobile (or whenever the boolean device_wide is false), or
+ * will inflate as a dialog on tablet (or whenever the boolean device_wide is true).
+ * It has a layout base defined in autosize_dialog_fragment_parent.xml and will inflate
+ * its child in the view wit the child_layout_container id (Any children have to provide a childLayoutRes).
+ *
  */
 abstract class AutoSizeDialogFragment : DialogFragment()
 {

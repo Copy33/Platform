@@ -9,15 +9,16 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import com.joemerhej.androidweekview.*
-import com.joemerhej.platform.*
+import com.joemerhej.platform.Event
 import com.joemerhej.platform.R
 import com.joemerhej.platform.fragments.EditEventDialogFragment
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
-import com.joemerhej.platform.viewmodels.EditEventViewModel
+import com.joemerhej.platform.utils.DebugUtils
+import com.joemerhej.platform.utils.EventUtils
+import com.joemerhej.platform.viewmodels.EventsViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,12 +31,10 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
 {
     override fun onCertainEvent()
     {
-
     }
 
     private var selectedMenuItemId: Int = 0
-    private var myEvents: MutableList<WeekViewEvent> = mutableListOf()
-    private lateinit var editEventViewModel: EditEventViewModel
+    private lateinit var eventsViewModel: EventsViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -81,13 +80,12 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         // set the week view date and time interpreter to define how to display time and dates
         setupDateTimeInterpreter(selectedMenuItemId)
 
-        // set up the edit event view model
-        editEventViewModel = ViewModelProviders.of(this).get(EditEventViewModel::class.java)
+        // set up the view models
+        eventsViewModel = ViewModelProviders.of(this).get(EventsViewModel::class.java)
 
-        // observe changes to the edit event live data
-        editEventViewModel.event.observe(this, androidx.lifecycle.Observer {
-            Log.d(DebugUtils.TAG, "Event Changed! $it")
-            myEvents.add(it)
+        // observe changes to the events view model
+        eventsViewModel.events.observe(this, androidx.lifecycle.Observer {
+            Log.d(DebugUtils.TAG, "Events Changed! $it")
             weekView.notifyDataSetChanged()
         })
 
@@ -230,11 +228,10 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Delete event?")
                 .setPositiveButton("Delete") { _, _ ->
-                    myEvents.remove(event)
+                    eventsViewModel.removeEvent(event as Event)
                     weekView.notifyDataSetChanged()
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->
-                    myEvents.remove(event)
                     dialog.cancel()
                 }
 
@@ -253,7 +250,9 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
      */
     override fun onMonthChange(newYear: Int, newMonth: Int): MutableList<WeekViewEvent>?
     {
-        return EventUtils.getEventsForMonth(myEvents, newMonth, newYear)
+        eventsViewModel.events.value?.let {
+            return EventUtils.getEventsForMonth(it, newMonth, newYear)
+        } ?: return null
     }
 }
 

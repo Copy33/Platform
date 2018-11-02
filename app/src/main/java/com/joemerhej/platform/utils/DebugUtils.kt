@@ -1,4 +1,4 @@
-package com.joemerhej.platform
+package com.joemerhej.platform.utils
 
 import java.util.*
 

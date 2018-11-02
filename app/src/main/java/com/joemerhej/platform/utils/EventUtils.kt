@@ -1,4 +1,4 @@
-package com.joemerhej.platform
+package com.joemerhej.platform.utils
 
 import com.joemerhej.androidweekview.WeekViewEvent
 import java.util.*
@@ -9,7 +9,14 @@ import java.util.*
 object EventUtils
 {
     // utility function that will get the events only for a specific month
-    fun getEventsForMonth(eventList: MutableList<WeekViewEvent>, month: Int, year: Int): MutableList<WeekViewEvent>
+    /**
+     * Utility function that will return the events only for a specific month, from an events list
+     *
+     * @param eventList list of all events from all months, this is a covariant mutable list so we can pass a list of WeekViewEvent or any child of it
+     * @param month month for which to return events
+     * @param year year of month for which to return events
+     */
+    fun getEventsForMonth(eventList: MutableList<out WeekViewEvent>, month: Int, year: Int): MutableList<WeekViewEvent>
     {
         val startOfMonth = Calendar.getInstance()
         startOfMonth.set(Calendar.YEAR, year)

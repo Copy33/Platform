@@ -1,16 +1,21 @@
 package com.joemerhej.platform.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.joemerhej.androidweekview.WeekViewUtil
-import com.joemerhej.platform.Client
 import com.joemerhej.platform.Event
 import com.joemerhej.platform.R
 import com.joemerhej.platform.viewmodels.EventsViewModel
 import kotlinx.android.synthetic.main.autosize_dialog_fragment_child_edit_event.*
 import java.util.*
+import android.animation.ObjectAnimator
+import android.animation.StateListAnimator
+import androidx.core.widget.NestedScrollView
+import com.joemerhej.platform.utils.DebugUtils
+
 
 /**
  * Created by Joe Merhej on 10/28/18.
@@ -75,6 +80,19 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
         activity?.let {
             eventsViewModel = ViewModelProviders.of(it).get(EventsViewModel::class.java)
         }
+
+        // initialize the listeners
+        scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
+            v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            Log.d(DebugUtils.TAG, "$scrollX, $scrollY, $oldScrollX, $oldScrollY")
+            val stateListAnimator = StateListAnimator()
+            if(scrollY > 0)
+                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(appbarlayout, "elevation", 8f).also { it.duration = 0 })
+            else
+                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(appbarlayout, "elevation", 0f).also { it.duration = 0 })
+            appbarlayout.stateListAnimator = stateListAnimator
+        })
+
 
         // use the view model here
         // TODO: check if an event already exists (ie not adding a new event) then populate the event views to edit

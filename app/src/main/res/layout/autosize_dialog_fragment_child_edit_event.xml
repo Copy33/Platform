@@ -7,10 +7,12 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
         <Toolbar
             android:id="@+id/toolbar"
@@ -52,6 +54,7 @@
                     android:id="@+id/title_edit_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
@@ -63,7 +66,7 @@
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cancel_imageview"
                     app:layout_constraintTop_toBottomOf="@+id/save_button"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </Toolbar>
@@ -99,36 +102,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:contentDescription="@string/owner_icon_description"
                 android:tint="@color/colorTextSecondary"
+                app:layout_constraintBottom_toBottomOf="@+id/owner_textview"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator0"
+                app:layout_constraintTop_toTopOf="@+id/owner_textview"
                 app:srcCompat="@drawable/ic_owner"/>
 
             <TextView
                 android:id="@+id/owner_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:text="@string/text_owner"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/owner_imageview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/owner_imageview"
-                app:layout_constraintTop_toTopOf="@+id/owner_imageview"/>
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <View
                 android:id="@+id/separator1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="16dp"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/owner_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/owner_textview"/>
 
             <ImageView
                 android:id="@+id/time_imageview"
@@ -244,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
+                android:layout_marginTop="@dimen/edit_event_vertical_padding"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -256,95 +261,102 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:contentDescription="@string/repeat_icon_description"
                 android:tint="@color/colorTextSecondary"
+                app:layout_constraintBottom_toBottomOf="@+id/repeat_textview"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator2"
+                app:layout_constraintTop_toTopOf="@+id/repeat_textview"
                 app:srcCompat="@drawable/ic_repeat"/>
 
             <TextView
                 android:id="@+id/repeat_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:text="@string/text_repeat"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="@dimen/edit_text_size"
-                app:layout_constraintBottom_toBottomOf="@+id/repeat_imageview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/repeat_imageview"
-                app:layout_constraintTop_toTopOf="@+id/repeat_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/separator2"/>
 
             <View
                 android:id="@+id/separator3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/repeat_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/repeat_textview"/>
 
             <ImageView
                 android:id="@+id/reminder_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:contentDescription="@string/reminder_icon_description"
                 android:tint="@color/colorTextSecondary"
+                app:layout_constraintBottom_toBottomOf="@+id/reminder_textview"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator3"
+                app:layout_constraintTop_toTopOf="@+id/reminder_textview"
                 app:srcCompat="@drawable/ic_bell_strikethrough"/>
 
             <TextView
                 android:id="@+id/reminder_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:text="@string/text_reminder"
                 android:textSize="@dimen/edit_text_size"
-                app:layout_constraintBottom_toBottomOf="@+id/reminder_imageview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/reminder_imageview"
-                app:layout_constraintTop_toTopOf="@+id/reminder_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/separator3"/>
 
             <View
                 android:id="@+id/separator5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/reminder_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/reminder_textview"/>
 
             <ImageView
                 android:id="@+id/client_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:contentDescription="@string/client_icon_description"
                 android:tint="@color/colorTextSecondary"
+                app:layout_constraintBottom_toBottomOf="@+id/client_textview"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator5"
+                app:layout_constraintTop_toTopOf="@+id/client_textview"
                 app:srcCompat="@drawable/ic_client"/>
 
             <TextView
                 android:id="@+id/client_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:text="@string/text_client"
                 android:textSize="@dimen/edit_text_size"
-                app:layout_constraintBottom_toBottomOf="@+id/client_imageview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/client_imageview"
-                app:layout_constraintTop_toTopOf="@+id/client_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/reminder_textview"/>
 
             <View
                 android:id="@+id/separator6"
@@ -364,8 +376,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:contentDescription="@string/location_icon_description"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
                 android:tint="@color/colorTextSecondary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separator6"
@@ -382,6 +394,8 @@
                 android:ems="10"
                 android:hint="@string/text_location_hint"
                 android:inputType="textMultiLine|textNoSuggestions"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:textColorHint="@color/colorTextSecondary"
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -393,7 +407,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -406,80 +419,84 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:contentDescription="@string/status_icon_description"
                 android:tint="@color/colorTextSecondary"
+                app:layout_constraintBottom_toBottomOf="@+id/status_textview"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator7"
+                app:layout_constraintTop_toTopOf="@+id/status_textview"
                 app:srcCompat="@drawable/ic_status_none"/>
 
             <TextView
                 android:id="@+id/status_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:text="@string/text_status"
                 android:textSize="@dimen/edit_text_size"
-                app:layout_constraintBottom_toBottomOf="@+id/status_imageview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/status_imageview"
-                app:layout_constraintTop_toTopOf="@+id/status_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/location_edittext"/>
 
             <View
                 android:id="@+id/separator8"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/status_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/status_textview"/>
 
             <ImageView
                 android:id="@+id/amount_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:contentDescription="@string/amount_icon_description"
                 android:tint="@color/colorTextSecondary"
+                app:layout_constraintBottom_toBottomOf="@+id/amount_textview"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator8"
+                app:layout_constraintTop_toTopOf="@+id/amount_textview"
                 app:srcCompat="@drawable/ic_money"/>
 
             <TextView
                 android:id="@+id/amount_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
+                android:layout_marginEnd="16dp"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:text="@string/text_amount"
                 android:textSize="@dimen/edit_text_size"
-                app:layout_constraintBottom_toBottomOf="@+id/amount_imageview"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/amount_imageview"
-                app:layout_constraintTop_toTopOf="@+id/amount_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/status_textview"/>
 
             <View
                 android:id="@+id/separator9"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/amount_imageview"/>
+                app:layout_constraintTop_toBottomOf="@+id/amount_textview"/>
 
             <ImageView
                 android:id="@+id/note_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:contentDescription="@string/note_icon_description"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
                 android:tint="@color/colorTextSecondary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separator9"
@@ -496,6 +513,8 @@
                 android:ems="10"
                 android:hint="@string/text_note"
                 android:inputType="textMultiLine"
+                android:paddingTop="@dimen/edit_event_vertical_padding"
+                android:paddingBottom="@dimen/edit_event_vertical_padding"
                 android:textColorHint="@color/colorTextSecondary"
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -507,7 +526,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
-                android:layout_marginTop="@dimen/icon_vertical_margin"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDivider"
                 app:layout_constraintEnd_toEndOf="parent"

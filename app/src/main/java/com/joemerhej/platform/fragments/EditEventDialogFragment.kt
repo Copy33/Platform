@@ -83,7 +83,7 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
 
         // initialize the listeners
         scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
-            v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            _, scrollX, scrollY, oldScrollX, oldScrollY ->
             Log.d(DebugUtils.TAG, "$scrollX, $scrollY, $oldScrollX, $oldScrollY")
             val stateListAnimator = StateListAnimator()
             if(scrollY > 0)
@@ -104,11 +104,6 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
 
         val endTime = startTime.clone() as Calendar
         endTime.add(Calendar.HOUR, 1)
-
-        if(endTime == null)
-        {
-            var joe = null
-        }
 
 //        eventsViewModel.events.value?.add(Event("1", "title", "subtitle", startTime, endTime, 0,
 //                false, "owner", "location", null, Client("clientFirst", "clientLast"), Event.EventStatus.PAID,

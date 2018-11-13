@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
-        android:theme="@style/AppTheme.AppBarOverlay"
+        android:theme="@style/AppTheme.DialogBarOverlay"
         app:elevation="0dp">
 
         <Toolbar

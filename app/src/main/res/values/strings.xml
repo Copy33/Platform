@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Platform</string>
 
+    <!--Options item menu-->
     <string name="action_today">Today</string>
     <string name="action_day_view">Day view</string>
     <string name="action_three_day_view">3 day view</string>
     <string name="action_week_view">Week view</string>
 
+    <!--Edit event dialog fragment-->
     <string name="button_cancel">Cancel</string>
     <string name="button_save">Save</string>
     <string name="text_title_hint">Title</string>
@@ -33,4 +35,11 @@
     <string name="note_icon_description">Notes</string>
     <string name="text_note">Add Note</string>
     <string name="button_delete">Delete Event</string>
+
+    <!--Navigation Drawer-->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Metropolitan Maids</string>
+    <string name="nav_header_subtitle">www.dubaimetromaids.com</string>
+    <string name="nav_header_desc">Navigation header</string>
 </resources>

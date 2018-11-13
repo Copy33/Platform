@@ -8,7 +8,6 @@ import java.util.*
  */
 object EventUtils
 {
-    // utility function that will get the events only for a specific month
     /**
      * Utility function that will return the events only for a specific month, from an events list
      *

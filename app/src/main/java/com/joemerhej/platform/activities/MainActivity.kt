@@ -7,9 +7,12 @@ import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.navigation.NavigationView
 import com.joemerhej.androidweekview.*
 import com.joemerhej.platform.Event
 import com.joemerhej.platform.R
@@ -27,8 +30,9 @@ import java.util.*
 /**
  * Created by Joe Merhej on 10/15/18.
  */
-class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, EditEventDialogFragment.EventListener
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, EditEventDialogFragment.EventListener
 {
+    // TODO: This is not needed for now
     override fun onCertainEvent()
     {
     }
@@ -42,8 +46,17 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // initialize the toolbar
+        setSupportActionBar(toolbar)
+
         // initialize shared preferences
         SharedPreferencesManager.initialize(this)
+
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        navigation_drawer.setNavigationItemSelectedListener(this)
 
         // set the weekview listeners
         weekView.let {
@@ -89,11 +102,20 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
             weekView.notifyDataSetChanged()
         })
 
-        // set the add event fab click listener TODO: this creates a new event now and passes it, should pass null and dialog will take care of populating event in view controller
+        // set the add event fab click listener
         addEventFab.setOnClickListener()
         {
             EditEventDialogFragment.show(supportFragmentManager, "tag")
         }
+    }
+
+    override fun onBackPressed()
+    {
+        // handle navigation view closing on back
+        if(drawer_layout.isDrawerOpen(GravityCompat.START))
+            drawer_layout.closeDrawer(GravityCompat.START)
+        else
+            super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean
@@ -168,6 +190,41 @@ class MainActivity : AppCompatActivity(), WeekView.EventClickListener, MonthLoad
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * Navigation drawer item selected listener to handle the menu items clicks.
+     *
+     * @param item menu item clicked.
+     */
+    override fun onNavigationItemSelected(item: MenuItem): Boolean
+    {
+        when(item.itemId)
+        {
+            R.id.nav_item_schedule ->
+            {
+                // Handle the schedule action
+            }
+            R.id.nav_item_clients ->
+            {
+
+            }
+            R.id.nav_item_owners ->
+            {
+
+            }
+            R.id.nav_item_share ->
+            {
+
+            }
+            R.id.nav_item_settings ->
+            {
+
+            }
+        }
+
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
     }
 
     /**

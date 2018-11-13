@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Edit event dialog fragment-->
+    <item name="match_parent" type="dimen">-1</item>
+    <item name="wrap_content" type="dimen">-2</item>
     <dimen name="separator_margin">0dp</dimen>
     <dimen name="icon_horizontal_margin_left">16dp</dimen>
     <dimen name="icon_horizontal_margin_right">18dp</dimen>
     <dimen name="edit_event_vertical_padding">20dp</dimen>
     <dimen name="edit_text_size">16sp</dimen>
-
-    <item name="match_parent" type="dimen">-1</item>
-    <item name="wrap_content" type="dimen">-2</item>
     <dimen name="auto_size_dialog_width">@dimen/match_parent</dimen>
     <dimen name="auto_size_dialog_height">@dimen/match_parent</dimen>
     <dimen name="auto_size_dialog_min_width">0dp</dimen>
     <dimen name="auto_size_dialog_min_height">0dp</dimen>
+
+    <!--Navigation Drawer-->
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 </resources>

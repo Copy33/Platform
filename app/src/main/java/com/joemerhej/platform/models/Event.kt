@@ -1,9 +1,8 @@
-package com.joemerhej.platform
+package com.joemerhej.platform.models
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.joemerhej.androidweekview.WeekViewEvent
-import com.joemerhej.androidweekview.WeekViewUtil
 import com.joemerhej.platform.utils.DebugUtils
 import java.util.*
 
@@ -22,7 +21,7 @@ class Event(
         var location: String? = null,
         var reminder: Calendar? = null,
         var client: Client? = null,
-        var eventStatus: Event.EventStatus = EventStatus.NONE,
+        var eventStatus: EventStatus = EventStatus.NONE,
         var amountPaid: Double = 0.0,
         var isRecurrent: Boolean = false,
         var notes: String? = null)

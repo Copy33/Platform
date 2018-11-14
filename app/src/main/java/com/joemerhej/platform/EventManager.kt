@@ -1,5 +1,7 @@
 package com.joemerhej.platform
 
+import com.joemerhej.platform.models.Event
+
 /**
  * Event manager class will take care of all event storage and actions (serving, fetching...etc)
  * This class will keep track of active month events in addition to the previous and next month events.

@@ -1,4 +1,4 @@
-package com.joemerhej.platform
+package com.joemerhej.platform.models
 
 import android.os.Parcel
 import android.os.Parcelable

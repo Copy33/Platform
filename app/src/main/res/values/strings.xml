@@ -41,5 +41,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Metropolitan Maids</string>
     <string name="nav_header_subtitle">www.dubaimetromaids.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_header_description">Navigation header</string>
+    <string name="nav_item_schedule">Schedule</string>
+    <string name="nav_item_clients">Clients</string>
+    <string name="nav_item_owners">Owners</string>
+    <string name="nav_item_other">Other</string>
+    <string name="nav_item_share">Share</string>
+    <string name="nav_item_settings">Settings</string>
 </resources>

@@ -7,27 +7,28 @@
         <item
             android:id="@+id/nav_item_schedule"
             android:icon="@drawable/ic_schedule"
-            android:title="Schedule"/>
+            android:title="@string/nav_item_schedule"
+            android:checked="true"/>
         <item
             android:id="@+id/nav_item_clients"
             android:icon="@drawable/ic_clients"
-            android:title="Clients"/>
+            android:title="@string/nav_item_clients"/>
         <item
             android:id="@+id/nav_item_owners"
             android:icon="@drawable/ic_owners"
-            android:title="Owners"/>
+            android:title="@string/nav_item_owners"/>
     </group>
 
-    <item android:title="Other">
+    <item android:title="@string/nav_item_other">
         <menu>
             <item
                 android:id="@+id/nav_item_share"
                 android:icon="@drawable/ic_share"
-                android:title="Share"/>
+                android:title="@string/nav_item_share"/>
             <item
                 android:id="@+id/nav_item_settings"
                 android:icon="@drawable/ic_settings"
-                android:title="Settings"/>
+                android:title="@string/nav_item_settings"/>
         </menu>
     </item>
 

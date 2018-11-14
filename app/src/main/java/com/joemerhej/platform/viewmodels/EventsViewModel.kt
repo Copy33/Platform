@@ -2,7 +2,7 @@ package com.joemerhej.platform.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.joemerhej.platform.Event
+import com.joemerhej.platform.models.Event
 
 /**
  * Created by Joe Merhej on 10/29/18.
@@ -11,6 +11,7 @@ class EventsViewModel : ViewModel()
 {
     var events = MutableLiveData<MutableList<Event>>().apply { value = mutableListOf() }
         private set
+
 
     fun addEvent(event: Event)
     {

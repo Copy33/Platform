@@ -1,4 +1,4 @@
-package com.joemerhej.platform.fragments
+package com.joemerhej.platform.dialogfragments
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.joemerhej.androidweekview.WeekViewUtil
-import com.joemerhej.platform.Event
+import com.joemerhej.platform.models.Event
 import com.joemerhej.platform.R
 import com.joemerhej.platform.viewmodels.EventsViewModel
 import kotlinx.android.synthetic.main.autosize_dialog_fragment_child_edit_event.*
@@ -15,6 +15,7 @@ import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
 import androidx.core.widget.NestedScrollView
 import com.joemerhej.platform.utils.DebugUtils
+import java.lang.Exception
 
 
 /**
@@ -51,10 +52,12 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
             return dialogFragment
         }
 
-        fun show(fragmentManager: FragmentManager, tag: String)
+        fun show(fragmentManager: FragmentManager?, tag: String)
         {
             val dialogFragment = newInstance()
-            dialogFragment.show(fragmentManager, tag)
+            fragmentManager?.let {
+                dialogFragment.show(it, tag)
+            } ?: throw Exception("Null Fragment Manager while showing Edit Event Dialog")
         }
     }
 
@@ -77,9 +80,9 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
         super.onViewCreated(view, savedInstanceState)
 
         // initialize the view model in the activity scope to make sure it's same model shared with activity
-        activity?.let {
-            eventsViewModel = ViewModelProviders.of(it).get(EventsViewModel::class.java)
-        }
+        activity?.run {
+            eventsViewModel = ViewModelProviders.of(this).get(EventsViewModel::class.java)
+        } ?: throw Exception("Invalid Activity for EditEventDialog")
 
         // initialize the listeners
         scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{

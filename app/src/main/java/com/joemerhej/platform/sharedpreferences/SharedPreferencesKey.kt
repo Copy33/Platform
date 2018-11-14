@@ -5,5 +5,6 @@ package com.joemerhej.platform.sharedpreferences
  */
 enum class SharedPreferencesKey(val value: String)
 {
-    VISIBLE_DAYS_NUMBER("vdn")
+    VISIBLE_DAYS_NUMBER("vdn"),
+    SELECTED_NAVIGATION_DRAWER_ITEM_ID("sndi")
 }

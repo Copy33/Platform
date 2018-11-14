@@ -1,4 +1,4 @@
-package com.joemerhej.platform.fragments
+package com.joemerhej.platform.dialogfragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.autosize_dialog_fragment_parent.view.*
  */
 abstract class AutoSizeDialogFragment : DialogFragment()
 {
-
+    // layout id of child
     protected abstract val childLayoutResId: Int
 
     private val isLargeScreen

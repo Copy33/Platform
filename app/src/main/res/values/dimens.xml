@@ -16,4 +16,7 @@
     <!--Navigation Drawer-->
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
+
+    <!--Owners recyclerview grid column width-->
+    <dimen name="owner_grid_col_width">130dp</dimen>
 </resources>

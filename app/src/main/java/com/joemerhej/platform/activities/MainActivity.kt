@@ -1,5 +1,8 @@
 package com.joemerhej.platform.activities
 
+/**
+ * Created by Joe Merhej on 10/15/18.
+ */
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -16,16 +19,16 @@ import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
 import kotlinx.android.synthetic.main.activity_main.*
 
+private const val SAVE_INSTANCE_FRAGMENT_KEY = "activeFragment"
 
-/**
- * Created by Joe Merhej on 10/15/18.
- */
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, EditEventDialogFragment.EventListener
 {
     //TODO: This is not needed for now
     override fun onCertainEvent()
     {
     }
+
+    private var fragmentId = 0
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -42,11 +45,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navigation_drawer.setNavigationItemSelectedListener(this)
 
-        // App always opens on schedule fragment
-        supportFragmentManager.beginTransaction().replace(R.id.frameLayoutContent, ScheduleFragment.newInstance()).commit()
+        // if saved instance contains a fragment id (screen rotation) then load it
+        //  else load the default (schedule) fragment
+        savedInstanceState?.let {
+            val fragmentIdInstance = savedInstanceState.getInt(SAVE_INSTANCE_FRAGMENT_KEY)
+            navigation_drawer.menu.findItem(fragmentIdInstance).isChecked = true
+            fragmentId = fragmentIdInstance
+        } ?: run {
+            supportFragmentManager.beginTransaction().replace(R.id.frameLayoutContent, ScheduleFragment.newInstance()).commit()
+            fragmentId = R.id.nav_item_schedule
+        }
 
         // change the toolbar title
         supportActionBar?.title = resources.getString(R.string.nav_item_schedule)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?)
+    {
+        super.onSaveInstanceState(outState)
+        outState?.let {
+            it.putInt(SAVE_INSTANCE_FRAGMENT_KEY, fragmentId)
+        }
     }
 
     override fun onBackPressed()
@@ -68,9 +87,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         lateinit var fragment: Fragment
         lateinit var fragmentClass: Class<*>
 
-        item.isChecked = true
+        fragmentId = item.itemId
 
-        when(item.itemId)
+        when(fragmentId)
         {
             R.id.nav_item_schedule ->
             {
@@ -94,7 +113,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             else ->
                 fragmentClass = ScheduleFragment::class.java
-
         }
 
         try
@@ -111,6 +129,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // change the toolbar title
         supportActionBar?.title = item.title
+
+        // mark nav item checked
+        item.isChecked = true
 
         // close the navigation drawer
         drawer_layout.closeDrawer(GravityCompat.START)

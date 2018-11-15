@@ -6,7 +6,7 @@ import android.os.Parcelable
 /**
  * Created by Joe Merhej on 10/24/18.
  */
-class Owner(var firstName: String?, var lastName: String?) : Parcelable
+class Owner(var name: String?, var imageUri: String?) : Parcelable
 {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -14,8 +14,8 @@ class Owner(var firstName: String?, var lastName: String?) : Parcelable
 
     override fun writeToParcel(parcel: Parcel, flags: Int)
     {
-        parcel.writeString(firstName)
-        parcel.writeString(lastName)
+        parcel.writeString(name)
+        parcel.writeString(imageUri)
     }
 
     override fun describeContents(): Int
@@ -25,7 +25,7 @@ class Owner(var firstName: String?, var lastName: String?) : Parcelable
 
     override fun toString(): String
     {
-        return "Client(firstName=$firstName, lastName=$lastName)"
+        return "Owner(name=$name, imageUri=$imageUri)"
     }
 
     companion object CREATOR : Parcelable.Creator<Owner>

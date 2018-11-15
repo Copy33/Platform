@@ -13,6 +13,12 @@ class OwnersViewModel : ViewModel()
         private set
 
 
+    // this extension function is necessary since observer won't trigger unless whole list is replaced
+    private fun <T> MutableLiveData<T>.notifyObserver()
+    {
+        this.value = this.value
+    }
+
     fun addOwner(owner: Owner)
     {
         owners.value?.add(owner)
@@ -25,9 +31,16 @@ class OwnersViewModel : ViewModel()
         owners.notifyObserver()
     }
 
-    // this extension function is necessary since observer won't trigger unless whole list is replaced
-    private fun <T> MutableLiveData<T>.notifyObserver()
+    fun getOwnersList(): MutableList<Owner>
     {
-        this.value = this.value
+        return owners.value ?: mutableListOf()
+    }
+
+    fun mockOwnersList(size: Int)
+    {
+        if(size<=0) return
+
+        for(i in 1..size)
+            owners.value?.add(Owner("owner #$i", null))
     }
 }

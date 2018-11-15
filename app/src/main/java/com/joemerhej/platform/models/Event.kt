@@ -56,7 +56,7 @@ class Event(
     }
 
     // empty constructor provides an empty event with now as start time and 1 hour duration
-    constructor() : this("", "", null, Calendar.getInstance(), Calendar.getInstance().also{it.add(Calendar.HOUR_OF_DAY, 1)}, 0)
+    constructor() : this("", "", null, Calendar.getInstance(), Calendar.getInstance().also { it.add(Calendar.HOUR_OF_DAY, 1) }, 0)
 
     override fun writeToParcel(parcel: Parcel, flags: Int)
     {
@@ -104,7 +104,6 @@ class Event(
             return arrayOfNulls(size)
         }
     }
-
 
 
 }

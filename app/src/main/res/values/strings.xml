@@ -48,4 +48,8 @@
     <string name="nav_item_other">Other</string>
     <string name="nav_item_share">Share</string>
     <string name="nav_item_settings">Settings</string>
+
+    <!--Owner recyclerview item-->
+    <string name="owner_image">Owner Image</string>
+    <string name="owner_name">Owner Name</string>
 </resources>

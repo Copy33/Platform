@@ -6,10 +6,9 @@ import android.os.Parcelable
 /**
  * Created by Joe Merhej on 10/24/18.
  */
-class Client(var firstName: String?, var lastName: String?, var locations: MutableList<String>? = null, var defaultLocationIndex: Int = -1) : Parcelable
+class Client(var name: String?, var locations: MutableList<String>? = null, var defaultLocationIndex: Int = -1) : Parcelable
 {
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
             parcel.readString())
     {
         val locationSize = parcel.readInt()
@@ -26,8 +25,7 @@ class Client(var firstName: String?, var lastName: String?, var locations: Mutab
 
     override fun writeToParcel(parcel: Parcel, flags: Int)
     {
-        parcel.writeString(firstName)
-        parcel.writeString(lastName)
+        parcel.writeString(name)
         locations?.let {
             parcel.writeInt(it.size)
             for(location in it)
@@ -43,7 +41,7 @@ class Client(var firstName: String?, var lastName: String?, var locations: Mutab
 
     override fun toString(): String
     {
-        return "Client(firstName=$firstName, lastName=$lastName, locations=$locations, defaultLocationIndex=$defaultLocationIndex)"
+        return "Client(firstName=$name, locations=$locations, defaultLocationIndex=$defaultLocationIndex)"
     }
 
     companion object CREATOR : Parcelable.Creator<Client>

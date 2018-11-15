@@ -153,13 +153,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/icon_horizontal_margin_left"
                 android:checked="false"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintBottom_toBottomOf="@+id/allday_textview"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/allday_textview"
                 app:layout_constraintVertical_bias="0.0"/>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/allday_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
@@ -178,8 +178,8 @@
                 android:text="@string/text_start"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="@dimen/edit_text_size"
-                app:layout_constraintStart_toStartOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/textView"/>
+                app:layout_constraintStart_toStartOf="@+id/allday_textview"
+                app:layout_constraintTop_toBottomOf="@+id/allday_textview"/>
 
             <TextView
                 android:id="@+id/start_date_textview"

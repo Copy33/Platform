@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ScheduleFragment">
+    tools:context=".mainfragments.ScheduleFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <com.joemerhej.androidweekview.WeekView
-            android:id="@+id/weekView"
+            android:id="@+id/main_week_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:columnGap="2dp"
@@ -30,7 +30,7 @@
             app:todayColumnBackgroundColor="#1848adff"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addEventFab"
+            android:id="@+id/add_event_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -43,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:pressedTranslationZ="12dp"
-            app:rippleColor="@color/colorDivider"/>
+            app:rippleColor="@color/colorDividerUi"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

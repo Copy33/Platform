@@ -14,9 +14,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import com.joemerhej.platform.R
 import com.joemerhej.platform.dialogfragments.EditEventDialogFragment
-import com.joemerhej.platform.fragments.ClientsFragment
-import com.joemerhej.platform.fragments.OwnersFragment
-import com.joemerhej.platform.fragments.ScheduleFragment
+import com.joemerhej.platform.mainfragments.ClientsFragment
+import com.joemerhej.platform.mainfragments.OwnersFragment
+import com.joemerhej.platform.mainfragments.ScheduleFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.navigation_drawer_header_main.view.*
 

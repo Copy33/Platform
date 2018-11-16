@@ -1,4 +1,4 @@
-package com.joemerhej.platform.fragments
+package com.joemerhej.platform.mainfragments
 
 import android.graphics.RectF
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.ViewModelProviders
 import com.joemerhej.androidweekview.MonthLoader
 import com.joemerhej.androidweekview.WeekView
@@ -54,7 +55,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
         super.onActivityCreated(savedInstanceState)
 
         // set the weekview listeners
-        weekView.let {
+        main_week_view.let {
             it.eventClickListener = this
             it.monthChangeListener = this
             it.eventLongPressListener = this
@@ -66,7 +67,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
         } ?: throw Exception("Invalid Activity for ScheduleFragment  - Initializing Shared Preferences")
 
         // set the week view starting hour TODO: should be user preference
-        weekView.goToHour(8.0)
+        main_week_view.goToHour(8.0)
 
         // set up the view models
         eventsViewModel = activity?.run {
@@ -76,11 +77,12 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
         // observe changes to the events view model
         eventsViewModel.events.observe(this, Observer {
             Log.d(DebugUtils.TAG, "Events Changed! $it")
-            weekView.notifyDataSetChanged()
+            main_week_view.notifyDataSetChanged()
         })
 
-        // set the add event fab click listener
-        addEventFab.setOnClickListener()
+        // setup the add event fab
+        add_event_fab.animate().setDuration(200).scaleX(1.0f).scaleY(1.0f).interpolator = LinearOutSlowInInterpolator()
+        add_event_fab.setOnClickListener()
         {
             EditEventDialogFragment.show(fragmentManager, "tag")
         }
@@ -101,19 +103,19 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
             1 ->
             {
                 selectedMenuItemId = R.id.action_day_view
-                weekView.numberOfVisibleDays = 1
+                main_week_view.numberOfVisibleDays = 1
             }
             3 ->
             {
                 selectedMenuItemId = R.id.action_three_day_view
-                weekView.numberOfVisibleDays = 3
+                main_week_view.numberOfVisibleDays = 3
             }
             7 ->
             {
                 selectedMenuItemId = R.id.action_week_view
-                weekView.numberOfVisibleDays = 7
+                main_week_view.numberOfVisibleDays = 7
             }
-            else -> weekView.numberOfVisibleDays = visibleDaysSaved
+            else -> main_week_view.numberOfVisibleDays = visibleDaysSaved
         }
 
         menu?.let {
@@ -134,7 +136,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
         {
             R.id.action_today ->
             {
-                weekView.goToToday()
+                main_week_view.goToToday()
             }
             R.id.action_day_view ->
             {
@@ -145,7 +147,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
                     SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 1)
 
                     // Lets change some dimensions to best fit the view.
-                    weekView.apply {
+                    main_week_view.apply {
                         numberOfVisibleDays = 1
                         columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
                         textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
@@ -162,7 +164,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
                     SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 3)
 
                     // Lets change some dimensions to best fit the view.
-                    weekView.apply {
+                    main_week_view.apply {
                         numberOfVisibleDays = 3
                         columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
                         textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, resources.displayMetrics)
@@ -179,7 +181,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
                     SharedPreferencesManager.writeInt(SharedPreferencesKey.VISIBLE_DAYS_NUMBER, 7)
 
                     // Lets change some dimensions to best fit the view.
-                    weekView.apply {
+                    main_week_view.apply {
                         numberOfVisibleDays = 7
                         columnGap = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, resources.displayMetrics).toInt()
                         textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10f, resources.displayMetrics)
@@ -215,7 +217,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
         builder.setTitle("Delete event?")
                 .setPositiveButton("Delete") { _, _ ->
                     eventsViewModel.removeEvent(event as Event)
-                    weekView.notifyDataSetChanged()
+                    main_week_view.notifyDataSetChanged()
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->
                     dialog.cancel()
@@ -223,7 +225,6 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
 
         val alertDialog = builder.create()
         alertDialog.show()
-        Toast.makeText(activity, "Long pressed event: " + event.title!!, Toast.LENGTH_SHORT).show()
     }
 
     /**

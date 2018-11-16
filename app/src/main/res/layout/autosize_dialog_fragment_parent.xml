@@ -4,7 +4,5 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/child_layout_container"
     android:layout_width="@dimen/auto_size_dialog_width"
-    android:layout_height="@dimen/auto_size_dialog_height"
-    android:minWidth="@dimen/auto_size_dialog_min_width"
-    android:minHeight="@dimen/auto_size_dialog_min_height">
+    android:layout_height="wrap_content">
 </FrameLayout>

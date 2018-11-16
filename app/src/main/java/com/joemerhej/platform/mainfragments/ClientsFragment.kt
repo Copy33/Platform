@@ -1,4 +1,4 @@
-package com.joemerhej.platform.fragments
+package com.joemerhej.platform.mainfragments
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle

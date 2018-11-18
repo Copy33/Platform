@@ -29,7 +29,10 @@
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/owner_name"
         android:fontFamily="@font/sfpro"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:text="@string/owner_name"
+        android:textAlignment="center"
         android:textColor="@color/colorTextPrimary"
         android:textSize="16sp"/>
 </LinearLayout>

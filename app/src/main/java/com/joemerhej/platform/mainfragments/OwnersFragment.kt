@@ -18,6 +18,7 @@ import com.joemerhej.platform.models.Owner
 import com.joemerhej.platform.utils.DebugUtils
 import com.joemerhej.platform.viewmodels.OwnersViewModel
 import kotlinx.android.synthetic.main.fragment_owners.*
+import kotlin.math.max
 
 
 /**
@@ -36,6 +37,9 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
     // recyclerview adapter
     private lateinit var ownersListAdapter: OwnersListAdapter
 
+    // number of columns in recycler view
+    private var ownersListColumnsNumber: Int = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -48,7 +52,7 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
 
         // mock the view model
         if(savedInstanceState == null)
-            ownersViewModel.mockOwnersList(14)
+            ownersViewModel.mockOwnersList(34)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -67,14 +71,15 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         })
 
         // set up recycler view
-        owners_recyclerview.layoutManager = GridLayoutManager(activity, calculateNoOfColumns())
+        ownersListColumnsNumber = calculateNoOfColumns()
+        owners_recyclerview.layoutManager = GridLayoutManager(activity, ownersListColumnsNumber)
         ownersListAdapter = OwnersListAdapter(ownersViewModel.getOwnersList(), this)
         ownersListAdapter.onOwnerClickListener = this
         owners_recyclerview.adapter = ownersListAdapter
 
         // set up the add owner fab
         add_owner_fab.animate().setDuration(200).scaleX(1.0f).scaleY(1.0f).interpolator = LinearOutSlowInInterpolator()
-        add_owner_fab.setOnClickListener{
+        add_owner_fab.setOnClickListener {
             EditOwnerDialogFragment.show(this, null, -1, fragmentManager, "tag")
         }
     }
@@ -84,15 +89,12 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         val dpWidth = resources.displayMetrics.widthPixels / resources.displayMetrics.density
         val dpColumnWidth = resources.getDimension(R.dimen.owner_grid_col_width) / resources.displayMetrics.density
         val columns = (dpWidth / dpColumnWidth).toInt()
-        return if(columns > 0)
-            columns
-        else
-            1
+        return max(1, columns)
     }
 
     override fun onOwnerClick(view: View?, position: Int)
     {
-        Log.d(DebugUtils.TAG, "Click! Position = $position, Owner = ${ownersViewModel.getOwnersList()[position]}" )
+        Log.d(DebugUtils.TAG, "Click! Position = $position, Owner = ${ownersViewModel.getOwnersList()[position]}")
 
         val owner: Owner? = ownersViewModel.getOwner(position)
 
@@ -105,13 +107,14 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
     {
         val owner: Owner? = ownersViewModel.getOwner(position)
 
+        // create a delete owner dialog
         owner?.let {
             val builder = AlertDialog.Builder(activity!!)
             builder.setTitle("Delete Owner?")
                     .setMessage("Deleting ${it.name} from your owners list will remove all their past events from the schedule.")
                     .setPositiveButton("Delete") { _, _ ->
-                        ownersViewModel.removeOwner(position)
-                        ownersListAdapter.notifyItemRemoved(position)
+                        // if delete is pressed, remove the owner
+                        deleteOwner(position)
                     }
                     .setNegativeButton("Cancel") { dialog, _ ->
                         dialog.cancel()
@@ -122,9 +125,26 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         }
     }
 
-    override fun onSaveClick(newOwner:Boolean, owner: Owner, position: Int)
+    /**
+     * Deletes owner while clearing the grid layout of the owners' recycler view to adjust height accordingly.
+     *
+     * @param position owner position to delete
+     */
+    private fun deleteOwner(position: Int)
     {
-        // modify view model accordingly
+        ownersViewModel.removeOwner(position)
+        ownersListAdapter.notifyItemRemoved(position)
+
+        // refresh the entire row to adjust grid height in the case where owner item height was longer than standard
+        val rowIndex: Int = position / ownersListColumnsNumber
+        val positionFirstItemRow: Int = rowIndex * ownersListColumnsNumber
+        val positionLastItemRow: Int = positionFirstItemRow + ownersListColumnsNumber - 1
+        ownersListAdapter.notifyItemRangeChanged(positionFirstItemRow, positionLastItemRow)
+    }
+
+    override fun onSaveClick(newOwner: Boolean, owner: Owner, position: Int)
+    {
+        // modify view model accordingly (add new item or edit existing)
         if(newOwner)
         {
             ownersViewModel.addOwner(owner)

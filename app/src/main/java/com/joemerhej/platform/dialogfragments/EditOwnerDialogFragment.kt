@@ -18,7 +18,7 @@ import java.lang.Exception
  * EditEventDialogFragment is a child of AutoSizeDialogFragment and will handle the edit event/create new event dialog
  */
 
-// parcelable key for owner in case dialog is opened with one
+// parcelable key for owner in case dialog is opened with one (edit)
 private const val OWNER_KEY = "owner"
 
 class EditOwnerDialogFragment : AutoSizeDialogFragment()
@@ -77,6 +77,7 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
     {
         super.onCreate(savedInstanceState)
 
+        // make sure parent implemented the listener interface
         val targetFragment = this.targetFragment
         val activity = this.activity
         saveButtonListener = when
@@ -96,8 +97,6 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
             ownersViewModel = ViewModelProviders.of(activity!!).get(OwnersViewModel::class.java)
         } ?: throw Exception("Invalid Activity for EditEventDialog")
 
-        // set up listeners
-
         // check if owner exists in arguments (in case of edit) and fill in the owner properties in the dialog
         val ownerToEdit: Owner? = arguments?.getParcelable(OWNER_KEY)
         ownerToEdit?.let {
@@ -105,6 +104,11 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
             owner_dialog_name.setText(ownerToEdit.name)
             owner_dialog_name.setSelection(owner_dialog_name.text.length)
             // TODO: fill in the image here
+        }
+
+        // set up cancel button click listener
+        owner_dialog_cancel_button.setOnClickListener {
+            dismiss()
         }
 
         // set up save button click listener

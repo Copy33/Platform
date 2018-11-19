@@ -7,10 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".mainfragments.ClientsFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/clients_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_client_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Placeholder Clients Fragment"/>
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_plus"
+        app:rippleColor="@color/colorDividerUi"
+        android:scaleX="0"
+        android:scaleY="0"/>
 
 </FrameLayout>

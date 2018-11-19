@@ -13,7 +13,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/owner_imageview"
+        android:id="@+id/edit_event_owner_imageview"
         android:layout_width="@dimen/owner_grid_image_size"
         android:layout_height="@dimen/owner_grid_image_size"
         android:contentDescription="@string/owner_image"

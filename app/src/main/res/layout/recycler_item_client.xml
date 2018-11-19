@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/client_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+
+    <TextView
+        android:id="@+id/client_name_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/client_name"
+        android:fontFamily="@font/sfpro"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/client_name"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/client_number_textview"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/client_number_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/client_number"
+        android:fontFamily="@font/sfpro"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/client_number_mock"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/client_name_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/client_name_textview"
+        app:layout_constraintTop_toTopOf="@+id/client_name_textview"/>
+
+    <TextView
+        android:id="@+id/client_location_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/client_location"
+        android:fontFamily="@font/sfpro"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/client_location_mock"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorTextSecondary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/client_balance_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/client_name_textview"/>
+
+    <TextView
+        android:id="@+id/client_balance_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/client_balance"
+        android:fontFamily="@font/sfpro"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="@string/client_balance_mock"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorTextPositiveBalance"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/client_location_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/client_location_textview"
+        app:layout_constraintTop_toTopOf="@+id/client_location_textview"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

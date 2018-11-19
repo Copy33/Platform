@@ -52,4 +52,20 @@
     <!--Owner recyclerview item-->
     <string name="owner_image">Owner Image</string>
     <string name="owner_name">Owner Name</string>
+
+    <!--Client recyclerview item-->
+    <string name="client_name">Client Name</string>
+    <string name="client_number">Client Number</string>
+    <string name="client_number_mock">+971552928421</string>
+    <string name="client_location">Client Location</string>
+    <string name="client_location_mock">Avenue Residence 3, Apt. 105, Al Furjan, Dubai</string>
+    <string name="client_balance">Client Balance</string>
+    <string name="client_balance_mock">150.0</string>
+
+    <!--Edit client dialog fragment-->
+    <string name="edit_client_name_hint">Name</string>
+    <string name="edit_client_phone_title">Phone Number</string>
+    <string name="edit_client_balance_hint">Balance</string>
+    <string name="edit_client_note_hint">Add Note</string>
+    <string name="edit_client_delete_button">Delete Client</string>
 </resources>

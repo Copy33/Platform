@@ -66,10 +66,12 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
         fun show(targetFragment: Fragment, owner: Owner?, position: Int, fragmentManager: FragmentManager?, tag: String)
         {
             val dialogFragment = newInstance(owner, position)
+
+            // we need to set target fragment to check later if this fragment implemented the needed listeners
             dialogFragment.setTargetFragment(targetFragment, 1)
             fragmentManager?.let {
                 dialogFragment.show(it, tag)
-            } ?: throw Exception("Null Fragment Manager while showing Edit Event Dialog")
+            } ?: throw Exception("Null Fragment Manager while showing Edit Owner Dialog")
         }
     }
 
@@ -95,9 +97,9 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
         // initialize the view model in the activity scope to make sure it's same model shared with activity
         activity?.run {
             ownersViewModel = ViewModelProviders.of(activity!!).get(OwnersViewModel::class.java)
-        } ?: throw Exception("Invalid Activity for EditEventDialog")
+        } ?: throw Exception("Invalid Activity for EditOwnerDialog")
 
-        // check if owner exists in arguments (in case of edit) and fill in the owner properties in the dialog
+        // check if owner exists in bundle (in case of edit) and fill in the owner properties in the dialog views
         val ownerToEdit: Owner? = arguments?.getParcelable(OWNER_KEY)
         ownerToEdit?.let {
             isNewOwner = false
@@ -117,6 +119,7 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
             if(isNewOwner)
                 ownerPosition = ownersViewModel.getOwnersList().size
 
+            // create owner based on dialog and pass it to the listener then dismiss the dialog
             val newOwner = Owner(owner_dialog_name.text.toString(), null) //TODO: provide correct image here
             saveButtonListener.onSaveClick(isNewOwner, newOwner, ownerPosition)
             dismiss()

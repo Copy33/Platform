@@ -6,9 +6,10 @@ import android.os.Parcelable
 /**
  * Created by Joe Merhej on 10/24/18.
  */
-class Client(var name: String?, var balance: Double = 0.0, var locations: MutableList<String>? = null, var defaultLocationIndex: Int = -1) : Parcelable
+class Client(var name: String?, var phoneNumber: String?, var balance: Double = 0.0, var locations: MutableList<String>? = null, var defaultLocationIndex: Int = -1, var notes: String? = null) : Parcelable
 {
     constructor(parcel: Parcel) : this(
+            parcel.readString(),
             parcel.readString(),
             parcel.readDouble())
     {
@@ -22,11 +23,13 @@ class Client(var name: String?, var balance: Double = 0.0, var locations: Mutabl
                 }
         }
         defaultLocationIndex = parcel.readInt()
+        notes = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int)
     {
         parcel.writeString(name)
+        parcel.writeString(phoneNumber)
         parcel.writeDouble(balance)
         locations?.let {
             parcel.writeInt(it.size)
@@ -34,6 +37,7 @@ class Client(var name: String?, var balance: Double = 0.0, var locations: Mutabl
                 parcel.writeString(location)
             parcel.writeInt(defaultLocationIndex)
         } ?: parcel.writeInt(0)
+        parcel.writeString(notes)
     }
 
     override fun describeContents(): Int
@@ -43,7 +47,7 @@ class Client(var name: String?, var balance: Double = 0.0, var locations: Mutabl
 
     override fun toString(): String
     {
-        return "Client(firstName=$name, balance=$balance, locations=$locations, defaultLocationIndex=$defaultLocationIndex)"
+        return "Client(firstName=$name, balance=$balance, locations=$locations, defaultLocationIndex=$defaultLocationIndex, notes=$notes)"
     }
 
     companion object CREATOR : Parcelable.Creator<Client>

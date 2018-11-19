@@ -32,7 +32,7 @@ class OwnersViewModel : ViewModel()
         return owners.value?.get(position)
     }
 
-    // These functions don't notify the observer since they handle one owner transactions,
+    // These functions don't notify the observer since they handle single owner transactions,
     //  the view adapter will handle these transactions thus there is no need to refresh the whole list
     fun addOwner(owner: Owner)
     {
@@ -42,14 +42,14 @@ class OwnersViewModel : ViewModel()
         }
     }
 
-    fun removeOwner(owner: Owner)
-    {
-        owners.value?.remove(owner)
-    }
-
     fun addOwner(position: Int, owner: Owner)
     {
         owners.value?.add(position, owner)
+    }
+
+    fun removeOwner(owner: Owner)
+    {
+        owners.value?.remove(owner)
     }
 
     fun removeOwner(position: Int)

@@ -20,4 +20,7 @@
     <!--Owners recyclerview grid column width-->
     <dimen name="owner_grid_col_width">200dp</dimen>
     <dimen name="owner_grid_image_size">144dp</dimen>
+
+    <!--Edit client dialog fragment-->
+    <dimen name="edit_client_vertical_padding">20dp</dimen>
 </resources>

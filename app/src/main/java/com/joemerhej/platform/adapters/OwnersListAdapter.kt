@@ -4,6 +4,9 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.joemerhej.platform.R
@@ -23,7 +26,7 @@ class OwnersListAdapter(private val ownersList: MutableList<Owner>, private val 
     interface OnOwnerClickListener
     {
         fun onOwnerClick(view: View?, position: Int)
-        fun onOwnerLongClick(view: View?, position: Int)
+        fun onOwnerLongPress(view: View?, position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OwnersViewHolder
@@ -41,6 +44,7 @@ class OwnersListAdapter(private val ownersList: MutableList<Owner>, private val 
         // fill in the views
         holder.ownerName.text = owner.name
 
+        // TODO: fill in owner image here
         val imageUri = owner.imageUri?.let { Uri.parse(it) } ?: Uri.EMPTY
 
 //        Glide.with(fragment)
@@ -53,9 +57,9 @@ class OwnersListAdapter(private val ownersList: MutableList<Owner>, private val 
     // VIEW HOLDER
     inner class OwnersViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener
     {
-        val ownerLayout = view.owner_layout
-        val ownerImage = view.owner_imageview
-        val ownerName = view.owner_name_textview
+        val ownerLayout: LinearLayout = view.owner_layout
+        val ownerImage: ImageView = view.edit_event_owner_imageview
+        val ownerName: TextView = view.owner_name_textview
 
         init
         {
@@ -72,7 +76,7 @@ class OwnersListAdapter(private val ownersList: MutableList<Owner>, private val 
         // long click listener
         override fun onLongClick(view: View?): Boolean
         {
-            onOwnerClickListener?.onOwnerLongClick(view, layoutPosition)
+            onOwnerClickListener?.onOwnerLongPress(view, layoutPosition)
             return true
         }
     }

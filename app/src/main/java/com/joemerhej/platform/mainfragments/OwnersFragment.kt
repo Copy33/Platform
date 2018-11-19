@@ -52,7 +52,7 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
 
         // mock the view model
         if(savedInstanceState == null)
-            ownersViewModel.mockOwnersList(34)
+            ownersViewModel.mockOwnersList(14)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -103,7 +103,7 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         }
     }
 
-    override fun onOwnerLongClick(view: View?, position: Int)
+    override fun onOwnerLongPress(view: View?, position: Int)
     {
         val owner: Owner? = ownersViewModel.getOwner(position)
 

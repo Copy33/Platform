@@ -85,15 +85,15 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
         } ?: throw Exception("Invalid Activity for EditEventDialog")
 
         // initialize the listeners
-        scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
+        edit_event_scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
             _, scrollX, scrollY, oldScrollX, oldScrollY ->
             Log.d(DebugUtils.TAG, "$scrollX, $scrollY, $oldScrollX, $oldScrollY")
             val stateListAnimator = StateListAnimator()
             if(scrollY > 0)
-                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(appbarlayout, "elevation", 8f).also { it.duration = 0 })
+                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(edit_event_appbarlayout, "elevation", 8f).also { it.duration = 0 })
             else
-                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(appbarlayout, "elevation", 0f).also { it.duration = 0 })
-            appbarlayout.stateListAnimator = stateListAnimator
+                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(edit_event_appbarlayout, "elevation", 0f).also { it.duration = 0 })
+            edit_event_appbarlayout.stateListAnimator = stateListAnimator
         })
 
 
@@ -117,7 +117,7 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
 //        owner_textview.text = eventsViewModel.event.value?.owner
 //        note_edittext.setText(eventsViewModel.event.value?.notes)
 
-        save_button.setOnClickListener {
+        edit_event_save_button.setOnClickListener {
             //            val today = WeekViewUtil.today()
 //
 //            val startTime = today.clone() as Calendar
@@ -132,9 +132,9 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
 //                    100.0, false, "notes bla bla bla")
 
             val newEvent = Event()
-            newEvent.title = title_edit_text.text.toString()
-            newEvent.owner = owner_textview.text.toString()
-            newEvent.notes = note_edittext.text.toString()
+            newEvent.title = edit_event_title_edit_text.text.toString()
+            newEvent.owner = edit_event_owner_textview.text.toString()
+            newEvent.notes = edit_event_note_edittext.text.toString()
 
             eventsViewModel.addEvent(newEvent)
             dismiss()

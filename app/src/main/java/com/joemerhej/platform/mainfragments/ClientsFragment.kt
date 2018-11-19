@@ -1,5 +1,6 @@
 package com.joemerhej.platform.mainfragments
 
+import android.os.AsyncTask
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +17,6 @@ import java.lang.Exception
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.joemerhej.platform.adapters.ClientsListAdapter
 import com.joemerhej.platform.dialogfragments.EditClientDialogFragment
 import com.joemerhej.platform.models.Client
@@ -50,7 +50,8 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Ed
 
         // mock the view model
         if(savedInstanceState == null)
-            clientsViewModel.mockClientsList(10)
+            clientsViewModel.mockClientsList(1000)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -65,6 +66,7 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Ed
         // observe view model
         clientsViewModel.clients.observe(this, Observer {
             Log.d(DebugUtils.TAG, "Clients Changed! $it")
+            clientsListAdapter.setClientsList(it)
             clientsListAdapter.notifyDataSetChanged()
         })
 

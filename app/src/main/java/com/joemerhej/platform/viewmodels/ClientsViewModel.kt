@@ -3,6 +3,8 @@ package com.joemerhej.platform.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.joemerhej.platform.models.Client
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.util.*
 
 /**
@@ -65,15 +67,23 @@ class ClientsViewModel : ViewModel()
 
         isMocked = true
 
-        val locationList = mutableListOf("Avenue Residence 4, Apt. 107, Al Barsha Heights, Dubai")
+        doAsync {
+            val mockedList = mutableListOf<Client>()
+            val locationList = mutableListOf("Avenue Residence 4, Apt. 107, Al Barsha Heights, Dubai")
+            for(i in 1..size)
+            {
+                val rand = Random()
+                val randomCode = rand.nextInt(5)
+                val randomNumber = rand.nextInt(9000000) + 1000000
+                val randomBalance = rand.nextInt(1000) * (if(rand.nextBoolean()) 1 else -1)
+                mockedList.add(Client("Client #$i", "+971$randomCode$randomNumber", randomBalance.toDouble(), locationList, 0))
+            }
 
-        for(i in 1..size)
-        {
-            val rand = Random()
-            val randomCode = rand.nextInt(5)
-            val randomNumber = rand.nextInt(9000000) + 1000000
-            val randomBalance = rand.nextInt(1000) * (if(rand.nextBoolean()) 1 else -1)
-            clients.value?.add(Client("Client #$i", "+971$randomCode$randomNumber", randomBalance.toDouble(), locationList, 0))
+            clients.postValue(mockedList)
         }
     }
 }
+
+
+
+

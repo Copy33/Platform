@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.recycler_item_client.view.*
  * Created by Joe Merhej on 11/19/18.
  */
 
-class ClientsListAdapter(private val clientsList: MutableList<Client>, private val fragment: Fragment) : RecyclerView.Adapter<ClientsListAdapter.ClientsViewHolder>()
+class ClientsListAdapter(private var clientsList: MutableList<Client>, private val fragment: Fragment) : RecyclerView.Adapter<ClientsListAdapter.ClientsViewHolder>()
 {
     var onClientClickListener: OnClientClickListener? = null
 
@@ -52,6 +52,13 @@ class ClientsListAdapter(private val clientsList: MutableList<Client>, private v
                 holder.clientBalance.setTextColor(ContextCompat.getColor(it, R.color.colorTextNegativeBalance))
             else
                 holder.clientBalance.setTextColor(ContextCompat.getColor(it, R.color.colorTextPositiveBalance))
+        }
+    }
+
+    fun setClientsList(newList: MutableList<Client>?)
+    {
+        newList?.let {
+            clientsList = it
         }
     }
 

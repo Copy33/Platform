@@ -15,7 +15,7 @@ class ClientsViewModel : ViewModel()
     var clients = MutableLiveData<MutableList<Client>>().apply { value = mutableListOf() }
         private set
 
-    var isMocked = false
+    private var isMocked = false
 
 
     // This extension function is necessary since observer won't trigger unless whole list is replaced,
@@ -32,6 +32,11 @@ class ClientsViewModel : ViewModel()
 
     fun getClient(position: Int) : Client?
     {
+        clients.value?.let {
+            if(position < 0 || position >= it.size)
+                return null
+        } ?: return null
+
         return clients.value?.get(position)
     }
 
@@ -47,16 +52,25 @@ class ClientsViewModel : ViewModel()
 
     fun addClient(position: Int, client: Client)
     {
+        if(position < 0)
+            return
+
         clients.value?.add(position, client)
     }
 
     fun removeClient(client: Client)
     {
+        clients.value ?: return
         clients.value?.remove(client)
     }
 
     fun removeClient(position: Int)
     {
+        clients.value?.let {
+            if(position < 0 || position >= it.size)
+                return
+        } ?: return
+
         clients.value?.removeAt(position)
     }
 

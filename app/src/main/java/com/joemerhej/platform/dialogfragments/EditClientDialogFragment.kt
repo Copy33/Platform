@@ -28,44 +28,31 @@ class EditClientDialogFragment : AutoSizeDialogFragment()
         fun onSaveClick(newClient: Boolean, client: Client, position: Int)
     }
 
-    // view model shared with parent activity
-    private lateinit var clientsViewModel: ClientsViewModel
-
-    // mandatory abstract id so the parent can inflate the view
-    override val childLayoutResId: Int
+    private lateinit var clientsViewModel: ClientsViewModel                 // view model shared with parent activity
+    override val childLayoutResId: Int                                      // mandatory abstract id so the parent can inflate the view
         get() = R.layout.autosize_dialog_fragment_child_edit_client
-
-    // save button listener from parent fragment
-    private lateinit var saveButtonListener: OnSaveButtonListener
-
-    // check if editing existing client or adding a new one
-    private var isNewClient: Boolean = true
-
-    // client position in case of edit
-    private var clientPosition: Int = -1
+    private lateinit var saveButtonListener: OnSaveButtonListener           // save button listener from parent fragment
+    private var isNewClient: Boolean = true                                 // check if editing existing client or adding a new one
+    private var clientPosition: Int = -1                                    // client position in case of edit
 
 
     // companion object for static methods
     companion object
     {
-        // new instance takes client and position in case of editing existing client (it would be easy to pass it back and notify adapter)
-        fun newInstance(client: Client?, position: Int): EditClientDialogFragment
+        // new instance client position in case of editing existing client (it would be easy to pass it back and notify adapter)
+        fun newInstance(clientPosition: Int): EditClientDialogFragment
         {
             val dialogFragment = EditClientDialogFragment()
+            dialogFragment.clientPosition = clientPosition
+
             val args = Bundle()
-
-            client?.let {
-                args.putParcelable(CLIENT_KEY, it)
-                dialogFragment.clientPosition = position
-            }
-
             dialogFragment.arguments = args
             return dialogFragment
         }
 
-        fun show(targetFragment: Fragment, client: Client?, position: Int, fragmentManager: FragmentManager?, tag: String)
+        fun show(targetFragment: Fragment, clientPosition: Int, fragmentManager: FragmentManager?, tag: String)
         {
-            val dialogFragment = newInstance(client, position)
+            val dialogFragment = newInstance(clientPosition)
 
             // we need to set target fragment to check later if this fragment implemented the needed listeners
             dialogFragment.setTargetFragment(targetFragment, 1)
@@ -96,11 +83,11 @@ class EditClientDialogFragment : AutoSizeDialogFragment()
 
         // initialize the view model in the activity scope to make sure it's same model shared with activity
         activity?.run {
-            clientsViewModel = ViewModelProviders.of(activity!!).get(ClientsViewModel::class.java)
+            clientsViewModel = ViewModelProviders.of(this).get(ClientsViewModel::class.java)
         } ?: throw Exception("Invalid Activity for EditClientDialog")
 
-        // check if client exists in bundle (in case of edit) and fill in the client properties in the dialog views
-        val clientToEdit: Client? = arguments?.getParcelable(CLIENT_KEY)
+        // check if editing existing client (try to get client with position) and fill in the client properties in the dialog views
+        val clientToEdit: Client? = clientsViewModel.getClient(clientPosition)
         clientToEdit?.let {
             isNewClient = false
             edit_client_name_edittext.setText(clientToEdit.name)

@@ -80,21 +80,29 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Ed
         // set up the add client fab
         add_client_fab.animate().setDuration(200).scaleX(1.0f).scaleY(1.0f).interpolator = LinearOutSlowInInterpolator()
         add_client_fab.setOnClickListener {
-            EditClientDialogFragment.show(this, null, -1, fragmentManager, "tag")
+            EditClientDialogFragment.show(this, -1, fragmentManager, "tag")
         }
     }
 
+    /**
+     * Click listener for client in list.
+     *
+     * @param view view being clicked
+     * @param position the position of the clicked view
+     */
     override fun onClientClick(view: View?, position: Int)
     {
         Log.d(DebugUtils.TAG, "Click! Position = $position, Client = ${clientsViewModel.getClientsList()[position]}")
 
-        val client: Client? = clientsViewModel.getClient(position)
-
-        client?.let {
-            EditClientDialogFragment.show(this, it, position, fragmentManager, "tag")
-        }
+        EditClientDialogFragment.show(this, position, fragmentManager, "tag")
     }
 
+    /**
+     * Listener for when a client view is long pressed.
+     *
+     * @param view view being long pressed
+     * @param position the position of the long pressed view
+     */
     override fun onClientLongPress(view: View?, position: Int)
     {
         val client: Client? = clientsViewModel.getClient(position)
@@ -118,6 +126,13 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Ed
         }
     }
 
+    /**
+     * Listener for when the user hits the save button.
+     *
+     * @param newClient boolean to indicate if a new client was created or editing an existing one
+     * @param client the modified or newly created client
+     * @param position the position of the edited/created client (useful for adapter transaction)
+     */
     override fun onSaveClick(newClient: Boolean, client: Client, position: Int)
     {
         // modify view model accordingly (add new item or edit existing)

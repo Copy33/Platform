@@ -80,10 +80,17 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         // set up the add owner fab
         add_owner_fab.animate().setDuration(200).scaleX(1.0f).scaleY(1.0f).interpolator = LinearOutSlowInInterpolator()
         add_owner_fab.setOnClickListener {
-            EditOwnerDialogFragment.show(this, null, -1, fragmentManager, "tag")
+            EditOwnerDialogFragment.show(this, -1, fragmentManager, "tag")
         }
     }
 
+    /**
+     * Convenience function that will calculate the number of columns (spans) the owners' grid layout
+     * will have based on the column width defined in the project resources.
+     * This will be used for when rotating the device to adjust the owners recyclerview accordingly.
+     *
+     * @return number of columns needed
+     */
     private fun calculateNoOfColumns(): Int
     {
         val dpWidth = resources.displayMetrics.widthPixels / resources.displayMetrics.density
@@ -92,17 +99,25 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         return max(1, columns)
     }
 
+    /**
+     * Click listener for client in list.
+     *
+     * @param view view being clicked
+     * @param position the position of the clicked view
+     */
     override fun onOwnerClick(view: View?, position: Int)
     {
         Log.d(DebugUtils.TAG, "Click! Position = $position, Owner = ${ownersViewModel.getOwnersList()[position]}")
 
-        val owner: Owner? = ownersViewModel.getOwner(position)
-
-        owner?.let {
-            EditOwnerDialogFragment.show(this, it, position, fragmentManager, "tag")
-        }
+        EditOwnerDialogFragment.show(this, position, fragmentManager, "tag")
     }
 
+    /**
+     * Listener for when a client view is long pressed.
+     *
+     * @param view view being long pressed
+     * @param position the position of the long pressed view
+     */
     override fun onOwnerLongPress(view: View?, position: Int)
     {
         val owner: Owner? = ownersViewModel.getOwner(position)
@@ -142,6 +157,13 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         ownersListAdapter.notifyItemRangeChanged(positionFirstItemRow, positionLastItemRow)
     }
 
+    /**
+     * Listener for when the user hits the save button.
+     *
+     * @param newOwner boolean to indicate if a new owner was created or editing an existing one
+     * @param owner the modified or newly created owner
+     * @param position the position of the edited/created owner (useful for adapter transaction)
+     */
     override fun onSaveClick(newOwner: Boolean, owner: Owner, position: Int)
     {
         // modify view model accordingly (add new item or edit existing)

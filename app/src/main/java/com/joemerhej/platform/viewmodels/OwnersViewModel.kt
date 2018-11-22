@@ -29,6 +29,11 @@ class OwnersViewModel : ViewModel()
 
     fun getOwner(position: Int): Owner?
     {
+        owners.value?.let {
+            if(position < 0 || position >= it.size)
+                return null
+        } ?: return null
+
         return owners.value?.get(position)
     }
 
@@ -49,11 +54,17 @@ class OwnersViewModel : ViewModel()
 
     fun removeOwner(owner: Owner)
     {
+        owners.value ?: return
         owners.value?.remove(owner)
     }
 
     fun removeOwner(position: Int)
     {
+        owners.value?.let {
+            if(position < 0 || position >= it.size)
+                return
+        } ?: return
+
         owners.value?.removeAt(position)
     }
 

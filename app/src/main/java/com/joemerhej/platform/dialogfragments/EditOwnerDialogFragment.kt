@@ -28,44 +28,32 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
         fun onSaveClick(newOwner: Boolean, owner: Owner, position: Int)
     }
 
-    // view model shared with parent activity
-    private lateinit var ownersViewModel: OwnersViewModel
-
-    // mandatory abstract id so the parent can inflate the view
-    override val childLayoutResId: Int
+    private lateinit var ownersViewModel: OwnersViewModel                   // view model shared with parent activity
+    override val childLayoutResId: Int                                      // mandatory abstract id so the parent can inflate the view
         get() = R.layout.autosize_dialog_fragment_child_edit_owner
-
-    // save button listener from parent fragment
-    private lateinit var saveButtonListener: OnSaveButtonListener
-
-    // check if editing existing owner or adding a new one
-    private var isNewOwner: Boolean = true
-
-    // owner position in case of edit
-    private var ownerPosition: Int = -1
+    private lateinit var saveButtonListener: OnSaveButtonListener           // save button listener from parent fragment
+    private var isNewOwner: Boolean = true                                  // check if editing existing owner or adding a new one
+    private var ownerPosition: Int = -1                                     // owner position in case of edit
 
 
     // companion object for static methods
     companion object
     {
         // new instance takes owner and position in case of editing existing owner (it would be easy to pass it back and notify adapter)
-        fun newInstance(owner: Owner?, position: Int): EditOwnerDialogFragment
+        fun newInstance(ownerPosition: Int): EditOwnerDialogFragment
         {
             val dialogFragment = EditOwnerDialogFragment()
+
+            dialogFragment.ownerPosition = ownerPosition
+
             val args = Bundle()
-
-            owner?.let {
-                args.putParcelable(OWNER_KEY, it)
-                dialogFragment.ownerPosition = position
-            }
-
             dialogFragment.arguments = args
             return dialogFragment
         }
 
-        fun show(targetFragment: Fragment, owner: Owner?, position: Int, fragmentManager: FragmentManager?, tag: String)
+        fun show(targetFragment: Fragment, ownerPosition: Int, fragmentManager: FragmentManager?, tag: String)
         {
-            val dialogFragment = newInstance(owner, position)
+            val dialogFragment = newInstance(ownerPosition)
 
             // we need to set target fragment to check later if this fragment implemented the needed listeners
             dialogFragment.setTargetFragment(targetFragment, 1)
@@ -100,7 +88,7 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
         } ?: throw Exception("Invalid Activity for EditOwnerDialog")
 
         // check if owner exists in bundle (in case of edit) and fill in the owner properties in the dialog views
-        val ownerToEdit: Owner? = arguments?.getParcelable(OWNER_KEY)
+        val ownerToEdit: Owner? = ownersViewModel.getOwner(ownerPosition)
         ownerToEdit?.let {
             isNewOwner = false
             owner_dialog_name.setText(ownerToEdit.name)

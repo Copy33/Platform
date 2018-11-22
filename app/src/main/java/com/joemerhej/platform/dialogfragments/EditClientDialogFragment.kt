@@ -105,7 +105,7 @@ class EditClientDialogFragment : AutoSizeDialogFragment()
             isNewClient = false
             edit_client_name_edittext.setText(clientToEdit.name)
             edit_client_name_edittext.setSelection(edit_client_name_edittext.text.length)
-            edit_client_phone_number_edittext.setText(clientToEdit.phoneNumber)
+            edit_client_phone_number_edittext.setText(clientToEdit.phoneNumbers?.get(clientToEdit.defaultPhoneNumberIndex))
             edit_client_phone_number_edittext.setSelection(edit_client_phone_number_edittext.text.length)
             edit_client_location_edittext.setText(clientToEdit.locations?.get(clientToEdit.defaultLocationIndex))
             edit_client_location_edittext.setSelection(edit_client_location_edittext.text.length)
@@ -126,16 +126,17 @@ class EditClientDialogFragment : AutoSizeDialogFragment()
             if(isNewClient)
                 clientPosition = clientsViewModel.getClientsList().size
 
+            // TODO: we have clientToEdit so we MAYBE should re-use it for untouched fields
             // create client based on dialog and pass it to the listener then dismiss the dialog
             var clientBalance = 0.0
             if(!edit_client_balance_edittext.text.toString().isEmpty())
                 clientBalance = edit_client_balance_edittext.text.toString().toDouble()
 
-            val newClient = Client(edit_client_name_edittext.text.toString(), edit_client_phone_number_edittext.text.toString(),
-                    clientBalance, mutableListOf(edit_client_location_edittext.text.toString()), 0,
-                    edit_client_note_edittext.text.toString())
+//            val newClient = Client(edit_client_name_edittext.text.toString(), edit_client_phone_number_edittext.text.toString(),
+//                    clientBalance, mutableListOf(edit_client_location_edittext.text.toString()), 0,
+//                    edit_client_note_edittext.text.toString())
 
-            saveButtonListener.onSaveClick(isNewClient, newClient, clientPosition)
+            //saveButtonListener.onSaveClick(isNewClient, newClient, clientPosition)
             dismiss()
         }
 

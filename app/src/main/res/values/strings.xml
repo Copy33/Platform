@@ -56,7 +56,8 @@
     <!--Client recyclerview item-->
     <string name="client_name">Client Name</string>
     <string name="client_number">Client Number</string>
-    <string name="client_number_mock">+971552928421</string>
+    <string name="client_number_email_format">%1$s\n%2$s</string>
+    <string name="client_number_email_mock">+971552928421\niwantotobreakfree@hotmail.com</string>
     <string name="client_location">Client Location</string>
     <string name="client_location_mock">Avenue Residence 3, Apt. 105, Al Furjan, Dubai</string>
     <string name="client_balance">Client Balance</string>

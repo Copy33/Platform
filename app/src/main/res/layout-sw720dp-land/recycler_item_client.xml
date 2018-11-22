@@ -28,14 +28,14 @@
         android:textColor="@color/colorTextPrimary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/client_number_textview"
+        app:layout_constraintEnd_toStartOf="@+id/client_number_email_textview"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/client_number_textview"
+        android:id="@+id/client_number_email_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -46,10 +46,10 @@
         android:fontFamily="@font/sfpro"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:text="@string/client_number_mock"
+        android:text="@string/client_number_email_mock"
         android:textAlignment="center"
         android:textColor="@color/colorTextPrimary"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/client_location_textview"
         app:layout_constraintHorizontal_bias="0.5"
@@ -75,7 +75,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/client_balance_textview"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/client_number_textview"
+        app:layout_constraintStart_toEndOf="@+id/client_number_email_textview"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView

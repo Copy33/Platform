@@ -31,14 +31,14 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
 {
     interface OnSaveButtonListener
     {
-        //TODO: this could be improved, we can avoid passing in the client here and putting it/modifying it in the viewmodel
+        //TODO [improvement]: we can avoid passing in the client here and putting it/modifying it in the viewmodel
         fun onSaveClick(newClient: Boolean, client: Client, position: Int)
     }
 
     override val childLayoutResId: Int                                              // mandatory abstract id so the parent can inflate the view
         get() = R.layout.autosize_dialog_fragment_child_edit_client
     private lateinit var clientsViewModel: ClientsViewModel                         // viewmodel shared with parent activity
-    private lateinit var client: Client                                             // client shown, shallow copy of client in view model (empty if new client)
+    private lateinit var client: Client                                             // client shown, shallow copy of client in viewmodel (empty if new client)
     private lateinit var clientBeforeEdit: Client                                   // copy of client before edit used to undo changes
     private lateinit var saveButtonListener: OnSaveButtonListener                   // save button listener from parent fragment
     private var isNewClient: Boolean = true                                         // check if editing existing client or adding a new one
@@ -100,16 +100,16 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
         } ?: throw Exception("Invalid Activity for EditClientDialog")
 
         // check if editing existing client, else create an empty client
-        var clientFromViewModel: Client? = clientsViewModel.getClient(clientPosition)
+        val clientFromViewModel: Client? = clientsViewModel.getClient(clientPosition)
         if(clientFromViewModel != null)
         {
             isNewClient = false
             client = clientFromViewModel
         }
         else
-            client = Client("")
+            client = Client()
 
-        // create copy of client in case edit experience is canceled
+        // create copy of client in case edit experience is cancelled
         clientBeforeEdit = client.clone()
 
         // fill in the dialog views with our client
@@ -172,7 +172,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
     }
 
     /**
-     * Function that will fill the client views in the dialog given a client
+     * Function that will fill the dialog views from a given client
      *
      * @param client client to use
      */

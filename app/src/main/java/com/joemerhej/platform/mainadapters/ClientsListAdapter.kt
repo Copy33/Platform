@@ -60,8 +60,7 @@ class ClientsListAdapter(private var clientsList: MutableList<Client>, private v
         if(!client.emails.isEmpty())
             favoriteEmail = client.emails[client.favoriteEmailIndex]
 
-        /*TODO: This could be improved:
-            we can passe the resource in the constructor of the adapter instead of getting it every time, doesn't seem to improve performance*/
+        //TODO [improvement]: we can passe the resource in the constructor of the adapter instead of getting it every time, doesn't seem to improve performance
         holder.clientNumberEmail.text = fragment.resources.getString(R.string.client_number_email_format, favoritePhoneNumber, favoriteEmail)
 
         var favoriteLocation = ""

@@ -95,7 +95,7 @@ class EventDetailsDialogFragment : AutoSizeDialogFragment()
 
 
         // use the view model here
-        // TODO: check if an event already exists (ie not adding a new event) then populate the event views to edit
+        //TODO: check if an event already exists (ie not adding a new event) then populate the event views to edit
         val today = WeekViewUtil.today()
 
         val startTime = today.clone() as Calendar

@@ -39,7 +39,7 @@ class ClientDetailsEmailsAdapter(var emailsList: MutableList<String> = mutableLi
         holder.emailText.setText(email)
         holder.emailText.setSelection(email.length)
 
-        /*TODO: This could be improved:
+        /*TODO [improvement]:
             Instead of calling setImageResource in here we can add 2 buttons for every view and hide/unhide
             the necessary button on user click, for now it's ok since there shouldn't be many numbers per client*/
         if(position == favoriteEmailIndex)

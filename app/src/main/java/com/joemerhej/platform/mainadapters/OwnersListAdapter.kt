@@ -45,7 +45,7 @@ class OwnersListAdapter(private val ownersList: MutableList<Owner>, private val 
         // fill in the views
         holder.ownerName.text = owner.name
 
-        // TODO: fill in owner image here
+        //TODO: fill in owner image here
         val imageUri = owner.imageUri?.let { Uri.parse(it) } ?: Uri.EMPTY
 
 //        Glide.with(fragment)

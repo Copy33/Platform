@@ -9,7 +9,7 @@
     android:minHeight="@dimen/auto_size_dialog_min_height">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/edit_client_appbarlayout"
+        android:id="@+id/client_details_appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:colorBackground"
@@ -17,7 +17,7 @@
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/edit_client_toolbar"
+            android:id="@+id/client_details_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -30,19 +30,20 @@
                 android:layout_height="match_parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/edit_client_cancel_imageview"
+                    android:id="@+id/client_details_cancel_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/button_cancel"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
                     android:padding="8dp"
                     android:tint="@color/colorTextSecondary"
-                    app:layout_constraintBottom_toBottomOf="@+id/edit_client_save_button"
+                    app:layout_constraintBottom_toBottomOf="@+id/client_details_edit_save_button"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/edit_client_save_button"
+                    app:layout_constraintTop_toTopOf="@+id/client_details_edit_save_button"
                     app:srcCompat="@drawable/ic_cancel"/>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/edit_client_save_button"
+                    android:id="@+id/client_details_edit_save_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -54,7 +55,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/edit_client_name_edittext"
+                    android:id="@+id/client_details_name_edittext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -68,20 +69,20 @@
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/edit_client_cancel_imageview"
-                    app:layout_constraintTop_toBottomOf="@+id/edit_client_save_button"/>
+                    app:layout_constraintStart_toEndOf="@+id/client_details_cancel_imageview"
+                    app:layout_constraintTop_toBottomOf="@+id/client_details_edit_save_button"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/edit_client_scrollview"
+        android:id="@+id/client_details_scrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/edit_client_content_layout"
+            android:id="@+id/client_details_content_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -99,7 +100,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/edit_client_phone_imageview"
+                android:id="@+id/client_details_phone_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -111,7 +112,7 @@
                 app:srcCompat="@drawable/ic_phone"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/edit_client_phone_number_recyclerview"
+                android:id="@+id/client_details_phone_number_recyclerview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
@@ -119,12 +120,12 @@
                 android:layout_marginEnd="@dimen/icon_horizontal_margin_right"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/edit_client_phone_imageview"
+                app:layout_constraintStart_toEndOf="@+id/client_details_phone_imageview"
                 app:layout_constraintTop_toBottomOf="@id/separator0"
                 tools:itemCount="3"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/edit_client_add_phone_number_button"
+                android:id="@+id/client_details_add_phone_number_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -132,9 +133,9 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_add"
                 android:tint="@color/colorAddPropertyButton"
-                app:layout_constraintEnd_toEndOf="@+id/edit_client_phone_number_recyclerview"
-                app:layout_constraintStart_toStartOf="@+id/edit_client_phone_number_recyclerview"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_phone_number_recyclerview"/>
+                app:layout_constraintEnd_toEndOf="@+id/client_details_phone_number_recyclerview"
+                app:layout_constraintStart_toStartOf="@+id/client_details_phone_number_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/client_details_phone_number_recyclerview"/>
 
             <View
                 android:id="@+id/separator1"
@@ -147,10 +148,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_add_phone_number_button"/>
+                app:layout_constraintTop_toBottomOf="@+id/client_details_add_phone_number_button"/>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/edit_client_email_imageview"
+                android:id="@+id/client_details_email_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -162,7 +163,7 @@
                 app:srcCompat="@drawable/ic_email"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/edit_client_email_recyclerview"
+                android:id="@+id/client_details_email_recyclerview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
@@ -170,12 +171,12 @@
                 android:layout_marginEnd="@dimen/icon_horizontal_margin_right"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/edit_client_email_imageview"
+                app:layout_constraintStart_toEndOf="@+id/client_details_email_imageview"
                 app:layout_constraintTop_toBottomOf="@id/separator1"
                 tools:itemCount="4"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/edit_client_add_email_button"
+                android:id="@+id/client_details_add_email_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -183,9 +184,9 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_add"
                 android:tint="@color/colorAddPropertyButton"
-                app:layout_constraintEnd_toEndOf="@+id/edit_client_email_recyclerview"
-                app:layout_constraintStart_toStartOf="@+id/edit_client_email_recyclerview"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_email_recyclerview"/>
+                app:layout_constraintEnd_toEndOf="@+id/client_details_email_recyclerview"
+                app:layout_constraintStart_toStartOf="@+id/client_details_email_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/client_details_email_recyclerview"/>
 
             <View
                 android:id="@+id/separator2"
@@ -198,11 +199,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_add_email_button"/>
+                app:layout_constraintTop_toBottomOf="@+id/client_details_add_email_button"/>
 
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/edit_client_location_imageview"
+                android:id="@+id/client_details_location_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="16dp"
@@ -214,7 +215,7 @@
                 app:srcCompat="@drawable/ic_location_pin"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/edit_client_location_recyclerview"
+                android:id="@+id/client_details_location_recyclerview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
@@ -222,12 +223,12 @@
                 android:layout_marginEnd="@dimen/icon_horizontal_margin_right"
                 android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/edit_client_location_imageview"
+                app:layout_constraintStart_toEndOf="@+id/client_details_location_imageview"
                 app:layout_constraintTop_toBottomOf="@id/separator2"
                 tools:itemCount="8"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/edit_client_add_location_button"
+                android:id="@+id/client_details_add_location_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -235,9 +236,9 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_add"
                 android:tint="@color/colorAddPropertyButton"
-                app:layout_constraintEnd_toEndOf="@+id/edit_client_location_recyclerview"
-                app:layout_constraintStart_toStartOf="@+id/edit_client_location_recyclerview"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_location_recyclerview"/>
+                app:layout_constraintEnd_toEndOf="@+id/client_details_location_recyclerview"
+                app:layout_constraintStart_toStartOf="@+id/client_details_location_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/client_details_location_recyclerview"/>
 
             <View
                 android:id="@+id/separator3"
@@ -250,22 +251,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_add_location_button"/>
+                app:layout_constraintTop_toBottomOf="@+id/client_details_add_location_button"/>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/edit_client_amount_imageview"
+                android:id="@+id/client_details_amount_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
                 android:contentDescription="@string/amount_icon_description"
                 android:tint="@color/colorTextSecondary"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_client_balance_edittext"
+                app:layout_constraintBottom_toBottomOf="@+id/client_details_balance_edittext"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/edit_client_balance_edittext"
+                app:layout_constraintTop_toTopOf="@+id/client_details_balance_edittext"
                 app:srcCompat="@drawable/ic_money"/>
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edit_client_balance_edittext"
+                android:id="@+id/client_details_balance_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
@@ -279,7 +280,7 @@
                 android:textColorHint="@color/colorTextSecondary"
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/edit_client_amount_imageview"
+                app:layout_constraintStart_toEndOf="@+id/client_details_amount_imageview"
                 app:layout_constraintTop_toBottomOf="@+id/separator3"/>
 
             <View
@@ -292,10 +293,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_balance_edittext"/>
+                app:layout_constraintTop_toBottomOf="@+id/client_details_balance_edittext"/>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/edit_client_note_imageview"
+                android:id="@+id/client_details_note_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_left"
@@ -307,7 +308,7 @@
                 app:srcCompat="@drawable/ic_note"/>
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/edit_client_note_edittext"
+                android:id="@+id/client_details_note_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
@@ -322,8 +323,8 @@
                 android:textColorHint="@color/colorTextSecondary"
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/edit_client_note_imageview"
-                app:layout_constraintTop_toTopOf="@+id/edit_client_note_imageview"/>
+                app:layout_constraintStart_toEndOf="@+id/client_details_note_imageview"
+                app:layout_constraintTop_toTopOf="@+id/client_details_note_imageview"/>
 
             <View
                 android:id="@+id/separator5"
@@ -335,10 +336,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_note_edittext"/>
+                app:layout_constraintTop_toBottomOf="@+id/client_details_note_edittext"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/edit_client_delete_button"
+                android:id="@+id/client_details_delete_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

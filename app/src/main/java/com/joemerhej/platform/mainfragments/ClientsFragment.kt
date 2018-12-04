@@ -16,7 +16,7 @@ import java.lang.Exception
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.joemerhej.platform.mainadapters.ClientsListAdapter
+import com.joemerhej.platform.mainfragments.mainadapters.ClientsListAdapter
 import com.joemerhej.platform.detailsdialogfragments.ClientDetailsDialogFragment
 import com.joemerhej.platform.models.Client
 import kotlinx.android.synthetic.main.fragment_clients.*
@@ -49,7 +49,7 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Cl
 
         // mock the view model
         if(savedInstanceState == null)
-            clientsViewModel.mockClientsList(1000)
+            clientsViewModel.mockClientsList(2)
 
     }
 

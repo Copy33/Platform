@@ -5,21 +5,20 @@ import android.animation.StateListAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.joemerhej.platform.R
-import com.joemerhej.platform.models.Client
 import com.joemerhej.platform.detailsdialogfragments.detailsadapters.ClientDetailsEmailsAdapter
 import com.joemerhej.platform.detailsdialogfragments.detailsadapters.ClientDetailsLocationsAdapter
 import com.joemerhej.platform.detailsdialogfragments.detailsadapters.ClientDetailsPhoneNumbersAdapter
+import com.joemerhej.platform.models.Client
 import com.joemerhej.platform.utils.DebugUtils
 import com.joemerhej.platform.viewmodels.ClientsViewModel
 import kotlinx.android.synthetic.main.autosize_dialog_fragment_child_edit_client.*
-import java.lang.Exception
-import java.lang.NumberFormatException
 
 
 /**
@@ -27,7 +26,9 @@ import java.lang.NumberFormatException
  *
  * EventDetailsDialogFragment is a child of AutoSizeDialogFragment and will handle the edit event/create new event dialog
  */
-class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhoneNumbersAdapter.OnPhoneNumberClickListener, ClientDetailsEmailsAdapter.OnEmailClickListener, ClientDetailsLocationsAdapter.OnLocationClickListener
+class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
+        ClientDetailsPhoneNumbersAdapter.OnPhoneNumberClickListener, ClientDetailsEmailsAdapter.OnEmailClickListener, ClientDetailsLocationsAdapter.OnLocationClickListener,
+        ClientDetailsPhoneNumbersAdapter.OnPhoneNumberLastViewCreatedListener, ClientDetailsEmailsAdapter.OnEmailLastViewCreatedListener, ClientDetailsLocationsAdapter.OnLocationLastViewCreatedListener
 {
     interface OnSaveButtonListener
     {
@@ -46,6 +47,8 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
     private lateinit var phoneNumbersAdapter: ClientDetailsPhoneNumbersAdapter      // adapter for the phone numbers list
     private lateinit var emailsAdapter: ClientDetailsEmailsAdapter                  // adapter for the emails list
     private lateinit var locationsAdapter: ClientDetailsLocationsAdapter            // adapter for the locations list
+    var inEditMode = false                                                          // boolean to check if dialog in edit or view mode
+        private set
 
 
     // companion object for static methods
@@ -94,6 +97,19 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
     {
         super.onViewCreated(view, savedInstanceState)
 
+        // hide the keyboard
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+
+        // set up scroll listener to change the toolbar elevation while scrolling
+        client_details_scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
+            val stateListAnimator = StateListAnimator()
+            if(scrollY > 0)
+                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(client_details_appbarlayout, "elevation", 8f).also { it.duration = 0 })
+            else
+                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(client_details_appbarlayout, "elevation", 0f).also { it.duration = 0 })
+            client_details_appbarlayout.stateListAnimator = stateListAnimator
+        })
+
         // initialize the view model in the activity scope to make sure it's same model shared with activity
         activity?.run {
             clientsViewModel = ViewModelProviders.of(this).get(ClientsViewModel::class.java)
@@ -113,117 +129,163 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
         clientBeforeEdit = client.clone()
 
         // fill in the dialog views with our client
-        fillDialogViewsFromClient(client)
+        fillDialogViewsFromClient()
 
-        // set up scroll listener to change the toolbar elevation while scrolling
-        edit_client_scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
-            val stateListAnimator = StateListAnimator()
-            if(scrollY > 0)
-                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(edit_client_appbarlayout, "elevation", 8f).also { it.duration = 0 })
-            else
-                stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(edit_client_appbarlayout, "elevation", 0f).also { it.duration = 0 })
-            edit_client_appbarlayout.stateListAnimator = stateListAnimator
-        })
+        // dialog launches in view mode if client exists, else in edit mode
+        if(isNewClient)
+            engageDialogEditMode()
+        else
+            engageDialogViewMode()
 
-        // set up phone number add button listener - clicking plus sign will simply create a new empty phone number and add it to the client
-        edit_client_add_phone_number_button.setOnClickListener {
+        // listeners: set up phone number add button listener - clicking plus sign will simply create a new empty phone number and add it to the client
+        client_details_add_phone_number_button.setOnClickListener {
             client.phoneNumbers.add("")
-            phoneNumbersAdapter.notifyItemInserted(client.phoneNumbers.size)
+            phoneNumbersAdapter.notifyItemInserted(client.phoneNumbers.size-1)
+            phoneNumbersAdapter.manuallyAddingNewViewFromDialog = true
         }
 
-        // set up email add button listener - clicking plus sign will simply create a new empty email and add it to the client
-        edit_client_add_email_button.setOnClickListener {
+        // listeners: set up email add button listener - clicking plus sign will simply create a new empty email and add it to the client
+        client_details_add_email_button.setOnClickListener {
             client.emails.add("")
             emailsAdapter.notifyItemInserted(client.emails.size)
+            emailsAdapter.manuallyAddingNewViewFromDialog = true
         }
 
-        // set up location add button listener - clicking plus sign will simply create a new empty location and add it to the client
-        edit_client_add_location_button.setOnClickListener {
+        // listeners: set up location add button listener - clicking plus sign will simply create a new empty location and add it to the client
+        client_details_add_location_button.setOnClickListener {
             client.locations.add("")
             locationsAdapter.notifyItemInserted(client.locations.size)
+            locationsAdapter.manuallyAddingNewViewFromDialog = true
         }
 
-        // set up cancel button click listener - clicking cancel will dismiss the dialog
-        edit_client_cancel_imageview.setOnClickListener {
-            if(!isNewClient)
+        // listeners: set up cancel button click listener
+        client_details_cancel_imageview.setOnClickListener {
+            // if in edit mode then reset client to clientBeforeEdit and engage view mode
+            if(inEditMode)
             {
-                // if not new client, reset the lists in case of delete or favorite (delete and favorite modify the shallow copy inside the adapter)
-                client.phoneNumbers = clientBeforeEdit.phoneNumbers
-                client.favoritePhoneNumberIndex = clientBeforeEdit.favoritePhoneNumberIndex
-                client.emails = clientBeforeEdit.emails
-                client.favoriteEmailIndex = clientBeforeEdit.favoriteEmailIndex
-                client.locations = clientBeforeEdit.locations
-                client.favoriteLocationIndex = clientBeforeEdit.favoriteLocationIndex
+                // if new client, just dismiss (will discard changes)
+                if(isNewClient)
+                    dismiss()
+
+                // else reset the client details to clientBeforeEdit, refill the views, and put dialog in view mode
+                resetClientToClientBeforeEdit()
+                fillDialogViewsFromClient()
+                engageDialogViewMode()
             }
-            dismiss()
+            // if not in edit mode (meaning user saved a client), return to main fragment with updated/new client
+            else
+            {
+                saveButtonListener.onSaveClick(isNewClient, client, clientPosition)
+                dismiss()
+            }
         }
 
-        // set up save button click listener - clicking save will create a client out of the dialog views and return it to the main client fragment
-        edit_client_save_button.setOnClickListener {
-            // get the last client list position in case of saving a new client (clientsFragment will pass in -1)
-            if(isNewClient)
-                clientPosition = clientsViewModel.getClientsList().size
+        // listeners: set up save/edit button click listener - switch modes on click (save takes it to view mode, edit takes it to edit mode)
+        client_details_edit_save_button.setOnClickListener {
+            if(inEditMode)
+            {
+                // apply dialog changes to client
+                updateClientFromDialogViews()
 
-            // create client based on dialog views and pass it to the listener then dismiss the dialog
-            val newClient = createClientFromDialogViews()
-            saveButtonListener.onSaveClick(isNewClient, newClient, clientPosition)
-            dismiss()
+                // update client clone
+                clientBeforeEdit = client.clone()
+
+                // get the last client list position in case of saving a new client (clientsFragment will pass in -1)
+                if(isNewClient)
+                    clientPosition = clientsViewModel.getClientsList().size
+
+                engageDialogViewMode()
+            }
+            else
+            {
+                engageDialogEditMode()
+            }
         }
+    }
+
+    /**
+     * Function that will reset client properties to clientBeforeEdit
+     */
+    private fun resetClientToClientBeforeEdit()
+    {
+        // client name
+        client.name = clientBeforeEdit.name
+
+        // phone numbers
+        // reset both client and adapter favorite index since integers are copied and not referenced
+        client.phoneNumbers.clear()
+        client.phoneNumbers.addAll(clientBeforeEdit.phoneNumbers)
+        client.favoritePhoneNumberIndex = clientBeforeEdit.favoritePhoneNumberIndex
+
+        // emails
+        client.emails.clear()
+        client.emails.addAll(clientBeforeEdit.emails)
+        client.favoriteEmailIndex = clientBeforeEdit.favoriteEmailIndex
+
+        // locations
+        client.locations.clear()
+        client.locations.addAll(clientBeforeEdit.locations)
+        client.favoriteLocationIndex = clientBeforeEdit.favoriteLocationIndex
+
+        // balance
+        client.balance = clientBeforeEdit.balance
+
+        // notes
+        client.notes = clientBeforeEdit.notes
     }
 
     /**
      * Function that will fill the dialog views from a given client
-     *
-     * @param client client to use
      */
-    private fun fillDialogViewsFromClient(client: Client)
+    private fun fillDialogViewsFromClient()
     {
         // client name
-        edit_client_name_edittext.setText(client.name)
-        edit_client_name_edittext.setSelection(client.name.length)
+        client_details_name_edittext.setText(client.name)
+        client_details_name_edittext.setSelection(client.name.length)
 
         // phone numbers
-        edit_client_phone_number_recyclerview.layoutManager = LinearLayoutManager(context)
-        edit_client_phone_number_recyclerview.itemAnimator = null
-        phoneNumbersAdapter = ClientDetailsPhoneNumbersAdapter(client.phoneNumbers, client.favoritePhoneNumberIndex)
-        edit_client_phone_number_recyclerview.adapter = phoneNumbersAdapter
+        client_details_phone_number_recyclerview.layoutManager = LinearLayoutManager(context)
+        client_details_phone_number_recyclerview.itemAnimator = null
+        phoneNumbersAdapter = ClientDetailsPhoneNumbersAdapter(this, client.phoneNumbers, client.favoritePhoneNumberIndex)
+        client_details_phone_number_recyclerview.adapter = phoneNumbersAdapter
         phoneNumbersAdapter.onPhoneNumberClickListener = this
+        phoneNumbersAdapter.onLastAddedViewCreatedListener = this
 
         // emails
-        edit_client_email_recyclerview.layoutManager = LinearLayoutManager(context)
-        edit_client_email_recyclerview.itemAnimator = null
-        emailsAdapter = ClientDetailsEmailsAdapter(client.emails, client.favoriteEmailIndex)
-        edit_client_email_recyclerview.adapter = emailsAdapter
+        client_details_email_recyclerview.layoutManager = LinearLayoutManager(context)
+        client_details_email_recyclerview.itemAnimator = null
+        emailsAdapter = ClientDetailsEmailsAdapter(this, client.emails, client.favoriteEmailIndex)
+        client_details_email_recyclerview.adapter = emailsAdapter
         emailsAdapter.onEmailClickListener = this
+        emailsAdapter.onLastAddedViewCreatedListener = this
 
         // locations
-        edit_client_location_recyclerview.layoutManager = LinearLayoutManager(context)
-        edit_client_location_recyclerview.itemAnimator = null
-        locationsAdapter = ClientDetailsLocationsAdapter(client.locations, client.favoriteLocationIndex)
-        edit_client_location_recyclerview.adapter = locationsAdapter
+        client_details_location_recyclerview.layoutManager = LinearLayoutManager(context)
+        client_details_location_recyclerview.itemAnimator = null
+        locationsAdapter = ClientDetailsLocationsAdapter(this, client.locations, client.favoriteLocationIndex)
+        client_details_location_recyclerview.adapter = locationsAdapter
         locationsAdapter.onLocationClickListener = this
+        locationsAdapter.onLastAddedViewCreatedListener = this
 
         // balance
         val clientBalance = client.balance.toString()
-        edit_client_balance_edittext.setText(clientBalance)
-        edit_client_balance_edittext.setSelection(clientBalance.length)
+        client_details_balance_edittext.setText(clientBalance)
+        client_details_balance_edittext.setSelection(clientBalance.length)
 
         // notes
-        edit_client_note_edittext.setText(client.notes)
-        edit_client_note_edittext.setSelection(client.notes.length)
+        client_details_note_edittext.setText(client.notes)
+        client_details_note_edittext.setSelection(client.notes.length)
     }
 
     /**
-     * Function that will create a client from the dialog views info
+     * Function that will update the client in question from the dialog views info
      *
      * @return client created
      */
-    private fun createClientFromDialogViews(): Client
+    private fun updateClientFromDialogViews()
     {
-        val client = Client()
-
         // client name
-        client.name = edit_client_name_edittext.text.toString()
+        client.name = client_details_name_edittext.text.toString()
 
         // phone numbers
         client.phoneNumbers = phoneNumbersAdapter.phoneNumbersList
@@ -238,11 +300,11 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
         client.favoriteLocationIndex = locationsAdapter.favoriteLocationIndex
 
         // balance
-        if(!edit_client_balance_edittext.text.toString().isEmpty())
+        if(!client_details_balance_edittext.text.toString().isEmpty())
         {
             try
             {
-                client.balance = edit_client_balance_edittext.text.toString().toDouble()
+                client.balance = client_details_balance_edittext.text.toString().toDouble()
             }
             catch(e: NumberFormatException)
             {
@@ -253,9 +315,77 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
             client.balance = 0.0
 
         // notes
-        client.notes = edit_client_note_edittext.text.toString()
+        client.notes = client_details_note_edittext.text.toString()
+    }
 
-        return client
+    /**
+     * Function that will put the dialog views in view mode
+     */
+    private fun engageDialogViewMode()
+    {
+        inEditMode = false
+
+        // edit/save button
+        client_details_edit_save_button.text = resources.getText(R.string.button_edit)
+
+        // client name
+        client_details_name_edittext.isEnabled = false
+
+        // phone numbers
+        phoneNumbersAdapter.notifyItemRangeChanged(0, phoneNumbersAdapter.itemCount)
+        client_details_add_phone_number_button.visibility = View.GONE
+
+        // emails
+        emailsAdapter.notifyItemRangeChanged(0, emailsAdapter.itemCount)
+        client_details_add_email_button.visibility = View.GONE
+
+        // locations
+        locationsAdapter.notifyItemRangeChanged(0, locationsAdapter.itemCount)
+        client_details_add_location_button.visibility = View.GONE
+
+        // balance
+        client_details_balance_edittext.isEnabled = false
+
+        // notes
+        client_details_note_edittext.isEnabled = false
+
+        // delete button
+        client_details_delete_button.visibility = View.GONE
+    }
+
+    /**
+     * Function that will put the dialog views in edit mode
+     */
+    private fun engageDialogEditMode()
+    {
+        inEditMode = true
+
+        // edit/save button
+        client_details_edit_save_button.text = resources.getText(R.string.button_save)
+
+        // client name
+        client_details_name_edittext.isEnabled = true
+
+        // phone numbers
+        phoneNumbersAdapter.notifyItemRangeChanged(0, phoneNumbersAdapter.itemCount)
+        client_details_add_phone_number_button.visibility = View.VISIBLE
+
+        // emails
+        emailsAdapter.notifyItemRangeChanged(0, emailsAdapter.itemCount)
+        client_details_add_email_button.visibility = View.VISIBLE
+
+        // locations
+        locationsAdapter.notifyItemRangeChanged(0, locationsAdapter.itemCount)
+        client_details_add_location_button.visibility = View.VISIBLE
+
+        // balance
+        client_details_balance_edittext.isEnabled = true
+
+        // notes
+        client_details_note_edittext.isEnabled = true
+
+        // delete button
+        client_details_delete_button.visibility = View.VISIBLE
     }
 
     /**
@@ -273,12 +403,16 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
         if(position == phoneNumbersAdapter.favoritePhoneNumberIndex)
         {
             phoneNumbersAdapter.favoritePhoneNumberIndex = 0
+            client.favoritePhoneNumberIndex = 0
             phoneNumbersAdapter.notifyItemChanged(0)
         }
 
         // update favorite index in case we're removing number before it
         if(position < phoneNumbersAdapter.favoritePhoneNumberIndex)
+        {
             --phoneNumbersAdapter.favoritePhoneNumberIndex
+            --client.favoritePhoneNumberIndex
+        }
     }
 
     /**
@@ -289,10 +423,14 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
      */
     override fun onPhoneNumberFavoriteClick(view: View?, position: Int)
     {
-        val oldFavorite = phoneNumbersAdapter.favoritePhoneNumberIndex
-        phoneNumbersAdapter.favoritePhoneNumberIndex = position
-        phoneNumbersAdapter.notifyItemChanged(oldFavorite)
-        phoneNumbersAdapter.notifyItemChanged(position)
+        if(inEditMode)
+        {
+            val oldFavorite = phoneNumbersAdapter.favoritePhoneNumberIndex
+            phoneNumbersAdapter.favoritePhoneNumberIndex = position
+            client.favoritePhoneNumberIndex = position
+            phoneNumbersAdapter.notifyItemChanged(oldFavorite)
+            phoneNumbersAdapter.notifyItemChanged(position)
+        }
     }
 
     /**
@@ -310,12 +448,16 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
         if(position == emailsAdapter.favoriteEmailIndex)
         {
             emailsAdapter.favoriteEmailIndex = 0
+            client.favoriteEmailIndex = 0
             emailsAdapter.notifyItemChanged(0)
         }
 
         // update favorite index in case we're removing number before it
         if(position < emailsAdapter.favoriteEmailIndex)
+        {
             --emailsAdapter.favoriteEmailIndex
+            --client.favoriteEmailIndex
+        }
     }
 
     /**
@@ -326,10 +468,13 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
      */
     override fun onEmailFavoriteClick(view: View?, position: Int)
     {
-        val oldFavorite = emailsAdapter.favoriteEmailIndex
-        emailsAdapter.favoriteEmailIndex = position
-        emailsAdapter.notifyItemChanged(oldFavorite)
-        emailsAdapter.notifyItemChanged(position)
+        if(inEditMode)
+        {
+            val oldFavorite = emailsAdapter.favoriteEmailIndex
+            emailsAdapter.favoriteEmailIndex = position
+            emailsAdapter.notifyItemChanged(oldFavorite)
+            emailsAdapter.notifyItemChanged(position)
+        }
     }
 
     /**
@@ -347,12 +492,16 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
         if(position == locationsAdapter.favoriteLocationIndex)
         {
             locationsAdapter.favoriteLocationIndex = 0
+            client.favoriteLocationIndex = 0
             locationsAdapter.notifyItemChanged(0)
         }
 
         // update favorite index in case we're removing number before it
         if(position < locationsAdapter.favoriteLocationIndex)
+        {
             --locationsAdapter.favoriteLocationIndex
+            --client.favoriteLocationIndex
+        }
     }
 
     /**
@@ -363,10 +512,49 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(), ClientDetailsPhone
      */
     override fun onLocationFavoriteClick(view: View?, position: Int)
     {
-        val oldFavorite = locationsAdapter.favoriteLocationIndex
-        locationsAdapter.favoriteLocationIndex = position
-        locationsAdapter.notifyItemChanged(oldFavorite)
-        locationsAdapter.notifyItemChanged(position)
+        if(inEditMode)
+        {
+            val oldFavorite = locationsAdapter.favoriteLocationIndex
+            locationsAdapter.favoriteLocationIndex = position
+            locationsAdapter.notifyItemChanged(oldFavorite)
+            locationsAdapter.notifyItemChanged(position)
+        }
+    }
+
+    /**
+     * listener to when manually adding a phone number and the last one was created
+     *
+     * @param view last view created
+     * @param position position of the view
+     */
+    override fun onPhoneNumberLastViewCreated(view: View?, position: Int)
+    {
+        // request focus when adding manual adding view
+        view?.requestFocus()
+    }
+
+    /**
+     * listener to when manually adding an email and the last one was created
+     *
+     * @param view last view created
+     * @param position position of the view
+     */
+    override fun onEmailLastViewCreated(view: View?, position: Int)
+    {
+        // request focus when adding manual adding view
+        view?.requestFocus()
+    }
+
+    /**
+     * listener to when manually adding a location and the last one was created
+     *
+     * @param view last view created
+     * @param position position of the view
+     */
+    override fun onLocationLastViewCreated(view: View?, position: Int)
+    {
+        // request focus when adding manual adding view
+        view?.requestFocus()
     }
 }
 

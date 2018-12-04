@@ -1,4 +1,4 @@
-package com.joemerhej.platform.mainadapters
+package com.joemerhej.platform.mainfragments.mainadapters
 
 import android.net.Uri
 import android.view.LayoutInflater

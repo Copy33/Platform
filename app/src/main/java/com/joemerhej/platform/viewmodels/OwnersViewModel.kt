@@ -76,6 +76,6 @@ class OwnersViewModel : ViewModel()
         isMocked = true
 
         for(i in 1..size)
-            owners.value?.add(Owner("Owner #$i", null))
+            owners.value?.add(Owner("Owner #$i", ""))
     }
 }

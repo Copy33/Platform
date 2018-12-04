@@ -10,6 +10,7 @@
     <!--Edit event dialog fragment-->
     <string name="button_cancel">Cancel</string>
     <string name="button_save">Save</string>
+    <string name="button_edit">Edit</string>
     <string name="text_title_hint">Title</string>
     <string name="owner_icon_description">Owner</string>
     <string name="text_owner">Set Owner</string>

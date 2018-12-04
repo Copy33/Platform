@@ -14,13 +14,10 @@ data class Client(var name: String = "",
     {
         val client = Client()
         client.name = this.name
-        client.phoneNumbers = mutableListOf()
         client.phoneNumbers.addAll(this.phoneNumbers)
         client.favoritePhoneNumberIndex = this.favoritePhoneNumberIndex
-        client.emails = mutableListOf()
         client.emails.addAll(this.emails)
         client.favoriteEmailIndex = this.favoriteEmailIndex
-        client.locations = mutableListOf()
         client.locations.addAll(this.locations)
         client.favoriteLocationIndex = this.favoriteLocationIndex
         client.balance = this.balance

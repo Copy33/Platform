@@ -15,9 +15,13 @@
     <color name="colorTextPrimary">#212121</color>
     <color name="colorTextSecondary">#757575</color>
     <color name="colorTextIcons">#FFFFFF</color>
+    <color name="colorDividerUi">#BDBDBD</color>
+
     <color name="colorTextNegativeBalance">#F44336</color>
     <color name="colorTextPositiveBalance">#4CAF50</color>
-    <color name="colorDividerUi">#BDBDBD</color>
+    <color name="colorDeleteButton">@android:color/holo_red_dark</color>
+    <color name="colorFavoriteButton">@android:color/holo_orange_light</color>
+    <color name="colorAddPropertyButton">@android:color/holo_green_dark</color>
 
     <color name="event_color_01">#59dbe0</color>
     <color name="event_color_02">#f57f68</color>

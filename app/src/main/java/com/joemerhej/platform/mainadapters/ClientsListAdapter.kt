@@ -1,9 +1,9 @@
-package com.joemerhej.platform.adapters
+package com.joemerhej.platform.mainadapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -52,9 +52,23 @@ class ClientsListAdapter(private var clientsList: MutableList<Client>, private v
 
         // fill in the views
         holder.clientName.text = client.name
-        holder.clientNumberEmail.text = fragment.resources.getString(R.string.client_number_email_format,
-                client.phoneNumbers?.get(client.defaultPhoneNumberIndex) ?: "", client.emails?.get(client.defaultEmailIndex) ?: "")
-        holder.clientLocation.text = client.locations?.get(client.defaultLocationIndex) ?: ""
+
+        var favoritePhoneNumber = ""
+        var favoriteEmail = ""
+        if(!client.phoneNumbers.isEmpty())
+            favoritePhoneNumber = client.phoneNumbers[client.favoritePhoneNumberIndex]
+        if(!client.emails.isEmpty())
+            favoriteEmail = client.emails[client.favoriteEmailIndex]
+
+        /*TODO: This could be improved:
+            we can passe the resource in the constructor of the adapter instead of getting it every time, doesn't seem to improve performance*/
+        holder.clientNumberEmail.text = fragment.resources.getString(R.string.client_number_email_format, favoritePhoneNumber, favoriteEmail)
+
+        var favoriteLocation = ""
+        if(!client.locations.isEmpty())
+            favoriteLocation = client.locations[client.favoriteLocationIndex]
+
+        holder.clientLocation.text = favoriteLocation
         holder.clientBalance.text = client.balance.toString()
 
         if(client.balance < 0)
@@ -74,10 +88,10 @@ class ClientsListAdapter(private var clientsList: MutableList<Client>, private v
     inner class ClientsViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener
     {
         val clientLayout = view.client_layout
-        val clientName: TextView = view.client_name_textview
-        val clientNumberEmail: TextView = view.client_number_email_textview
-        val clientLocation: TextView = view.client_location_textview
-        val clientBalance: TextView = view.client_balance_textview
+        val clientName: AppCompatTextView = view.client_name_textview
+        val clientNumberEmail: AppCompatTextView = view.client_number_email_textview
+        val clientLocation: AppCompatTextView = view.client_location_textview
+        val clientBalance: AppCompatTextView = view.client_balance_textview
 
         init
         {

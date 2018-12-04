@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme.DialogBarOverlay"
         app:elevation="0dp">
 
-        <Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/edit_client_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,15 +33,15 @@
                     android:id="@+id/edit_client_cancel_imageview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
                     android:contentDescription="@string/button_cancel"
+                    android:padding="8dp"
                     android:tint="@color/colorTextSecondary"
                     app:layout_constraintBottom_toBottomOf="@+id/edit_client_save_button"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/edit_client_save_button"
                     app:srcCompat="@drawable/ic_cancel"/>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/edit_client_save_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,17 +53,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edit_client_name_edittext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="16dp"
                     android:layout_marginEnd="20dp"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:hint="@string/edit_client_name_hint"
                     android:inputType="textCapWords|textNoSuggestions"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="16dp"
                     android:textColorHint="@color/colorTextSecondary"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +71,7 @@
                     app:layout_constraintStart_toEndOf="@+id/edit_client_cancel_imageview"
                     app:layout_constraintTop_toBottomOf="@+id/edit_client_save_button"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </Toolbar>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -101,89 +101,156 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/edit_client_phone_imageview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:contentDescription="@string/edit_client_phone_title"
+                android:contentDescription="@string/edit_client_phone_number_hint"
+                android:paddingTop="@dimen/edit_client_vertical_padding"
                 android:tint="@color/colorTextSecondary"
-                app:layout_constraintBottom_toBottomOf="@+id/edit_client_phone_number_edittext"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/edit_client_phone_number_edittext"
+                app:layout_constraintTop_toBottomOf="@+id/separator0"
                 app:srcCompat="@drawable/ic_phone"/>
 
-            <EditText
-                android:id="@+id/edit_client_phone_number_edittext"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/edit_client_phone_number_recyclerview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/icon_horizontal_margin_right"
-                android:background="@android:color/transparent"
-                android:ems="10"
-                android:hint="@string/edit_client_phone_title"
-                android:inputType="phone"
-                android:paddingTop="@dimen/edit_client_vertical_padding"
-                android:paddingBottom="@dimen/edit_client_vertical_padding"
-                android:textColorHint="@color/colorTextSecondary"
-                android:textSize="16sp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/edit_client_phone_imageview"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/separator0"
+                tools:itemCount="3"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/edit_client_add_phone_number_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/ic_add"
+                android:tint="@color/colorAddPropertyButton"
+                app:layout_constraintEnd_toEndOf="@+id/edit_client_phone_number_recyclerview"
+                app:layout_constraintStart_toStartOf="@+id/edit_client_phone_number_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/edit_client_phone_number_recyclerview"/>
 
             <View
                 android:id="@+id/separator1"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDividerUi"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_phone_number_edittext"/>
-
+                app:layout_constraintTop_toBottomOf="@+id/edit_client_add_phone_number_button"/>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/edit_client_location_imageview"
+                android:id="@+id/edit_client_email_imageview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/icon_horizontal_margin_left"
-                android:contentDescription="@string/location_icon_description"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/edit_client_email_hint"
                 android:paddingTop="@dimen/edit_client_vertical_padding"
                 android:tint="@color/colorTextSecondary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separator1"
-                app:srcCompat="@drawable/ic_location_pin"/>
+                app:srcCompat="@drawable/ic_email"/>
 
-            <EditText
-                android:id="@+id/edit_client_location_edittext"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/edit_client_email_recyclerview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/icon_horizontal_margin_right"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="@dimen/icon_horizontal_margin_left"
-                android:background="@android:color/transparent"
-                android:ems="10"
-                android:hint="@string/text_location_hint"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:paddingTop="@dimen/edit_client_vertical_padding"
-                android:paddingBottom="@dimen/edit_client_vertical_padding"
-                android:textColorHint="@color/colorTextSecondary"
-                android:textSize="@dimen/edit_text_size"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/icon_horizontal_margin_right"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/edit_client_location_imageview"
-                app:layout_constraintTop_toTopOf="@+id/edit_client_location_imageview"/>
+                app:layout_constraintStart_toEndOf="@+id/edit_client_email_imageview"
+                app:layout_constraintTop_toBottomOf="@id/separator1"
+                tools:itemCount="4"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/edit_client_add_email_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/ic_add"
+                android:tint="@color/colorAddPropertyButton"
+                app:layout_constraintEnd_toEndOf="@+id/edit_client_email_recyclerview"
+                app:layout_constraintStart_toStartOf="@+id/edit_client_email_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/edit_client_email_recyclerview"/>
 
             <View
                 android:id="@+id/separator2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/separator_margin"
                 android:background="@color/colorDividerUi"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_client_location_edittext"/>
+                app:layout_constraintTop_toBottomOf="@+id/edit_client_add_email_button"/>
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/edit_client_location_imageview"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/edit_client_location_hint"
+                android:paddingTop="@dimen/edit_client_vertical_padding"
+                android:tint="@color/colorTextSecondary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/separator2"
+                app:srcCompat="@drawable/ic_location_pin"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/edit_client_location_recyclerview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/icon_horizontal_margin_right"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/icon_horizontal_margin_right"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/edit_client_location_imageview"
+                app:layout_constraintTop_toBottomOf="@id/separator2"
+                tools:itemCount="8"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/edit_client_add_location_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/ic_add"
+                android:tint="@color/colorAddPropertyButton"
+                app:layout_constraintEnd_toEndOf="@+id/edit_client_location_recyclerview"
+                app:layout_constraintStart_toStartOf="@+id/edit_client_location_recyclerview"
+                app:layout_constraintTop_toBottomOf="@+id/edit_client_location_recyclerview"/>
+
+            <View
+                android:id="@+id/separator3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/separator_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/separator_margin"
+                android:background="@color/colorDividerUi"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_client_add_location_button"/>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/edit_client_amount_imageview"
@@ -197,7 +264,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_client_balance_edittext"
                 app:srcCompat="@drawable/ic_money"/>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edit_client_balance_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -213,10 +280,10 @@
                 android:textSize="@dimen/edit_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/edit_client_amount_imageview"
-                app:layout_constraintTop_toBottomOf="@+id/separator2"/>
+                app:layout_constraintTop_toBottomOf="@+id/separator3"/>
 
             <View
-                android:id="@+id/separator3"
+                android:id="@+id/separator4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
@@ -236,10 +303,10 @@
                 android:paddingTop="@dimen/edit_client_vertical_padding"
                 android:tint="@color/colorTextSecondary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator3"
+                app:layout_constraintTop_toBottomOf="@+id/separator4"
                 app:srcCompat="@drawable/ic_note"/>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edit_client_note_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -259,7 +326,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_client_note_imageview"/>
 
             <View
-                android:id="@+id/separator4"
+                android:id="@+id/separator5"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/separator_margin"
@@ -270,7 +337,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_client_note_edittext"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/edit_client_delete_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -285,7 +352,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/separator4"/>
+                app:layout_constraintTop_toBottomOf="@+id/separator5"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

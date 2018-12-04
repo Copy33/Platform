@@ -14,7 +14,7 @@ import com.joemerhej.androidweekview.MonthLoader
 import com.joemerhej.androidweekview.WeekView
 import com.joemerhej.androidweekview.WeekViewEvent
 import com.joemerhej.platform.R
-import com.joemerhej.platform.dialogfragments.EditEventDialogFragment
+import com.joemerhej.platform.detailsdialogfragments.EventDetailsDialogFragment
 import com.joemerhej.platform.models.Event
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager
@@ -29,7 +29,7 @@ import androidx.lifecycle.Observer
  * Created by Joe Merhej on 11/14/18.
  */
 class ScheduleFragment : Fragment(), WeekView.EventClickListener,
-        MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, EditEventDialogFragment.EventListener
+        MonthLoader.MonthChangeListener, WeekView.EventLongPressListener, EventDetailsDialogFragment.EventListener
 {
     //TODO: This is not needed for now
     override fun onCertainEvent()
@@ -84,7 +84,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
         add_event_fab.animate().setDuration(200).scaleX(1.0f).scaleY(1.0f).interpolator = LinearOutSlowInInterpolator()
         add_event_fab.setOnClickListener()
         {
-            EditEventDialogFragment.show(fragmentManager, "tag")
+            EventDetailsDialogFragment.show(fragmentManager, "tag")
         }
     }
 

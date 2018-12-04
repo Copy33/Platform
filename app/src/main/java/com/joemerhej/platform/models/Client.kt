@@ -1,22 +1,30 @@
 package com.joemerhej.platform.models
 
-import android.os.Parcel
-import android.os.Parcelable
-
 /**
  * Created by Joe Merhej on 10/24/18.
  */
-class Client(var name: String?,
-             var phoneNumbers: MutableList<String>? = null, var defaultPhoneNumberIndex:Int = 0,
-             var emails: MutableList<String>? = null, var defaultEmailIndex:Int = 0,
-             var locations: MutableList<String>? = null, var defaultLocationIndex: Int = 0,
+data class Client(var name: String = "",
+             var phoneNumbers: MutableList<String> = mutableListOf(), var favoritePhoneNumberIndex:Int = 0,
+             var emails: MutableList<String> = mutableListOf(), var favoriteEmailIndex:Int = 0,
+             var locations: MutableList<String> = mutableListOf(), var favoriteLocationIndex: Int = 0,
              var balance:Double = 0.0,
-             var notes: String? = null)
+             var notes: String = "")
 {
-    override fun toString(): String
+    fun clone() : Client
     {
-        return "Client(name=$name, phoneNumbers=$phoneNumbers, defaultPhoneNumberIndex=$defaultPhoneNumberIndex, " +
-                "emails=$emails, defaultEmailIndex=$defaultEmailIndex, locations=$locations, defaultLocationIndex=$defaultLocationIndex, " +
-                "balance=$balance, notes=$notes)"
+        val client = Client()
+        client.name = this.name
+        client.phoneNumbers = mutableListOf()
+        client.phoneNumbers.addAll(this.phoneNumbers)
+        client.favoritePhoneNumberIndex = this.favoritePhoneNumberIndex
+        client.emails = mutableListOf()
+        client.emails.addAll(this.emails)
+        client.favoriteEmailIndex = this.favoriteEmailIndex
+        client.locations = mutableListOf()
+        client.locations.addAll(this.locations)
+        client.favoriteLocationIndex = this.favoriteLocationIndex
+        client.balance = this.balance
+        client.notes = this.notes
+        return client
     }
 }

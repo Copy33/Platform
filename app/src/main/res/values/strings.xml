@@ -65,8 +65,10 @@
 
     <!--Edit client dialog fragment-->
     <string name="edit_client_name_hint">Name</string>
-    <string name="edit_client_phone_title">Phone Number</string>
+    <string name="edit_client_phone_number_hint">Phone Number</string>
+    <string name="edit_client_email_hint">Email</string>
+    <string name="edit_client_location_hint">Location</string>
     <string name="edit_client_balance_hint">Balance</string>
-    <string name="edit_client_note_hint">Add Note</string>
+    <string name="edit_client_note_hint">Note</string>
     <string name="edit_client_delete_button">Delete Client</string>
 </resources>

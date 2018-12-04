@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="@+id/owner_dialog_save_button"
         app:srcCompat="@drawable/ic_cancel"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/owner_dialog_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         app:srcCompat="@drawable/ic_owner"
         app:tint="@color/colorDividerUi"/>
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/owner_dialog_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,6 +1,5 @@
 package com.joemerhej.platform.mainfragments
 
-import android.os.AsyncTask
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -17,15 +16,15 @@ import java.lang.Exception
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.joemerhej.platform.adapters.ClientsListAdapter
-import com.joemerhej.platform.dialogfragments.EditClientDialogFragment
+import com.joemerhej.platform.mainadapters.ClientsListAdapter
+import com.joemerhej.platform.detailsdialogfragments.ClientDetailsDialogFragment
 import com.joemerhej.platform.models.Client
 import kotlinx.android.synthetic.main.fragment_clients.*
 
 /**
  * Created by Joe Merhej on 11/14/18.
  */
-class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, EditClientDialogFragment.OnSaveButtonListener
+class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, ClientDetailsDialogFragment.OnSaveButtonListener
 {
     companion object
     {
@@ -80,7 +79,7 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Ed
         // set up the add client fab
         add_client_fab.animate().setDuration(200).scaleX(1.0f).scaleY(1.0f).interpolator = LinearOutSlowInInterpolator()
         add_client_fab.setOnClickListener {
-            EditClientDialogFragment.show(this, -1, fragmentManager, "tag")
+            ClientDetailsDialogFragment.show(this, -1, fragmentManager, "tag")
         }
     }
 
@@ -94,7 +93,7 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Ed
     {
         Log.d(DebugUtils.TAG, "Click! Position = $position, Client = ${clientsViewModel.getClientsList()[position]}")
 
-        EditClientDialogFragment.show(this, position, fragmentManager, "tag")
+        ClientDetailsDialogFragment.show(this, position, fragmentManager, "tag")
     }
 
     /**

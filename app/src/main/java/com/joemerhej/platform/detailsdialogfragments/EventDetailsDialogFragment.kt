@@ -1,7 +1,6 @@
-package com.joemerhej.platform.dialogfragments
+package com.joemerhej.platform.detailsdialogfragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
@@ -14,16 +13,15 @@ import java.util.*
 import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
 import androidx.core.widget.NestedScrollView
-import com.joemerhej.platform.utils.DebugUtils
 import java.lang.Exception
 
 
 /**
  * Created by Joe Merhej on 10/28/18.
  *
- * EditEventDialogFragment is a child of AutoSizeDialogFragment and will handle the edit event/create new event dialog
+ * EventDetailsDialogFragment is a child of AutoSizeDialogFragment and will handle the edit event/create new event dialog
  */
-class EditEventDialogFragment : AutoSizeDialogFragment()
+class EventDetailsDialogFragment : AutoSizeDialogFragment()
 {
     // TODO: This is not needed for now
     interface EventListener
@@ -44,9 +42,9 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
     // companion object for static methods
     companion object
     {
-        fun newInstance(): EditEventDialogFragment
+        fun newInstance(): EventDetailsDialogFragment
         {
-            val dialogFragment = EditEventDialogFragment()
+            val dialogFragment = EventDetailsDialogFragment()
             val args = Bundle()
             dialogFragment.arguments = args
             return dialogFragment
@@ -87,7 +85,6 @@ class EditEventDialogFragment : AutoSizeDialogFragment()
         // initialize the listeners
         edit_event_scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
             _, scrollX, scrollY, oldScrollX, oldScrollY ->
-            Log.d(DebugUtils.TAG, "$scrollX, $scrollY, $oldScrollX, $oldScrollY")
             val stateListAnimator = StateListAnimator()
             if(scrollY > 0)
                 stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(edit_event_appbarlayout, "elevation", 8f).also { it.duration = 0 })

@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import com.joemerhej.platform.R
-import com.joemerhej.platform.dialogfragments.EditEventDialogFragment
+import com.joemerhej.platform.detailsdialogfragments.EventDetailsDialogFragment
 import com.joemerhej.platform.mainfragments.ClientsFragment
 import com.joemerhej.platform.mainfragments.OwnersFragment
 import com.joemerhej.platform.mainfragments.ScheduleFragment
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.navigation_drawer_header_main.view.*
 private const val SAVED_INSTANCE_FRAGMENT_ID_KEY = "activeFragmentId"
 private const val SAVED_INSTANCE_FRAGMENT_TITLE_KEY = "activeFragmentTitle"
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, EditEventDialogFragment.EventListener
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLayout.DrawerListener, EventDetailsDialogFragment.EventListener
 {
     //TODO: This is not needed for now
     override fun onCertainEvent()

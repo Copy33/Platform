@@ -1,12 +1,12 @@
-package com.joemerhej.platform.adapters
+package com.joemerhej.platform.mainadapters
 
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.joemerhej.platform.R
@@ -28,6 +28,7 @@ class OwnersListAdapter(private val ownersList: MutableList<Owner>, private val 
         fun onOwnerClick(view: View?, position: Int)
         fun onOwnerLongPress(view: View?, position: Int)
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OwnersViewHolder
     {
@@ -58,8 +59,8 @@ class OwnersListAdapter(private val ownersList: MutableList<Owner>, private val 
     inner class OwnersViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener
     {
         val ownerLayout: LinearLayout = view.owner_layout
-        val ownerImage: ImageView = view.edit_event_owner_imageview
-        val ownerName: TextView = view.owner_name_textview
+        val ownerImage: AppCompatImageView = view.edit_event_owner_imageview
+        val ownerName: AppCompatTextView = view.owner_name_textview
 
         init
         {

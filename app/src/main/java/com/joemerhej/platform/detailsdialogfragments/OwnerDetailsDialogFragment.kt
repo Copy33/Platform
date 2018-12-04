@@ -1,4 +1,4 @@
-package com.joemerhej.platform.dialogfragments
+package com.joemerhej.platform.detailsdialogfragments
 
 import android.os.Bundle
 import android.view.View
@@ -15,13 +15,9 @@ import java.lang.Exception
 /**
  * Created by Joe Merhej on 10/28/18.
  *
- * EditEventDialogFragment is a child of AutoSizeDialogFragment and will handle the edit event/create new event dialog
+ * EventDetailsDialogFragment is a child of AutoSizeDialogFragment and will handle the edit event/create new event dialog
  */
-
-// parcelable key for owner in case dialog is opened with one (edit)
-private const val OWNER_KEY = "owner"
-
-class EditOwnerDialogFragment : AutoSizeDialogFragment()
+class OwnerDetailsDialogFragment : AutoSizeDialogFragment()
 {
     interface OnSaveButtonListener
     {
@@ -40,9 +36,9 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
     companion object
     {
         // new instance takes owner and position in case of editing existing owner (it would be easy to pass it back and notify adapter)
-        fun newInstance(ownerPosition: Int): EditOwnerDialogFragment
+        fun newInstance(ownerPosition: Int): OwnerDetailsDialogFragment
         {
-            val dialogFragment = EditOwnerDialogFragment()
+            val dialogFragment = OwnerDetailsDialogFragment()
 
             dialogFragment.ownerPosition = ownerPosition
 
@@ -91,9 +87,11 @@ class EditOwnerDialogFragment : AutoSizeDialogFragment()
         val ownerToEdit: Owner? = ownersViewModel.getOwner(ownerPosition)
         ownerToEdit?.let {
             isNewOwner = false
-            owner_dialog_name.setText(ownerToEdit.name)
-            owner_dialog_name.setSelection(owner_dialog_name.text.length)
-            // TODO: fill in the image here
+            ownerToEdit.name?.let {
+                owner_dialog_name.setText(it)
+                owner_dialog_name.setSelection(it.length)
+                // TODO: fill in the image here
+            }
         }
 
         // set up cancel button click listener

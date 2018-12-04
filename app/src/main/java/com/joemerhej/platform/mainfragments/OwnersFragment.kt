@@ -12,8 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.joemerhej.platform.R
-import com.joemerhej.platform.adapters.OwnersListAdapter
-import com.joemerhej.platform.dialogfragments.EditOwnerDialogFragment
+import com.joemerhej.platform.mainadapters.OwnersListAdapter
+import com.joemerhej.platform.detailsdialogfragments.OwnerDetailsDialogFragment
 import com.joemerhej.platform.models.Owner
 import com.joemerhej.platform.utils.DebugUtils
 import com.joemerhej.platform.viewmodels.OwnersViewModel
@@ -24,7 +24,7 @@ import kotlin.math.max
 /**
  * Created by Joe Merhej on 11/14/18.
  */
-class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditOwnerDialogFragment.OnSaveButtonListener
+class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, OwnerDetailsDialogFragment.OnSaveButtonListener
 {
     companion object
     {
@@ -80,7 +80,7 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
         // set up the add owner fab
         add_owner_fab.animate().setDuration(200).scaleX(1.0f).scaleY(1.0f).interpolator = LinearOutSlowInInterpolator()
         add_owner_fab.setOnClickListener {
-            EditOwnerDialogFragment.show(this, -1, fragmentManager, "tag")
+            OwnerDetailsDialogFragment.show(this, -1, fragmentManager, "tag")
         }
     }
 
@@ -109,7 +109,7 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, EditO
     {
         Log.d(DebugUtils.TAG, "Click! Position = $position, Owner = ${ownersViewModel.getOwnersList()[position]}")
 
-        EditOwnerDialogFragment.show(this, position, fragmentManager, "tag")
+        OwnerDetailsDialogFragment.show(this, position, fragmentManager, "tag")
     }
 
     /**

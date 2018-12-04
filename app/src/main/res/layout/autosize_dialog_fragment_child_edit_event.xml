@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme.DialogBarOverlay"
         app:elevation="0dp">
 
-        <Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/edit_event_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                     app:layout_constraintTop_toTopOf="@+id/edit_event_save_button"
                     app:srcCompat="@drawable/ic_cancel"/>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/edit_event_save_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edit_event_title_edit_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                     app:layout_constraintStart_toEndOf="@+id/edit_event_cancel_imageview"
                     app:layout_constraintTop_toBottomOf="@+id/edit_event_save_button"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </Toolbar>
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -110,7 +110,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_event_owner_textview"
                 app:srcCompat="@drawable/ic_owner"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_owner_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -148,7 +148,7 @@
                 app:srcCompat="@drawable/ic_clock"
                 tools:tint="@color/colorTextSecondary"/>
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/edit_event_all_day_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_event_allday_textview"
                 app:layout_constraintVertical_bias="0.0"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_allday_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                 app:layout_constraintStart_toEndOf="@+id/edit_event_time_imageview"
                 app:layout_constraintTop_toTopOf="@+id/edit_event_time_imageview"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_start_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                 app:layout_constraintStart_toStartOf="@+id/edit_event_allday_textview"
                 app:layout_constraintTop_toBottomOf="@+id/edit_event_allday_textview"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_start_date_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/edit_event_start_textview"
                 app:layout_constraintEnd_toEndOf="@+id/edit_event_time_barrier"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_start_time_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/edit_event_start_date_textview"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_end_date_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
                 app:layout_constraintStart_toStartOf="@+id/edit_event_start_date_textview"
                 app:layout_constraintTop_toBottomOf="@+id/edit_event_start_date_textview"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_end_time_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_event_start_time_textview"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_end_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -269,7 +269,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_event_repeat_textview"
                 app:srcCompat="@drawable/ic_repeat"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_repeat_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -307,7 +307,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_event_reminder_textview"
                 app:srcCompat="@drawable/ic_bell_strikethrough"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_reminder_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -345,7 +345,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_event_client_textview"
                 app:srcCompat="@drawable/ic_client"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_client_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -384,7 +384,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/separator5"
                 app:srcCompat="@drawable/ic_location_pin"/>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edit_event_location_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -427,7 +427,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_event_status_textview"
                 app:srcCompat="@drawable/ic_status_none"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_status_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -465,7 +465,7 @@
                 app:layout_constraintTop_toTopOf="@+id/edit_event_amount_textview"
                 app:srcCompat="@drawable/ic_money"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/edit_event_amount_textview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -503,7 +503,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/separator8"
                 app:srcCompat="@drawable/ic_note"/>
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/edit_event_note_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -534,7 +534,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_event_note_edittext"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/edit_event_delete_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

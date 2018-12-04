@@ -1,4 +1,4 @@
-package com.joemerhej.platform.dialogfragments
+package com.joemerhej.platform.detailsdialogfragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

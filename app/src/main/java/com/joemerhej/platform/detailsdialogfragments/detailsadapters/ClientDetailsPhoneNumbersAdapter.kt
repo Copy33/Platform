@@ -1,5 +1,7 @@
 package com.joemerhej.platform.detailsdialogfragments.detailsadapters
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -24,6 +26,7 @@ class ClientDetailsPhoneNumbersAdapter(var fragment: Fragment,
     var onPhoneNumberClickListener: OnPhoneNumberClickListener? = null
     var onLastAddedViewCreatedListener: OnPhoneNumberLastViewCreatedListener? = null
     var manuallyAddingNewViewFromDialog = false
+    var originalPhoneNumberTextEditBackgrounds: MutableList<Drawable> = mutableListOf()
 
 
     interface OnPhoneNumberClickListener
@@ -49,6 +52,8 @@ class ClientDetailsPhoneNumbersAdapter(var fragment: Fragment,
         {
             phoneNumberDeleteButton.setOnClickListener(this)
             phoneNumberFavoriteButton.setOnClickListener(this)
+
+            originalPhoneNumberTextEditBackgrounds.add(phoneNumberText.background)
 
             // listener for phone number text that will keep track of the edit text changes and will update the data accordingly
             phoneNumberText.addTextChangedListener(object : TextWatcher
@@ -116,11 +121,13 @@ class ClientDetailsPhoneNumbersAdapter(var fragment: Fragment,
         {
             holder.phoneNumberDeleteButton.visibility = View.VISIBLE
             holder.phoneNumberText.isEnabled = true
+            holder.phoneNumberText.background = originalPhoneNumberTextEditBackgrounds[position]
         }
         else
         {
             holder.phoneNumberDeleteButton.visibility = View.GONE
             holder.phoneNumberText.isEnabled = false
+            holder.phoneNumberText.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 }

@@ -27,6 +27,7 @@
         android:ems="10"
         android:hint="@string/edit_client_email_hint"
         android:inputType="textEmailAddress"
+        android:textColor="@color/colorTextPrimary"
         android:textColorHint="@color/colorTextSecondary"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

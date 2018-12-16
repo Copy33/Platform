@@ -98,7 +98,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         // hide the keyboard
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         // set up scroll listener to change the toolbar elevation while scrolling
         client_details_scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
@@ -173,6 +173,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
                 engageDialogViewMode()
             }
             // if not in edit mode (meaning user saved a client), return to main fragment with updated/new client
+            // TODO [improvement]: here we are assuming the user is always saving a client, user might just be viewing client details then canceling, can be optimized with AtLeastOneChange flag
             else
             {
                 saveButtonListener.onSaveClick(isNewClient, client, clientPosition)
@@ -325,22 +326,23 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
     {
         inEditMode = false
 
-        // edit/save button
+        // edit/save button text
         client_details_edit_save_button.text = resources.getText(R.string.button_edit)
 
         // client name
+        client_details_name_edittext.requestFocus()
         client_details_name_edittext.isEnabled = false
 
         // phone numbers
-        phoneNumbersAdapter.notifyItemRangeChanged(0, phoneNumbersAdapter.itemCount)
+        phoneNumbersAdapter.notifyDataSetChanged()
         client_details_add_phone_number_button.visibility = View.GONE
 
         // emails
-        emailsAdapter.notifyItemRangeChanged(0, emailsAdapter.itemCount)
+        emailsAdapter.notifyDataSetChanged()
         client_details_add_email_button.visibility = View.GONE
 
         // locations
-        locationsAdapter.notifyItemRangeChanged(0, locationsAdapter.itemCount)
+        locationsAdapter.notifyDataSetChanged()
         client_details_add_location_button.visibility = View.GONE
 
         // balance
@@ -360,10 +362,11 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
     {
         inEditMode = true
 
-        // edit/save button
+        // edit/save button text
         client_details_edit_save_button.text = resources.getText(R.string.button_save)
 
         // client name
+        client_details_name_edittext.requestFocus()
         client_details_name_edittext.isEnabled = true
 
         // phone numbers
@@ -398,6 +401,17 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
     {
         phoneNumbersAdapter.phoneNumbersList.removeAt(position)
         phoneNumbersAdapter.notifyItemRemoved(position)
+
+        // if there are no more phone numbers (removing last one) then focus on client name
+        if(position == 0 && phoneNumbersAdapter.itemCount == 0)
+        {
+            client_details_name_edittext.requestFocus()
+        }
+        // else check if we're removing the last phone number position then focus on the one before
+        else if(position == phoneNumbersAdapter.itemCount)
+        {
+            client_details_phone_number_recyclerview.layoutManager?.findViewByPosition(position-1)?.requestFocus()
+        }
 
         // check if we're removing the favorite number and set it back to 0
         if(position == phoneNumbersAdapter.favoritePhoneNumberIndex)
@@ -444,6 +458,17 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         emailsAdapter.emailsList.removeAt(position)
         emailsAdapter.notifyItemRemoved(position)
 
+        // if there are no more emails (removing last one) then focus on client name
+        if(position == 0 && emailsAdapter.itemCount == 0)
+        {
+            client_details_name_edittext.requestFocus()
+        }
+        // else check if we're removing the last email position then focus on the one before
+        else if(position == emailsAdapter.itemCount)
+        {
+            client_details_email_recyclerview.layoutManager?.findViewByPosition(position-1)?.requestFocus()
+        }
+
         // check if we're removing the favorite number and set it back to 0
         if(position == emailsAdapter.favoriteEmailIndex)
         {
@@ -487,6 +512,17 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
     {
         locationsAdapter.locationsList.removeAt(position)
         locationsAdapter.notifyItemRemoved(position)
+
+        // if there are no more locations (removing last one) then focus on client name
+        if(position == 0 && locationsAdapter.itemCount == 0)
+        {
+            client_details_name_edittext.requestFocus()
+        }
+        // else check if we're removing the last location position then focus on the one before
+        else if(position == locationsAdapter.itemCount)
+        {
+            client_details_location_recyclerview.layoutManager?.findViewByPosition(position-1)?.requestFocus()
+        }
 
         // check if we're removing the favorite number and set it back to 0
         if(position == locationsAdapter.favoriteLocationIndex)

@@ -71,10 +71,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             supportActionBar?.title = fragmentTitle
         } ?: run {
             //  else load the default (schedule) fragment
-            supportFragmentManager.beginTransaction().replace(R.id.frameLayoutContent, ScheduleFragment.newInstance()).commit()
-            fragmentId = R.id.nav_item_schedule
+//            supportFragmentManager.beginTransaction().replace(R.id.frameLayoutContent, ScheduleFragment.newInstance()).commit()
+//            fragmentId = R.id.nav_item_schedule
+//            navigation_drawer.menu.findItem(fragmentId).isChecked = true
+//            fragmentTitle = resources.getString(R.string.nav_item_schedule)
+//            supportActionBar?.title = fragmentTitle
+
+            supportFragmentManager.beginTransaction().replace(R.id.frameLayoutContent, ClientsFragment.newInstance()).commit()
+            fragmentId = R.id.nav_item_clients
             navigation_drawer.menu.findItem(fragmentId).isChecked = true
-            fragmentTitle = resources.getString(R.string.nav_item_schedule)
+            fragmentTitle = resources.getString(R.string.nav_item_clients)
             supportActionBar?.title = fragmentTitle
         }
     }

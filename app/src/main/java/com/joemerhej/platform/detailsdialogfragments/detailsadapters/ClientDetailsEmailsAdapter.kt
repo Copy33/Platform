@@ -1,5 +1,7 @@
 package com.joemerhej.platform.detailsdialogfragments.detailsadapters
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -23,6 +25,7 @@ class ClientDetailsEmailsAdapter(var fragment: Fragment,
     var onEmailClickListener: OnEmailClickListener? = null
     var onLastAddedViewCreatedListener: OnEmailLastViewCreatedListener? = null
     var manuallyAddingNewViewFromDialog = false
+    var originalEmailTextEditBackgrounds: MutableList<Drawable> = mutableListOf()
 
 
     interface OnEmailClickListener
@@ -45,11 +48,12 @@ class ClientDetailsEmailsAdapter(var fragment: Fragment,
         val emailText: AppCompatEditText = view.recycler_item_client_email_text
         val emailFavoriteButton: AppCompatImageButton = view.recycler_item_client_email_favorite_button
 
-
         init
         {
             emailDeleteButton.setOnClickListener(this)
             emailFavoriteButton.setOnClickListener(this)
+
+            originalEmailTextEditBackgrounds.add(emailText.background)
 
             // listener for email text that will keep track of the edit text changes and will update the data accordingly
             emailText.addTextChangedListener(object : TextWatcher
@@ -116,11 +120,13 @@ class ClientDetailsEmailsAdapter(var fragment: Fragment,
         {
             holder.emailDeleteButton.visibility = View.VISIBLE
             holder.emailText.isEnabled = true
+            holder.emailText.background = originalEmailTextEditBackgrounds[position]
         }
         else
         {
             holder.emailDeleteButton.visibility = View.GONE
             holder.emailText.isEnabled = false
+            holder.emailText.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.joemerhej.platform.detailsdialogfragments.detailsadapters
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.FrameMetrics
@@ -24,6 +26,7 @@ class ClientDetailsLocationsAdapter(var fragment: Fragment,
     var onLocationClickListener: OnLocationClickListener? = null
     var onLastAddedViewCreatedListener: OnLocationLastViewCreatedListener? = null
     var manuallyAddingNewViewFromDialog = false
+    var originalLocationTextEditBackgrounds: MutableList<Drawable> = mutableListOf()
 
 
     interface OnLocationClickListener
@@ -50,6 +53,8 @@ class ClientDetailsLocationsAdapter(var fragment: Fragment,
         {
             locationDeleteButton.setOnClickListener(this)
             locationFavoriteButton.setOnClickListener(this)
+
+            originalLocationTextEditBackgrounds.add(locationText.background)
 
             // listener for location text that will keep track of the edit text changes and will update the data accordingly
             locationText.addTextChangedListener(object : TextWatcher
@@ -118,11 +123,13 @@ class ClientDetailsLocationsAdapter(var fragment: Fragment,
         {
             holder.locationDeleteButton.visibility = View.VISIBLE
             holder.locationText.isEnabled = true
+            holder.locationText.background = originalLocationTextEditBackgrounds[position]
         }
         else
         {
             holder.locationDeleteButton.visibility = View.GONE
             holder.locationText.isEnabled = false
+            holder.locationText.setBackgroundColor(Color.TRANSPARENT)
         }
     }
 }

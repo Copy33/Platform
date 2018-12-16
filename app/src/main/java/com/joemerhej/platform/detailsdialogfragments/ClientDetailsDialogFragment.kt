@@ -39,7 +39,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
     override val childLayoutResId: Int                                              // mandatory abstract id so the parent can inflate the view
         get() = R.layout.autosize_dialog_fragment_child_edit_client
     private lateinit var clientsViewModel: ClientsViewModel                         // viewmodel shared with parent activity
-    private lateinit var client: Client                                             // client shown, shallow copy of client in viewmodel (empty if new client)
+    private lateinit var client: Client                                             // client shown, shallow copy of client in viewmodel (or new object if new client)
     private lateinit var clientBeforeEdit: Client                                   // copy of client before edit used to undo changes
     private lateinit var saveButtonListener: OnSaveButtonListener                   // save button listener from parent fragment
     private var isNewClient: Boolean = true                                         // check if editing existing client or adding a new one
@@ -195,6 +195,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
                 if(isNewClient)
                     clientPosition = clientsViewModel.getClientsList().size
 
+                saveButtonListener.onSaveClick(isNewClient, client, clientPosition)
                 engageDialogViewMode()
             }
             else
@@ -244,26 +245,32 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         client_details_name_edittext.setText(client.name)
         client_details_name_edittext.setSelection(client.name.length)
 
-        // phone numbers
+        // phone numbers (make clone for adapter)
         client_details_phone_number_recyclerview.layoutManager = LinearLayoutManager(context)
         client_details_phone_number_recyclerview.itemAnimator = null
-        phoneNumbersAdapter = ClientDetailsPhoneNumbersAdapter(this, client.phoneNumbers, client.favoritePhoneNumberIndex)
+        val phoneNumbers: MutableList<String> = mutableListOf()
+        phoneNumbers.addAll(client.phoneNumbers)
+        phoneNumbersAdapter = ClientDetailsPhoneNumbersAdapter(this, phoneNumbers, client.favoritePhoneNumberIndex)
         client_details_phone_number_recyclerview.adapter = phoneNumbersAdapter
         phoneNumbersAdapter.onPhoneNumberClickListener = this
         phoneNumbersAdapter.onLastAddedViewCreatedListener = this
 
-        // emails
+        // emails (make clone for adapter)
         client_details_email_recyclerview.layoutManager = LinearLayoutManager(context)
         client_details_email_recyclerview.itemAnimator = null
-        emailsAdapter = ClientDetailsEmailsAdapter(this, client.emails, client.favoriteEmailIndex)
+        val emails: MutableList<String> = mutableListOf()
+        emails.addAll(client.emails)
+        emailsAdapter = ClientDetailsEmailsAdapter(this, emails, client.favoriteEmailIndex)
         client_details_email_recyclerview.adapter = emailsAdapter
         emailsAdapter.onEmailClickListener = this
         emailsAdapter.onLastAddedViewCreatedListener = this
 
-        // locations
+        // locations (make clone for adapter)
         client_details_location_recyclerview.layoutManager = LinearLayoutManager(context)
         client_details_location_recyclerview.itemAnimator = null
-        locationsAdapter = ClientDetailsLocationsAdapter(this, client.locations, client.favoriteLocationIndex)
+        val locations: MutableList<String> = mutableListOf()
+        locations.addAll(client.locations)
+        locationsAdapter = ClientDetailsLocationsAdapter(this, locations, client.favoriteLocationIndex)
         client_details_location_recyclerview.adapter = locationsAdapter
         locationsAdapter.onLocationClickListener = this
         locationsAdapter.onLastAddedViewCreatedListener = this
@@ -289,7 +296,8 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         client.name = client_details_name_edittext.text.toString()
 
         // phone numbers
-        client.phoneNumbers = phoneNumbersAdapter.phoneNumbersList
+        client.phoneNumbers.clear()
+        client.phoneNumbers.addAll(phoneNumbersAdapter.phoneNumbersList)
         client.favoritePhoneNumberIndex = phoneNumbersAdapter.favoritePhoneNumberIndex
 
         // emails
@@ -441,7 +449,6 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         {
             val oldFavorite = phoneNumbersAdapter.favoritePhoneNumberIndex
             phoneNumbersAdapter.favoritePhoneNumberIndex = position
-            client.favoritePhoneNumberIndex = position
             phoneNumbersAdapter.notifyItemChanged(oldFavorite)
             phoneNumbersAdapter.notifyItemChanged(position)
         }

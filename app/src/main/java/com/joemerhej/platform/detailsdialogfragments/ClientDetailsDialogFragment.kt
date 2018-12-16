@@ -139,22 +139,22 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
 
         // listeners: set up phone number add button listener - clicking plus sign will simply create a new empty phone number and add it to the client
         client_details_add_phone_number_button.setOnClickListener {
-            client.phoneNumbers.add("")
-            phoneNumbersAdapter.notifyItemInserted(client.phoneNumbers.size-1)
+            phoneNumbersAdapter.phoneNumbersList.add("")
+            phoneNumbersAdapter.notifyItemInserted(phoneNumbersAdapter.itemCount)
             phoneNumbersAdapter.manuallyAddingNewViewFromDialog = true
         }
 
         // listeners: set up email add button listener - clicking plus sign will simply create a new empty email and add it to the client
         client_details_add_email_button.setOnClickListener {
-            client.emails.add("")
-            emailsAdapter.notifyItemInserted(client.emails.size)
+            emailsAdapter.emailsList.add("")
+            emailsAdapter.notifyItemInserted(emailsAdapter.itemCount)
             emailsAdapter.manuallyAddingNewViewFromDialog = true
         }
 
         // listeners: set up location add button listener - clicking plus sign will simply create a new empty location and add it to the client
         client_details_add_location_button.setOnClickListener {
-            client.locations.add("")
-            locationsAdapter.notifyItemInserted(client.locations.size)
+            locationsAdapter.locationsList.add("")
+            locationsAdapter.notifyItemInserted(locationsAdapter.itemCount)
             locationsAdapter.manuallyAddingNewViewFromDialog = true
         }
 
@@ -344,14 +344,32 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         // phone numbers
         phoneNumbersAdapter.notifyDataSetChanged()
         client_details_add_phone_number_button.visibility = View.GONE
+        if(phoneNumbersAdapter.itemCount == 0)
+        {
+            client_details_phone_imageview.visibility = View.GONE
+            client_details_phone_number_recyclerview.visibility = View.GONE
+            separator1.visibility = View.GONE
+        }
 
         // emails
         emailsAdapter.notifyDataSetChanged()
         client_details_add_email_button.visibility = View.GONE
+        if(emailsAdapter.itemCount == 0)
+        {
+            client_details_email_imageview.visibility = View.GONE
+            client_details_email_recyclerview.visibility = View.GONE
+            separator2.visibility = View.GONE
+        }
 
         // locations
         locationsAdapter.notifyDataSetChanged()
         client_details_add_location_button.visibility = View.GONE
+        if(locationsAdapter.itemCount == 0)
+        {
+            client_details_location_imageview.visibility = View.GONE
+            client_details_location_recyclerview.visibility = View.GONE
+            separator3.visibility = View.GONE
+        }
 
         // balance
         client_details_balance_edittext.isEnabled = false
@@ -380,14 +398,23 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         // phone numbers
         phoneNumbersAdapter.notifyItemRangeChanged(0, phoneNumbersAdapter.itemCount)
         client_details_add_phone_number_button.visibility = View.VISIBLE
+        client_details_phone_imageview.visibility = View.VISIBLE
+        client_details_phone_number_recyclerview.visibility = View.VISIBLE
+        separator1.visibility = View.VISIBLE
 
         // emails
         emailsAdapter.notifyItemRangeChanged(0, emailsAdapter.itemCount)
         client_details_add_email_button.visibility = View.VISIBLE
+        client_details_email_imageview.visibility = View.VISIBLE
+        client_details_email_recyclerview.visibility = View.VISIBLE
+        separator2.visibility = View.VISIBLE
 
         // locations
         locationsAdapter.notifyItemRangeChanged(0, locationsAdapter.itemCount)
         client_details_add_location_button.visibility = View.VISIBLE
+        client_details_location_imageview.visibility = View.VISIBLE
+        client_details_location_recyclerview.visibility = View.VISIBLE
+        separator3.visibility = View.VISIBLE
 
         // balance
         client_details_balance_edittext.isEnabled = true

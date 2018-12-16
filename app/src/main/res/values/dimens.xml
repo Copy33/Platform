@@ -23,4 +23,5 @@
 
     <!--Edit client dialog fragment-->
     <dimen name="edit_client_vertical_padding">20dp</dimen>
+    <dimen name="edit_client_vertical_padding_icons">12dp</dimen>
 </resources>

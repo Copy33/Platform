@@ -192,7 +192,9 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
                 if(isNewClient)
                     clientPosition = clientsViewModel.getClientsList().size
 
+                // call save button callback and reset isNewClient to cover the cases where a new client is saved then immediately edited again
                 saveButtonListener.onSaveClick(isNewClient, client, clientPosition)
+                isNewClient = false
                 engageDialogViewMode()
             }
             else

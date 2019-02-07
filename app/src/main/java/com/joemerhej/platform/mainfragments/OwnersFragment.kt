@@ -70,7 +70,7 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, Owner
             ownersListAdapter.notifyDataSetChanged()
         })
 
-        // set up recycler view
+        // set up owners recycler view
         ownersListColumnsNumber = calculateNoOfColumns()
         owners_recyclerview.layoutManager = GridLayoutManager(activity, ownersListColumnsNumber)
         ownersListAdapter = OwnersListAdapter(ownersViewModel.getOwnersList(), this)
@@ -86,8 +86,9 @@ class OwnersFragment : Fragment(), OwnersListAdapter.OnOwnerClickListener, Owner
 
     /**
      * Convenience function that will calculate the number of columns (spans) the owners' grid layout
-     * will have based on the column width defined in the project resources.
-     * This will be used for when rotating the device to adjust the owners recyclerview accordingly.
+     * will have based on the column width defined in the project resources and the width of the screen.
+     * This will be used when rotating the device to adjust the owners recyclerview accordingly to the
+     * width of the screen.
      *
      * @return number of columns needed
      */

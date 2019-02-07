@@ -163,7 +163,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
             // if in edit mode then reset client to clientBeforeEdit and engage view mode
             if(inEditMode)
             {
-                // if new client, just dismiss (will discard changes)
+                // if new client, just dismiss the dialog (will discard changes)
                 if(isNewClient)
                     dismiss()
 
@@ -172,11 +172,8 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
                 fillDialogViewsFromClient()
                 engageDialogViewMode()
             }
-            // if not in edit mode (meaning user saved a client), return to main fragment with updated/new client
-            // TODO [improvement]: here we are assuming the user is always saving a client, user might just be viewing client details then canceling, can be optimized with AtLeastOneChange flag
             else
             {
-                saveButtonListener.onSaveClick(isNewClient, client, clientPosition)
                 dismiss()
             }
         }

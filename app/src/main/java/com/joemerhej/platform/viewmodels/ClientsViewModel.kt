@@ -43,7 +43,7 @@ class ClientsViewModel : ViewModel()
     //  the view adapter will handle these transactions thus there is no need to refresh the whole list
     fun addClient(client: Client)
     {
-        // always add at the end of the list whe not specified
+        // always add at the end of the list when not specified
         clients.value?.let {
             addClient(it.size, client)
         }

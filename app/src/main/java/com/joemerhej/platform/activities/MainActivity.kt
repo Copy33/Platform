@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .apply(RequestOptions().centerCrop().circleCrop())
                 .into(navigationDrawerHeader.nav_header_imageview)
 
-        // if saved instance contains a fragment id (screen rotation) then fetch it and update UI elements (title, nav drawer checked item)
+        // if saved instance contains a fragment id (also on screen rotation) then fetch it and update UI elements (title, nav drawer checked item)
         savedInstanceState?.let {
             fragmentId = savedInstanceState.getInt(SAVED_INSTANCE_FRAGMENT_ID_KEY)
             navigation_drawer.menu.findItem(fragmentId).isChecked = true
@@ -139,11 +139,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_item_share ->
             {
-
+                // TODO: temporary to avoid crash
+                fragment = ScheduleFragment.newInstance()
             }
             R.id.nav_item_settings ->
             {
-
+                // TODO: temporary to avoid crash
+                fragment = ScheduleFragment.newInstance()
             }
             else ->
                 fragment = ScheduleFragment.newInstance()
@@ -182,8 +184,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             clickedNavItem = false
 
             // Insert the fragment by replacing the existing fragment
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayoutContent, fragment).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.frameLayoutContent, fragment).commit()
         }
     }
 

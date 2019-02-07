@@ -5,6 +5,10 @@ package com.joemerhej.platform.models
  */
 data class Owner(var name: String = "", var imageUri: String = "")
 {
+    /**
+    * clone function will deep copy data class into a clone object.
+    * This is required since default copy() function does shallow copy.
+    */
     fun clone() : Owner
     {
         val owner = Owner()

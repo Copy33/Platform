@@ -10,6 +10,10 @@ data class Client(var name: String = "",
              var balance:Double = 0.0,
              var notes: String = "")
 {
+    /**
+     * clone function will deep copy data class into a clone object.
+     * This is required since default copy() function does shallow copy.
+     */
     fun clone() : Client
     {
         val client = Client()

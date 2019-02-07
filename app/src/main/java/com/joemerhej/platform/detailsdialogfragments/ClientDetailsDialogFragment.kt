@@ -168,7 +168,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
                     dismiss()
 
                 // else reset the client details to clientBeforeEdit, refill the views, and put dialog in view mode
-                resetClientToClientBeforeEdit()
+                client = clientBeforeEdit.clone()
                 fillDialogViewsFromClient()
                 engageDialogViewMode()
             }
@@ -202,37 +202,6 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
                 engageDialogEditMode()
             }
         }
-    }
-
-    /**
-     * Function that will reset client properties to clientBeforeEdit
-     */
-    private fun resetClientToClientBeforeEdit()
-    {
-        // client name
-        client.name = clientBeforeEdit.name
-
-        // phone numbers
-        // reset both client and adapter favorite index since integers are copied and not referenced
-        client.phoneNumbers.clear()
-        client.phoneNumbers.addAll(clientBeforeEdit.phoneNumbers)
-        client.favoritePhoneNumberIndex = clientBeforeEdit.favoritePhoneNumberIndex
-
-        // emails
-        client.emails.clear()
-        client.emails.addAll(clientBeforeEdit.emails)
-        client.favoriteEmailIndex = clientBeforeEdit.favoriteEmailIndex
-
-        // locations
-        client.locations.clear()
-        client.locations.addAll(clientBeforeEdit.locations)
-        client.favoriteLocationIndex = clientBeforeEdit.favoriteLocationIndex
-
-        // balance
-        client.balance = clientBeforeEdit.balance
-
-        // notes
-        client.notes = clientBeforeEdit.notes
     }
 
     /**

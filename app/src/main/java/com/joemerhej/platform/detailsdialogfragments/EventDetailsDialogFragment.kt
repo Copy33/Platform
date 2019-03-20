@@ -42,7 +42,7 @@ class EventDetailsDialogFragment : AutoSizeDialogFragment()
     // companion object for static methods
     companion object
     {
-        fun newInstance(): EventDetailsDialogFragment
+        private fun newInstance(): EventDetailsDialogFragment
         {
             val dialogFragment = EventDetailsDialogFragment()
             val args = Bundle()
@@ -50,6 +50,7 @@ class EventDetailsDialogFragment : AutoSizeDialogFragment()
             return dialogFragment
         }
 
+        // main function to show the dialog
         fun show(fragmentManager: FragmentManager?, tag: String)
         {
             val dialogFragment = newInstance()

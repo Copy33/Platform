@@ -113,7 +113,7 @@ class ClientDetailsLocationsAdapter(var fragment: Fragment,
 
         /*TODO [improvement]:
             Instead of calling setImageResource in here we can add 2 buttons for every view and hide/unhide
-            the necessary button on user click, for now it's ok since there shouldn't be many numbers per client*/
+            the necessary button on user click, for now it's ok since there shouldn't be many locations per client*/
         if(position == favoriteLocationIndex)
             holder.locationFavoriteButton.setImageResource(R.drawable.ic_star_fill)
         else

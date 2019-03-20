@@ -54,8 +54,8 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
     // companion object for static methods
     companion object
     {
-        // new instance client position in case of editing existing client (it would be easy to pass it back and notify adapter)
-        fun newInstance(clientPosition: Int): ClientDetailsDialogFragment
+        // new instance takes client position in case of editing existing client (it would be easy to pass it back and notify adapter)
+        private fun newInstance(clientPosition: Int): ClientDetailsDialogFragment
         {
             val dialogFragment = ClientDetailsDialogFragment()
             dialogFragment.clientPosition = clientPosition
@@ -65,6 +65,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
             return dialogFragment
         }
 
+        // main function to show the dialog
         fun show(targetFragment: Fragment, clientPosition: Int, fragmentManager: FragmentManager?, tag: String)
         {
             val dialogFragment = newInstance(clientPosition)
@@ -98,7 +99,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         // hide the keyboard
-         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 
         // set up scroll listener to change the toolbar elevation while scrolling
         client_details_scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
@@ -117,15 +118,12 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
 
         // check if editing existing client, else create an empty client
         val clientFromViewModel: Client? = clientsViewModel.getClient(clientPosition)
-        if(clientFromViewModel != null)
-        {
+        clientFromViewModel?.let {
             isNewClient = false
-            client = clientFromViewModel
-        }
-        else
-            client = Client()
+            client = it
+        } ?: kotlin.run { client = Client() }
 
-        // create copy of client in case edit experience is cancelled
+        // create backup copy of client in case edit experience is cancelled and need to reset view
         clientBeforeEdit = client.clone()
 
         // fill in the dialog views with our client
@@ -344,9 +342,6 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
 
         // notes
         client_details_note_edittext.isEnabled = false
-
-        // delete button
-        client_details_delete_button.visibility = View.GONE
     }
 
     /**
@@ -389,9 +384,6 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
 
         // notes
         client_details_note_edittext.isEnabled = true
-
-        // delete button
-        client_details_delete_button.visibility = View.VISIBLE
     }
 
     /**
@@ -413,7 +405,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         // else check if we're removing the last phone number position then focus on the one before
         else if(position == phoneNumbersAdapter.itemCount)
         {
-            client_details_phone_number_recyclerview.layoutManager?.findViewByPosition(position-1)?.requestFocus()
+            client_details_phone_number_recyclerview.layoutManager?.findViewByPosition(position - 1)?.requestFocus()
         }
 
         // check if we're removing the favorite number and set it back to 0
@@ -468,7 +460,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         // else check if we're removing the last email position then focus on the one before
         else if(position == emailsAdapter.itemCount)
         {
-            client_details_email_recyclerview.layoutManager?.findViewByPosition(position-1)?.requestFocus()
+            client_details_email_recyclerview.layoutManager?.findViewByPosition(position - 1)?.requestFocus()
         }
 
         // check if we're removing the favorite number and set it back to 0
@@ -523,7 +515,7 @@ class ClientDetailsDialogFragment : AutoSizeDialogFragment(),
         // else check if we're removing the last location position then focus on the one before
         else if(position == locationsAdapter.itemCount)
         {
-            client_details_location_recyclerview.layoutManager?.findViewByPosition(position-1)?.requestFocus()
+            client_details_location_recyclerview.layoutManager?.findViewByPosition(position - 1)?.requestFocus()
         }
 
         // check if we're removing the favorite number and set it back to 0

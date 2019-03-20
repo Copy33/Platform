@@ -106,7 +106,7 @@ class ClientsFragment : Fragment(), ClientsListAdapter.OnClientClickListener, Cl
     {
         val client: Client? = clientsViewModel.getClient(position)
 
-        // create a delete owner dialog
+        // create a delete client dialog
         client?.let {
             val builder = AlertDialog.Builder(activity!!)
             builder.setTitle("Delete Client?")

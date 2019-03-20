@@ -7,9 +7,9 @@ import java.util.*
  */
 object DebugUtils
 {
-    val TAG: String = "DebugPlat"
+    const val TAG: String = "DebugPlat"
 
-    fun CalendarToString(c: Calendar?) : String
+    fun calendarToString(c: Calendar?) : String
     {
         c?.let {
             return "${it.get(Calendar.DAY_OF_MONTH)}/${it.get(Calendar.MONTH)}/${it.get(Calendar.YEAR)} " +

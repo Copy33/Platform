@@ -1,7 +1,5 @@
 package com.joemerhej.platform.models
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.joemerhej.androidweekview.WeekViewEvent
 import com.joemerhej.platform.utils.DebugUtils
 import java.util.*
@@ -41,8 +39,8 @@ class Event(
 
     override fun toString(): String
     {
-        return "Event(id=$id, title=$title, subtitle=$subtitle, startTime=${DebugUtils.CalendarToString(startTime)}, endTime= ${DebugUtils.CalendarToString(endTime)}, " +
-                "isAllDay=$isAllDay, color=$color, owner=$owner, location=$location, reminder=${DebugUtils.CalendarToString(reminder)}, client=$client, " +
+        return "Event(id=$id, title=$title, subtitle=$subtitle, startTime=${DebugUtils.calendarToString(startTime)}, endTime= ${DebugUtils.calendarToString(endTime)}, " +
+                "isAllDay=$isAllDay, color=$color, owner=$owner, location=$location, reminder=${DebugUtils.calendarToString(reminder)}, client=$client, " +
                 "eventStatus=$eventStatus, amountPaid=$amountPaid, isRecurrent=$isRecurrent, notes=$notes)"
     }
 }

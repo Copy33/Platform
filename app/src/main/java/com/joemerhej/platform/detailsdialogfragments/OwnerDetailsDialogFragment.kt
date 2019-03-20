@@ -41,18 +41,20 @@ class OwnerDetailsDialogFragment : AutoSizeDialogFragment()
     // companion object for static methods
     companion object
     {
-        // new instance takes owner and position in case of editing existing owner (it would be easy to pass it back and notify adapter)
-        fun newInstance(ownerPosition: Int): OwnerDetailsDialogFragment
+        // new instance takes owner position in case of editing existing owner (it would be easy to pass it back and notify adapter)
+        private fun newInstance(ownerPosition: Int): OwnerDetailsDialogFragment
         {
             val dialogFragment = OwnerDetailsDialogFragment()
 
             dialogFragment.ownerPosition = ownerPosition
 
+            // empty bundle, not needed for now but this is how you'd pass arguments
             val args = Bundle()
             dialogFragment.arguments = args
             return dialogFragment
         }
 
+        // main function to show the dialog
         fun show(targetFragment: Fragment, ownerPosition: Int, fragmentManager: FragmentManager?, tag: String)
         {
             val dialogFragment = newInstance(ownerPosition)
@@ -91,17 +93,12 @@ class OwnerDetailsDialogFragment : AutoSizeDialogFragment()
 
         // check if owner exists in bundle (in case of edit) and fill in the owner properties in the dialog views
         val ownerFromViewModel: Owner? = ownersViewModel.getOwner(ownerPosition)
-        if(ownerFromViewModel != null)
-        {
+        ownerFromViewModel?.let {
             isNewOwner = false
-            owner = ownerFromViewModel
-        }
-        else
-        {
-            owner = Owner("")
-        }
+            owner = it
+        } ?: kotlin.run { owner = Owner() }
 
-        // create copy of owner in case experience is cancelled
+        // create backup copy of owner in case experience is cancelled and need to reset view
         ownerBeforeEdit = owner.clone()
 
         // fill in the dialog views with our owner

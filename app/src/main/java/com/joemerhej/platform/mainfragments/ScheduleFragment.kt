@@ -14,7 +14,7 @@ import com.joemerhej.androidweekview.MonthLoader
 import com.joemerhej.androidweekview.WeekView
 import com.joemerhej.androidweekview.WeekViewEvent
 import com.joemerhej.platform.R
-import com.joemerhej.platform.detailsdialogfragments.EventDetailsDialogFragment
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.EventDetailsDialogFragment
 import com.joemerhej.platform.models.Event
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesKey
 import com.joemerhej.platform.sharedpreferences.SharedPreferencesManager

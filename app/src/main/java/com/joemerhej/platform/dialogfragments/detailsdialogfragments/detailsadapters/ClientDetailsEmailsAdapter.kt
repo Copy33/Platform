@@ -1,4 +1,4 @@
-package com.joemerhej.platform.detailsdialogfragments.detailsadapters
+package com.joemerhej.platform.dialogfragments.detailsdialogfragments.detailsadapters
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.joemerhej.platform.R
-import com.joemerhej.platform.detailsdialogfragments.ClientDetailsDialogFragment
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.ClientDetailsDialogFragment
 import kotlinx.android.synthetic.main.recylcer_item_client_email.view.*
 
 /**
@@ -86,7 +86,7 @@ class ClientDetailsEmailsAdapter(var fragment: Fragment,
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientDetailsEmailsAdapter.EmailsViewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmailsViewHolder
     {
         return EmailsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recylcer_item_client_email, parent, false))
     }

@@ -1,10 +1,9 @@
-package com.joemerhej.platform.detailsdialogfragments.detailsadapters
+package com.joemerhej.platform.dialogfragments.detailsdialogfragments.detailsadapters
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.FrameMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.joemerhej.platform.R
-import com.joemerhej.platform.detailsdialogfragments.ClientDetailsDialogFragment
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.ClientDetailsDialogFragment
 import kotlinx.android.synthetic.main.recylcer_item_client_location.view.*
 
 /**
@@ -88,7 +87,7 @@ class ClientDetailsLocationsAdapter(var fragment: Fragment,
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClientDetailsLocationsAdapter.LocationsViewHolder
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationsViewHolder
     {
         return LocationsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.recylcer_item_client_location, parent, false))
     }

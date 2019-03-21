@@ -17,7 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.joemerhej.platform.mainfragments.mainadapters.ClientsListAdapter
-import com.joemerhej.platform.detailsdialogfragments.ClientDetailsDialogFragment
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.ClientDetailsDialogFragment
 import com.joemerhej.platform.models.Client
 import kotlinx.android.synthetic.main.fragment_clients.*
 

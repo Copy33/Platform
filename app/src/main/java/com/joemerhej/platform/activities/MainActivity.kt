@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.navigation.NavigationView
 import com.joemerhej.platform.R
-import com.joemerhej.platform.detailsdialogfragments.EventDetailsDialogFragment
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.EventDetailsDialogFragment
 import com.joemerhej.platform.mainfragments.ClientsFragment
 import com.joemerhej.platform.mainfragments.OwnersFragment
 import com.joemerhej.platform.mainfragments.ScheduleFragment

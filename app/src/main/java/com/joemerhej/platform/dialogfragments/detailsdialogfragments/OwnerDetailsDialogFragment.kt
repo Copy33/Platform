@@ -1,17 +1,14 @@
-package com.joemerhej.platform.detailsdialogfragments
+package com.joemerhej.platform.dialogfragments.detailsdialogfragments
 
-import android.animation.ObjectAnimator
-import android.animation.StateListAnimator
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import com.joemerhej.platform.R
+import com.joemerhej.platform.dialogfragments.AutoSizeDialogFragment
 import com.joemerhej.platform.models.Owner
 import com.joemerhej.platform.viewmodels.OwnersViewModel
-import kotlinx.android.synthetic.main.autosize_dialog_fragment_child_edit_client.*
 import kotlinx.android.synthetic.main.autosize_dialog_fragment_child_edit_owner.*
 import java.lang.Exception
 

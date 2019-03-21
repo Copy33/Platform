@@ -1,4 +1,4 @@
-package com.joemerhej.platform.detailsdialogfragments
+package com.joemerhej.platform.dialogfragments.detailsdialogfragments
 
 import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
@@ -12,9 +12,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.joemerhej.platform.R
-import com.joemerhej.platform.detailsdialogfragments.detailsadapters.ClientDetailsEmailsAdapter
-import com.joemerhej.platform.detailsdialogfragments.detailsadapters.ClientDetailsLocationsAdapter
-import com.joemerhej.platform.detailsdialogfragments.detailsadapters.ClientDetailsPhoneNumbersAdapter
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.detailsadapters.ClientDetailsEmailsAdapter
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.detailsadapters.ClientDetailsLocationsAdapter
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.detailsadapters.ClientDetailsPhoneNumbersAdapter
+import com.joemerhej.platform.dialogfragments.AutoSizeDialogFragment
 import com.joemerhej.platform.models.Client
 import com.joemerhej.platform.utils.DebugUtils
 import com.joemerhej.platform.viewmodels.ClientsViewModel

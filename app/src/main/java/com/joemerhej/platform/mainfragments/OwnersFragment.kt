@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.joemerhej.platform.R
 import com.joemerhej.platform.mainfragments.mainadapters.OwnersListAdapter
-import com.joemerhej.platform.detailsdialogfragments.OwnerDetailsDialogFragment
+import com.joemerhej.platform.dialogfragments.detailsdialogfragments.OwnerDetailsDialogFragment
 import com.joemerhej.platform.models.Owner
 import com.joemerhej.platform.utils.DebugUtils
 import com.joemerhej.platform.viewmodels.OwnersViewModel

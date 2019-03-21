@@ -1,4 +1,4 @@
-package com.joemerhej.platform.detailsdialogfragments
+package com.joemerhej.platform.dialogfragments.detailsdialogfragments
 
 import android.os.Bundle
 import android.view.View
@@ -13,6 +13,7 @@ import java.util.*
 import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
 import androidx.core.widget.NestedScrollView
+import com.joemerhej.platform.dialogfragments.AutoSizeDialogFragment
 import java.lang.Exception
 
 

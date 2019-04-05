@@ -44,6 +44,20 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
     private var selectedMenuItemId: Int = 0
     private lateinit var eventsViewModel: EventsViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+
+        // set up view model
+        eventsViewModel = activity?.run {
+            ViewModelProviders.of(this).get(EventsViewModel::class.java)
+        } ?: throw java.lang.Exception("Invalid Activity for ClientsFragment")
+
+        // mock the view model
+        if(savedInstanceState == null)
+            eventsViewModel.mockEvents(10)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         setHasOptionsMenu(true)
@@ -68,11 +82,6 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
 
         // set the week view starting hour TODO: should be user preference
         main_week_view.goToHour(8.0)
-
-        // set up the view models
-        eventsViewModel = activity?.run {
-            ViewModelProviders.of(this).get(EventsViewModel::class.java)
-        } ?: throw java.lang.Exception("Invalid Activity for ClientsFragment")
 
         // observe changes to the events view model
         eventsViewModel.events.observe(this, Observer {
@@ -237,9 +246,7 @@ class ScheduleFragment : Fragment(), WeekView.EventClickListener,
      */
     override fun onMonthChange(newYear: Int, newMonth: Int): MutableList<WeekViewEvent>?
     {
-        eventsViewModel.events.value?.let {
-            return EventUtils.getEventsForMonth(it, newMonth, newYear)
-        } ?: return null
+            return EventUtils.getEventsForMonth(eventsViewModel.getEventsList(), newMonth, newYear)
     }
 }
 

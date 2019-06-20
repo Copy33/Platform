@@ -86,7 +86,7 @@ class EventDetailsDialogFragment : AutoSizeDialogFragment()
 
         // initialize the listeners
         edit_event_scrollview.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
-            _, scrollX, scrollY, oldScrollX, oldScrollY ->
+            _, _, scrollY, _, _ ->
             val stateListAnimator = StateListAnimator()
             if(scrollY > 0)
                 stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(edit_event_appbarlayout, "elevation", 8f).also { it.duration = 0 })
